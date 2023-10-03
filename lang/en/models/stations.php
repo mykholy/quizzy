@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'singular' => 'Station',
+    'plural' => 'Stations',
+    'add' => 'Add Station',
+    'available' => 'Available',
+    'power' => 'Power',
+    'connector_id' => 'Connector',
+    'kilowatts' => 'Kilowatts',
+    'status' => 'Status',
+    'fields' => [
+        'id' => 'Id',
+        'name' => 'Name',
+        'latitude' => 'Latitude',
+        'longitude' => 'Longitude',
+        'cost' => 'Cost',
+        'cost_description' => 'Cost Description',
+        'manufacturer' => 'Manufacturer',
+        'model' => 'Model',
+        'pwps_version' => 'Pwps Version',
+        'qr_enabled' => 'Qr Enabled',
+        'outlets' => 'Outlets',
+        'location_id' => 'Location',
+        'hours' => 'Hours',
+        'pre_charge_instructions' => 'Pre Charge Instructions',
+        'available' => 'Available',
+        'created_at' => 'Created At',
+        'updated_at' => 'Updated At',
+        'plugshare_location_id' => 'Plugshare Location Id',
+        'plugshare_station_id' => 'Plugshare Station Id',
+    ],
+];
