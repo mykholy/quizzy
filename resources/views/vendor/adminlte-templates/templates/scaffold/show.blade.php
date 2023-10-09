@@ -1,34 +1,32 @@
 @@extends('layouts.app')
-
+@@section('breadcrumb')
+    <div class="breadcrumb-header justify-content-between">
+        <div class="my-auto">
+            @if($config->options->localized)
+                <h4 class="page-title">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</h4>
+            @else
+                <h4 class="page-title">{{ $config->modelNames->humanPlural }}</h4>
+            @endif
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular'}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ __('lang.detail'}}</li>
+            </ol>
+        </div>
+    </div>
+@endsection
 @@section('content')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ __('models/{!! $config->modelNames->camelPlural !!}.plural'}} {{ __('lang.detail'}}</h3>
                 <div class="col-sm-6">
-                    <h1>
-@if($config->options->localized)
-@@lang('models/{!! $config->modelNames->camelPlural !!}.singular') @@lang('lang.detail')
-@else
-{{ $config->modelNames->human }} Details
-@endif
-                    </h1>
-                </div>
-                <div class="col-sm-6">
-                    <a class="btn btn-default float-right"
-                       href="@{{ route('{!! $config->prefixes->getRoutePrefixWith('.') !!}{!! $config->modelNames->camelPlural  !!}.index') }}">
-                        @if($config->options->localized)
-                            @@lang('lang.back')
-                        @else
-                            Back
-                        @endif
+                    <a class="btn btn-primary float-right"
+                       href="@{{ route('{!! $config->prefixes->getRoutePrefixWith('.') !!}{!! $config->modelNames->camelPlural !!}.index') }}">
+                        {{ __('lang.back'}}
                     </a>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <div class="content px-3">
-        <div class="card">
+            </div>
             <div class="card-body">
                 <div class="row">
                     @@include('{{ $config->prefixes->getViewPrefixForInclude() }}{{ $config->modelNames->snakePlural }}.show_fields')

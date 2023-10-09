@@ -1,23 +1,22 @@
 @@extends('layouts.app')
-
-@@section('content')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-12">
-                    <h1>
-@if($config->options->localized)
-                    @@lang('lang.create') @@lang('models/{!! $config->modelNames->camelPlural !!}.singular')
-@else
-                    Create {{ $config->modelNames->humanPlural }}
-@endif
-                    </h1>
-                </div>
-            </div>
+@@section('breadcrumb')
+    <div class="breadcrumb-header justify-content-between">
+        <div class="my-auto">
+            @if($config->options->localized)
+            <h4 class="page-title">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</h4>
+            @else
+                <h4 class="page-title">{{ $config->modelNames->humanPlural }}</h4>
+            @endif
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@{{ route('{!! $config->prefixes->getRoutePrefixWith('.') !!}{!! $config->modelNames->camelPlural !!}.index') }}">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular'}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ __('lang.create')}}</li>
+            </ol>
         </div>
-    </section>
+    </div>
+@endsection
+@@section('content')
 
-    <div class="content px-3">
+    <div class="col-lg-12">
 
         @@include('adminlte-templates::common.errors')
 

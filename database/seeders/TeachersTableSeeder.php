@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Admin;
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
@@ -13,6 +13,8 @@ class TeachersTableSeeder extends Seeder
      */
     public function run()
     {
+        \App\Models\Admin\Teacher::factory(200)->create();
+
 
     }
 }

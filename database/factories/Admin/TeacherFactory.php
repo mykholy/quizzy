@@ -22,13 +22,13 @@ class TeacherFactory extends Factory
      */
     public function definition()
     {
-        
+
         return [
             'name' => $this->faker->text($this->faker->numberBetween(5, 100)),
-            'email' => $this->faker->email,
+            'email' => $this->faker->safeEmail,
             'password' => $this->faker->lexify('1???@???A???'),
-            'photo' => $this->faker->text($this->faker->numberBetween(5, 4096)),
-            'device_token' => $this->faker->text(500),
+            'photo' => $this->faker->text($this->faker->numberBetween(5, 10)),
+            'device_token' => $this->faker->text(10),
             'is_active' => $this->faker->boolean,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s')

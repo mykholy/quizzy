@@ -29,7 +29,14 @@
     <link href="{{asset('assets/css/animate.css')}}" rel="stylesheet">
     <!---izitoast css-->
     <link href="{{asset('assets/css/iziToast.min.css')}}" rel="stylesheet"/>
-
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo+Slab:wght@400;600;700&family=Cairo:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body, small, a, p,.blockquote ,.post-quote blockquote,.lang-label,.pricing-box-alt,.pullquote-left,.pullquote-right, span .sub-menu-container .menu-item > .menu-link, .wp-caption, .fbox-center.fbox-italic p, .skills li .progress-percent .counter, .nav-tree ul ul a, .font-body, h1, h2, h3, h4, h5, h6, #logo a, .menu-link, .mega-menu-style-2 .mega-menu-title > .menu-link, .top-search-form input, .entry-link, .entry.entry-date-section span, .button.button-desc, .fbox-content h3, .tab-nav-lg li a, .counter, label, .widget-filter-links li a, .nav-tree li a, .wedding-head, .entry-link span, .entry blockquote p, .more-link, .comment-content .comment-author span, .comment-content .comment-author span a, .button.button-desc span, .testi-content p, .team-title span, .before-heading, .wedding-head .first-name span, .wedding-head .last-name span, .font-secondary {
+            font-family: 'Cairo', 'Open Sans', sans-serif !important;
+        }
+    </style>
     @stack('third_party_stylesheets')
     @stack('page_css')
 
@@ -1033,6 +1040,10 @@
 <script src="{{asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
 <script src="{{asset('assets/plugins/perfect-scrollbar/p-scroll.js')}}"></script>
 
+<!-- Internal Select2.min js -->
+<script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
+
+
 <!-- Sidebar js -->
 <script src="{{asset('assets/plugins/side-menu/sidemenu.js')}}"></script>
 
@@ -1055,6 +1066,12 @@
 <!-- switcher-styles js -->
 <script src="{{asset('assets/js/swither-styles.js')}}"></script>
 <script src="{{asset('assets/js/iziToast.min.js')}}"></script>
+<script>
+    $('.select2').select2({
+        placeholder: 'Choose',
+        searchInputPlaceholder: 'Search'
+    });
+</script>
 @include('includes.lazyload')
 @stack('third_party_scripts')
 @stack('page_scripts')

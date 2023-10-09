@@ -14,6 +14,10 @@ return [
   'back'=>'Back',
   'edit'=>'Edit',
   'reset'=>'Reset',
+  'are_you_sure'=>'Are You Sure?',
+  'yes'=>'Yes',
+  'no'=>'No',
+  'done'=>'Done',
   'import'=>'Import',
   'settings'=>'Settings',
 ];

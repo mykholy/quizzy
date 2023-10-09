@@ -34,7 +34,7 @@ class {{ $config->modelNames->name }}DataTable extends DataTable
              return view('includes.datatables_column_bool', compact('value'));
         });
 
-        return $dataTable->addColumn('action', '{{ $config->modelNames->snakePlural }}.datatables_actions');
+        return $dataTable->addColumn('action', '{{ $config->prefixes->getViewPrefixForInclude() }}{{ $config->modelNames->snakePlural }}.datatables_actions');
     }
 
     /**
