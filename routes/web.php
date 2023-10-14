@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -50,6 +50,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('locations', App\Http\Controllers\Admin\LocationController::class);
         Route::resource('connectors', App\Http\Controllers\Admin\ConnectorController::class);
         Route::resource('stations', App\Http\Controllers\Admin\StationController::class);
+        Route::resource('teachers', App\Http\Controllers\Admin\TeacherController::class);
+        Route::resource('subjects', App\Http\Controllers\Admin\SubjectController::class);
+        Route::resource('groups', App\Http\Controllers\Admin\GroupController::class);
+        Route::resource('students', App\Http\Controllers\Admin\StudentController::class);
         Route::get('settings/general', [App\Http\Controllers\Admin\SettingController::class, 'general'])->name('settings.general');
         Route::post('settings/updateSettings', [App\Http\Controllers\Admin\SettingController::class, 'updateSettings'])->name('settings.updateSettings');
 
@@ -63,13 +67,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
 
-Route::resource('admin/teachers', App\Http\Controllers\Admin\TeacherController::class)
-    ->names([
-        'index' => 'admin.teachers.index',
-        'store' => 'admin.teachers.store',
-        'show' => 'admin.teachers.show',
-        'update' => 'admin.teachers.update',
-        'destroy' => 'admin.teachers.destroy',
-        'create' => 'admin.teachers.create',
-        'edit' => 'admin.teachers.edit'
-    ]);
+
+
+

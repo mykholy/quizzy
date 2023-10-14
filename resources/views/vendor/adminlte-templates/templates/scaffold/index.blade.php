@@ -3,27 +3,27 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             @if($config->options->localized)
-                <h4 class="page-title">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</h4>
+                <h4 class="page-title">@{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</h4>
             @else
                 <h4 class="page-title">{{ $config->modelNames->humanPlural }}</h4>
             @endif
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular'}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('lang.list'}}</li>
+                <li class="breadcrumb-item"><a href="javascript:void(0);">@{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page"> @{{ __('lang.list') }}</li>
             </ol>
         </div>
     </div>
-@endsection
+@@endsection
 @@section('content')
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('models/{!! $config->modelNames->camelPlural !!}.plural')}}</h3>
+                <h3 class="card-title">@{{ __('models/{!! $config->modelNames->camelPlural !!}.plural')}}</h3>
 
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
                        href="@{{ route('{!! $config->prefixes->getRoutePrefixWith('.') !!}{!! $config->modelNames->camelPlural !!}.create') }}">
-                        {!! __('lang.add_new') !!}
+                        @{!! __('lang.add_new') !!}
                     </a>
 
                 </div>
@@ -34,8 +34,8 @@
         </div>
     </div>
 @@endsection
-@push('page_scripts')
-    @include('includes.notify.success')
-    @include('includes.notify.errors')
-    @include('includes.notify.delete')
-@endpush
+@@push('page_scripts')
+    @@include('includes.notify.success')
+    @@include('includes.notify.errors')
+    @@include('includes.notify.delete')
+@@endpush

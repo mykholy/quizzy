@@ -4,9 +4,9 @@
     >
         <i class=" ion-md-settings side-menu__icon"></i>
         @if($config->options->localized)
-            <span class="side-menu__label">{{__('models/{{ $config->modelNames->camelPlural }}.plural')}}</span>
+            <span class="side-menu__label">@{{__('models/{!! $config->modelNames->camelPlural!!}.plural')}}</span>
         @else
-            <span class="side-menu__label">{{__('models/{{ $config->modelNames->camelPlural }}.plural')}}</span>
+            <span class="side-menu__label">@{{__('models/{!! $config->modelNames->camelPlural !!}.plural')}}</span>
         @endif
 
     </a>

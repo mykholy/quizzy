@@ -110,3 +110,33 @@ Route::resource('admin/teachers', App\Http\Controllers\API\Admin\TeacherAPIContr
         'update' => 'admin.teachers.update',
         'destroy' => 'admin.teachers.destroy'
     ]);
+
+Route::resource('admin/subjects', App\Http\Controllers\API\Admin\SubjectAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.subjects.index',
+        'store' => 'admin.subjects.store',
+        'show' => 'admin.subjects.show',
+        'update' => 'admin.subjects.update',
+        'destroy' => 'admin.subjects.destroy'
+    ]);
+
+Route::resource('admin/groups', App\Http\Controllers\API\Admin\GroupAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.groups.index',
+        'store' => 'admin.groups.store',
+        'show' => 'admin.groups.show',
+        'update' => 'admin.groups.update',
+        'destroy' => 'admin.groups.destroy'
+    ]);
+
+Route::resource('admin/students', App\Http\Controllers\API\Admin\StudentAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.students.index',
+        'store' => 'admin.students.store',
+        'show' => 'admin.students.show',
+        'update' => 'admin.students.update',
+        'destroy' => 'admin.students.destroy'
+    ]);

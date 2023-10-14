@@ -66,18 +66,38 @@ return [
             'root' => base_path() . '/public/images/locations',
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
-        ],'teachers' => [
+        ],
+        'teachers' => [
             'driver' => 'local',
             'root' => base_path() . '/public/images/teachers',
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
         ],
+        'students' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/students',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],
+        'groups' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/groups',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],  'subjects' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/subjects',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],
+
         'connectors' => [
             'driver' => 'local',
             'root' => base_path() . '/public/images/connectors',
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
-        ], 'logo' => [
+        ],
+        'logo' => [
             'driver' => 'local',
             'root' => base_path() . '/public/images/logo',
             'url' => env('APP_URL') . '/public',

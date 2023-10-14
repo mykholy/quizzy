@@ -58,10 +58,13 @@ class {{ $config->modelNames->name }}DataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
+            ->addAction(['width' => 'auto', 'printable' => false, 'searchable' => false, 'exporting' => false, 'title' => __('lang.action')])
             ->parameters([
-                'dom'       => 'Bfrtip',
                 'stateSave' => true,
+                'responsive' => true,
+                "autoWidth" => true,
+                'dom'       => 'Bfrltip',
+                'orderable' => true,
                 'order'     => [[0, 'desc']],
                 'buttons'   => [
                     // Enable Buttons as per your need

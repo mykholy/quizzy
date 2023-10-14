@@ -3,6 +3,7 @@ return [
   'home'=>'Dashboard',
   'action'=>'Action',
   'show'=>'Show',
+  'list'=>'List',
   'active'=>'Active',
   'not_active'=>'Not Active',
   'add_new'=>'Add new',

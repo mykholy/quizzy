@@ -54,11 +54,13 @@ class TeacherDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => 'auto', 'printable' => false])
+            ->addAction(['width' => 'auto', 'printable' => false, 'searchable' => false, 'exporting' => false, 'title' => __('lang.action')])
             ->parameters([
-                'dom'       => 'Bfrltip',
-                'responsive'       => true,
                 'stateSave' => true,
+                'responsive' => true,
+                "autoWidth" => true,
+                'dom'       => 'Bfrltip',
+                'orderable' => true,
                 'order'     => [[0, 'desc']],
                 'buttons'   => [
                     // Enable Buttons as per your need

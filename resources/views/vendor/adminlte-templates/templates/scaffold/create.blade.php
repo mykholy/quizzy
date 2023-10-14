@@ -3,17 +3,17 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             @if($config->options->localized)
-            <h4 class="page-title">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</h4>
+            <h4 class="page-title">@{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</h4>
             @else
                 <h4 class="page-title">{{ $config->modelNames->humanPlural }}</h4>
             @endif
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="@{{ route('{!! $config->prefixes->getRoutePrefixWith('.') !!}{!! $config->modelNames->camelPlural !!}.index') }}">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular'}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('lang.create')}}</li>
+                <li class="breadcrumb-item"><a href="@{{ route('{!! $config->prefixes->getRoutePrefixWith('.') !!}{!! $config->modelNames->camelPlural !!}.index') }}">@{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@{{__('lang.create')}}</li>
             </ol>
         </div>
     </div>
-@endsection
+@@endsection
 @@section('content')
 
     <div class="col-lg-12">

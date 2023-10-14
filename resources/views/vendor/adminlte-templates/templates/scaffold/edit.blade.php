@@ -3,17 +3,17 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             @if($config->options->localized)
-                <h4 class="page-title">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</h4>
+                <h4 class="page-title">@{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</h4>
             @else
                 <h4 class="page-title">{{ $config->modelNames->humanPlural }}</h4>
             @endif
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="@{{ route('{!! $config->prefixes->getRoutePrefixWith('.') !!}{!! $config->modelNames->camelPlural !!}.index') }}">{{ __('models/{!! $config->modelNames->camelPlural !!}.singular'}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('lang.edit')}}</li>
+                <li class="breadcrumb-item"><a href="@{{ route('{!! $config->prefixes->getRoutePrefixWith('.') !!}{!! $config->modelNames->camelPlural !!}.index') }}">@{{ __('models/{!! $config->modelNames->camelPlural !!}.singular')}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@{{ __('lang.edit')}}</li>
             </ol>
         </div>
     </div>
-@endsection
+@@endsection
 @@section('content')
 
 
@@ -24,7 +24,7 @@
         <div class="card">
 
             @{!! Form::model(${{ $config->modelNames->camel }}, ['route' => ['{{ $config->prefixes->getRoutePrefixWith('.') }}{{ $config->modelNames->camelPlural }}.update', ${{ $config->modelNames->camel }}->{{ $config->primaryName }}], 'method' => 'patch','files'=>true]) !!}
-            {!! Form::hidden('id',${{ $config->modelNames->camel }}) !!}
+            @{!! Form::hidden('id',${{ $config->modelNames->camel }}->{{ $config->primaryName }}) !!}
             <div class="card-body">
                 <div class="row">
                     @@include('{{ $config->prefixes->getViewPrefixForInclude() }}{{ $config->modelNames->snakePlural }}.fields')
