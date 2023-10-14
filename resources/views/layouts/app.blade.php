@@ -1015,7 +1015,7 @@
     <!-- Footer opened -->
     <div class="main-footer">
         <div class="container-fluid pd-t-0 ht-100p">
-            <span> Copyright © {{date('Y')}} <a href="javascript:void(0);" class="text-primary">{{setting('application_name')}}</a>. Designed with <span class="fa fa-heart text-danger"></span> by <a href="{{env('DEV_COMPANY_URL')}}"> {{env('DEV_COMPANY')}} </a> All rights reserved.</span>
+            <span> Copyright © {{date('Y')}} <a href="javascript:void(0);" class="text-primary">{{setting('application_name')}}</a>. Designed with <span class="fa fa-heart text-danger"></span> by <a href="{{env('DEV_COMPANY_URL',"https://web.facebook.com/devpediacompany")}}"> {{env('DEV_COMPANY',"Devpedia")}} </a> All rights reserved.</span>
         </div>
     </div>
     <!-- Footer closed -->
