@@ -4,7 +4,7 @@
         <div class="my-auto">
                             <h4 class="page-title">{{ __('models/answers.singular')}}</h4>
                         <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('admin.answers.index') }}">{{ __('models/answers.singular')}}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.answers.index',['question_id'=>$answer->question_id]) }}">{{ __('models/answers.singular')}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ __('lang.edit')}}</li>
             </ol>
         </div>
@@ -19,7 +19,7 @@
 
         <div class="card">
 
-            {!! Form::model($answer, ['route' => ['admin.answers.update', $answer->id], 'method' => 'patch','files'=>true]) !!}
+            {!! Form::model($answer, ['route' => ['admin.answers.update', [$answer->id,'question_id'=>$answer->question_id]], 'method' => 'patch','files'=>true]) !!}
             {!! Form::hidden('id',$answer->id) !!}
             <div class="card-body">
                 <div class="row">
@@ -29,7 +29,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.answers.index') }}" class="btn btn-default"> @lang('lang.cancel') </a>
+                <a href="{{ route('admin.answers.index',['question_id'=>$answer->question_id]) }}" class="btn btn-default"> @lang('lang.cancel') </a>
             </div>
 
             {!! Form::close() !!}

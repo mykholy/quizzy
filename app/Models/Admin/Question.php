@@ -54,7 +54,10 @@ class Question extends Model
     {
         return $this->belongsTo(\App\Models\Admin\Lesson::class, 'lesson_id', 'id');
     }
-
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'question_id');
+    }
     public function academicYear(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Admin\AcademicYear::class, 'academic_year_id', 'id');
@@ -68,6 +71,21 @@ class Question extends Model
     public function getFileAttribute($value)
     {
         return $value ? asset($value) : null;
+    }
+    static function getQuestionType($type)
+    {
+        return trans('models/questions.type.' . $type);
+    }
+    static function checkQuestionsTypeHaveAnswers($type)
+    {
+
+        switch ($type) {
+//            case self::$QUESTION_TYPE_SHORT_ANSWER:
+//                return false;
+//                break;
+            default:
+                return true;
+        }
     }
 
     public  static  function getAllTypes()

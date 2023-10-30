@@ -13,7 +13,7 @@
 <!-- unit_id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('unit_id', __('models/lessons.fields.unit_id').':') !!}
-    {!! Form::select('unit_id', \App\Models\Admin\Unit::pluck('name','id')->toArray(), request('unit_id'), ['class' => 'form-control form-select '. ($errors->has('unit_id')?' is-invalid ':'')]) !!}
+    {!! Form::select('unit_id',\App\Models\Admin\Unit::pluck('name','id')->toArray(),request('unit_id'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('unit_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('unit_id'))
         <span class="invalid-feedback">

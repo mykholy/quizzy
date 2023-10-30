@@ -59,6 +59,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('units', App\Http\Controllers\Admin\UnitController::class);
         Route::resource('lessons', App\Http\Controllers\Admin\LessonController::class);
         Route::resource('questions', App\Http\Controllers\Admin\QuestionController::class);
+        Route::resource('answers', App\Http\Controllers\Admin\AnswerController::class);
 
         Route::get('settings/general', [App\Http\Controllers\Admin\SettingController::class, 'general'])->name('settings.general');
         Route::post('settings/updateSettings', [App\Http\Controllers\Admin\SettingController::class, 'updateSettings'])->name('settings.updateSettings');
@@ -70,14 +71,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 
-
-Route::resource('admin/answers', App\Http\Controllers\Admin\AnswerController::class)
-    ->names([
-        'index' => 'admin.answers.index',
-        'store' => 'admin.answers.store',
-        'show' => 'admin.answers.show',
-        'update' => 'admin.answers.update',
-        'destroy' => 'admin.answers.destroy',
-        'create' => 'admin.answers.create',
-        'edit' => 'admin.answers.edit'
-    ]);

@@ -91,6 +91,12 @@ return [
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
         ],
+        'answers' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/answers',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],
         'units' => [
             'driver' => 'local',
             'root' => base_path() . '/public/images/units',

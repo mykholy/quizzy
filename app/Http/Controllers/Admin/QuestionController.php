@@ -6,6 +6,7 @@ use App\DataTables\Admin\QuestionDataTable;
 use App\Http\Requests\Admin\CreateQuestionRequest;
 use App\Http\Requests\Admin\UpdateQuestionRequest;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Admin\Answer;
 use App\Models\Admin\Question;
 use Illuminate\Http\Request;
 
@@ -50,6 +51,7 @@ class QuestionController extends AppBaseController
         /** @var Question $question */
         $question = Question::create($request_data);
 
+        $this->generate_answer_question_helper($question);
         session()->flash('success',__('messages.saved', ['model' => __('models/questions.singular')]));
 
         return redirect(route('admin.questions.index'));
@@ -149,4 +151,34 @@ class QuestionController extends AppBaseController
 
         return redirect(route('admin.questions.index'));
     }
+    public function generate_answer_question_helper($question)
+    {
+        switch ($question->type) {
+            case Question::$QUESTION_TYPE_TRUE_FALSE:
+                $ans = [[
+                    'title' => 'True',
+                    'is_correct' => true,
+                    'answer_two_gap_match' => 'true',
+                    'question_id' => $question->id,
+                    'answer_order' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ], [
+                    'title' => 'False',
+                    'is_correct' => false,
+                    'answer_two_gap_match' => 'false',
+                    'question_id' => $question->id,
+                    'answer_order' => 2,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]];
+                Answer::insert($ans);
+                break;
+            default:
+                return false;
+        }
+
+
+    }
+
 }

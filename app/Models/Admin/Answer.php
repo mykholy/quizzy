@@ -3,10 +3,13 @@
 namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
- use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Answer extends Model
 {
-    use HasFactory;    public $table = 'answers';
+    use HasFactory;
+
+    public $table = 'answers';
 
     public $fillable = [
         'title',
@@ -16,6 +19,7 @@ class Answer extends Model
         'answer_order',
         'answer_settings',
         'photo',
+        'question_id',
         'is_correct'
     ];
 
@@ -31,12 +35,40 @@ class Answer extends Model
     ];
 
     public static array $rules = [
-        'title' => 'nullable',
-        'answer_view_format' => 'in:1,2'
+        'title' => 'required',
+        'answer_view_format' => 'in:text,image,text_image',
+        'photo' => 'required_if:answer_view_format,image,text_image'
+
     ];
 
     public function question(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Admin\Question::class, 'question_id', 'id');
+    }
+    public function getPhotoAttribute($value)
+    {
+        return $value ? asset($value) : null;
+    }
+
+    static function checkQuestionsTypeCanAddManyAnswers($type)
+    {
+
+        switch ($type) {
+            case Question::$QUESTION_TYPE_TRUE_FALSE :
+                return false;
+                break;
+            default:
+                return true;
+        }
+    }
+
+    static function getAllAnswerViewFormat()
+    {
+        return [
+            'text' => __('models/answers.text'),
+            'image' => __('models/answers.image'),
+            'text_image' => __('models/answers.text_image'),
+
+        ];
     }
 }

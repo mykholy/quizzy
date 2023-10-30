@@ -96,12 +96,4 @@
 </li>
 
 
-<li class="slide {{ Request::is('admin.answers*') ? 'active' : '' }}">
-    <a class="side-menu__item {{ Request::is('admin.answers*') ? 'active' : '' }}"
-       href="{{ route('admin.answers.index') }}"
-    >
-        <i class=" ion-md-settings side-menu__icon"></i>
-                    <span class="side-menu__label">{{__('models/answers.plural')}}</span>
-        
-    </a>
-</li>
+

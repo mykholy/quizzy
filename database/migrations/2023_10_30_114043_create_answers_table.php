@@ -21,6 +21,13 @@ return new class extends Migration
             $table->string('answer_view_format')->nullable();
             $table->integer('answer_order')->nullable();
             $table->text('answer_settings')->nullable();
+            $table->unsignedBigInteger('question_id')->nullable();
+            $table->foreign('question_id')
+                ->references('id')
+                ->on('questions')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->string('photo')->default('images/answers/avatar.png');
             $table->boolean('is_correct')->nullable();
             $table->timestamps();

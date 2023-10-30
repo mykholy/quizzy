@@ -3,6 +3,12 @@
 return [
     'singular' => 'Answer',
     'plural' => 'Answers',
+    'text' => 'Text',
+    'image' => 'Image',
+    'title' => 'Title',
+    'text_image' => 'Text with Image',
+    'answer_view_format' => 'Answer view format',
+    'matched_answer_title' => 'Matched answer title',
     'fields' => [
         'id' => 'Id',
         'title' => 'Title',

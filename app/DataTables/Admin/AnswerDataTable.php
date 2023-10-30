@@ -3,6 +3,8 @@
 namespace App\DataTables\Admin;
 
 use App\Models\Admin\Answer;
+use App\Models\Admin\Question;
+use Illuminate\Routing\Route;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -20,28 +22,31 @@ class AnswerDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $dataTable->editColumn('photo', function (Answer $model) {
 
-            $photo = $model->photo ;
+            $photo = $model->photo;
             return view('includes.lazy_photo', compact('photo'));
         });
 
-        $dataTable->editColumn('is_active', function (Answer $model) {
+        $dataTable->editColumn('is_correct', function (Answer $model) {
 
-             $value = $model->is_active;
-             return view('includes.datatables_column_bool', compact('value'));
+            $value = $model->is_correct;
+            return view('includes.datatables_column_bool', compact('value'));
         });
 
-        return $dataTable->addColumn('action', 'admin.answers.datatables_actions');
+        return $dataTable->addColumn('action', function (Answer $answer) {
+            return view('admin.answers.datatables_actions', compact('answer'));
+        })->rawColumns(["action",'is_correct']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Answer $model
+     * @param \App\Models\Admin\Answer $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Answer $model)
     {
-        return $model->newQuery();
+        $question_id = request('question_id');
+        return $model->newQuery()->where('question_id', $question_id);;
     }
 
     /**
@@ -54,15 +59,16 @@ class AnswerDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->ajax(url()->full())
             ->addAction(['width' => 'auto', 'printable' => false, 'searchable' => false, 'exporting' => false, 'title' => __('lang.action')])
             ->parameters([
-                'stateSave' => true,
+                'stateSave' => false,
                 'responsive' => true,
                 "autoWidth" => true,
-                'dom'       => 'Bfrltip',
+                'dom' => 'Bfrltip',
                 'orderable' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
+                'order' => [[0, 'desc']],
+                'buttons' => [
                     // Enable Buttons as per your need
 //                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
 //                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
@@ -82,17 +88,33 @@ class AnswerDataTable extends DataTable
      *
      * @return array
      */
+
     protected function getColumns()
     {
-        return [
-            'title' => new Column(['title' => __('models/answers.fields.title'), 'data' => 'title']),
-            'question_type' => new Column(['title' => __('models/answers.fields.question_type'), 'data' => 'question_type']),
-            'answer_two_gap_match' => new Column(['title' => __('models/answers.fields.answer_two_gap_match'), 'data' => 'answer_two_gap_match']),
-            'answer_view_format' => new Column(['title' => __('models/answers.fields.answer_view_format'), 'data' => 'answer_view_format']),
-            'answer_order' => new Column(['title' => __('models/answers.fields.answer_order'), 'data' => 'answer_order']),
-            'photo' => new Column(['title' => __('models/answers.fields.photo'), 'data' => 'photo']),
-            'is_correct' => new Column(['title' => __('models/answers.fields.is_correct'), 'data' => 'is_correct'])
-        ];
+        $question_id = request('question_id');
+        $question = Question::find($question_id);
+
+        if ($question->type == Question::$QUESTION_TYPE_TRUE_FALSE) {
+            $columns = ['title', 'is_correct', 'answer_order'];
+
+        } elseif ($question->type == Question::$QUESTION_TYPE_MULTIPLE_CHOICE) {
+            $columns = ['title', 'answer_view_format', 'photo', 'is_correct', 'answer_order'];
+
+        } elseif ($question->type == Question::$QUESTION_TYPE_SINGLE_CHOICE) {
+            $columns = ['title', 'answer_view_format', 'photo', 'is_correct', 'answer_order'];
+
+        } elseif ($question->type == Question::$QUESTION_TYPE_TRUE_FALSE) {
+            $columns = ['title', 'is_correct', 'answer_order'];
+
+        } else {
+            $columns = ['title', 'answer_two_gap_match', 'answer_view_format', 'photo', 'answer_order'];
+        }
+        $columns_array = [];
+        $columns_array['id'] = new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]);
+        foreach ($columns as $column) {
+            $columns_array[$column] = new Column(['title' => __("models/answers.fields.$column"), 'data' => "$column"]);
+        }
+        return $columns_array;
     }
 
     /**

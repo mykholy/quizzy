@@ -7,7 +7,7 @@
 <!-- Question Type Field -->
 <div class="col-sm-12">
     {!! Form::label('question_type', __('models/answers.fields.question_type').':') !!}
-    <p>{{ $answer->question_type }}</p>
+    <p>{{ \App\Models\Admin\Question::getQuestionType($answer->question_type )}}</p>
 </div>
 
 <!-- Answer Two Gap Match Field -->
@@ -28,16 +28,23 @@
     <p>{{ $answer->answer_order }}</p>
 </div>
 
+
 <!-- Photo Field -->
 <div class="col-sm-12">
     {!! Form::label('photo', __('models/answers.fields.photo').':') !!}
-    <p>{{ $answer->photo }}</p>
+
+    <p><img src="{{ $answer->photo }}" width="200px" height="200px" onerror="this.style.display='none';this.src=''"/>
+    </p>
 </div>
 
 <!-- Is Correct Field -->
 <div class="col-sm-12">
     {!! Form::label('is_correct', __('models/answers.fields.is_correct').':') !!}
-    <p>{{ $answer->is_correct }}</p>
+    <p>
+        <span
+            class=" me-1 badge bg-{{$answer->is_correct?'success':'danger'}}"><i class="fa fa-{{$answer->is_correct?'check':'wrong'}}"></i></span>
+
+    </p>
 </div>
 
 <!-- Created At Field -->

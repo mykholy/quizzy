@@ -8,7 +8,7 @@
 <!-- type Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('type', __('models/questions.fields.type').':') !!}
-    {!! Form::select('type', \App\Models\Admin\Question::getAllTypes(), request('type'), ['class' => 'form-control form-select '. ($errors->has('type')?' is-invalid ':'')]) !!}
+    {!! Form::select('type',\App\Models\Admin\Question::getAllTypes(),request('type'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('type')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('type'))
         <span class="invalid-feedback">
@@ -28,7 +28,7 @@
 <!-- lesson id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('lesson_id', __('models/questions.fields.lesson_id').':') !!}
-    {!! Form::select('lesson_id', \App\Models\Admin\Lesson::pluck('name','id')->toArray(), request('lesson_id'), ['class' => 'form-control form-select '. ($errors->has('lesson_id')?' is-invalid ':'')]) !!}
+    {!! Form::select('lesson_id',\App\Models\Admin\Lesson::pluck('name','id')->toArray(),request('lesson_id'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('lesson_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('subject_id'))
         <span class="invalid-feedback">
@@ -42,7 +42,7 @@
 <!-- academic_year_id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('academic_year_id', __('models/questions.fields.academic_year_id').':') !!}
-    {!! Form::select('academic_year_id', \App\Models\Admin\AcademicYear::pluck('name','id')->toArray(), request('academic_year_id'), ['class' => 'form-control form-select '. ($errors->has('academic_year_id')?' is-invalid ':'')]) !!}
+    {!! Form::select('academic_year_id',\App\Models\Admin\AcademicYear::pluck('name','id')->toArray(),request('academic_year_id'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('academic_year_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('academic_year_id'))
         <span class="invalid-feedback">

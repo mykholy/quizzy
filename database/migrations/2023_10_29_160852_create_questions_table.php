@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('file')->nullable();
             $table->string('semester')->nullable();
             $table->decimal('points')->unsigned()->default(0);
-            $table->time('time')->nullable();
+            $table->string('time')->nullable();
             $table->boolean('is_active')->default(true);
 
             $table->unsignedBigInteger('lesson_id')->nullable();

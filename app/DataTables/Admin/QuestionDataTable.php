@@ -24,13 +24,19 @@ class QuestionDataTable extends DataTable
             return view('includes.lazy_photo', compact('photo'));
         });
 
+        $dataTable->editColumn('type', function (Question $question) {
+
+
+            return Question::getQuestionType($question->type);
+        });
         $dataTable->editColumn('is_active', function (Question $model) {
 
              $value = $model->is_active;
              return view('includes.datatables_column_bool', compact('value'));
         });
-
-        return $dataTable->addColumn('action', 'admin.questions.datatables_actions');
+        return $dataTable->addColumn('action', function (Question $question) {
+            return view('admin.questions.datatables_actions', compact('question'));
+        })->rawColumns(["action",'is_active']);
     }
 
     /**
