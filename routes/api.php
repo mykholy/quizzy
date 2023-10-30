@@ -140,3 +140,53 @@ Route::resource('admin/students', App\Http\Controllers\API\Admin\StudentAPIContr
         'update' => 'admin.students.update',
         'destroy' => 'admin.students.destroy'
     ]);
+
+Route::resource('admin/academic-years', App\Http\Controllers\API\Admin\AcademicYearAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.academicYears.index',
+        'store' => 'admin.academicYears.store',
+        'show' => 'admin.academicYears.show',
+        'update' => 'admin.academicYears.update',
+        'destroy' => 'admin.academicYears.destroy'
+    ]);
+
+Route::resource('admin/units', App\Http\Controllers\API\Admin\UnitAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.units.index',
+        'store' => 'admin.units.store',
+        'show' => 'admin.units.show',
+        'update' => 'admin.units.update',
+        'destroy' => 'admin.units.destroy'
+    ]);
+
+Route::resource('admin/lessons', App\Http\Controllers\API\Admin\LessonAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.lessons.index',
+        'store' => 'admin.lessons.store',
+        'show' => 'admin.lessons.show',
+        'update' => 'admin.lessons.update',
+        'destroy' => 'admin.lessons.destroy'
+    ]);
+
+Route::resource('admin/questions', App\Http\Controllers\API\Admin\QuestionAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.questions.index',
+        'store' => 'admin.questions.store',
+        'show' => 'admin.questions.show',
+        'update' => 'admin.questions.update',
+        'destroy' => 'admin.questions.destroy'
+    ]);
+
+Route::resource('admin/answers', App\Http\Controllers\API\Admin\AnswerAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.answers.index',
+        'store' => 'admin.answers.store',
+        'show' => 'admin.answers.show',
+        'update' => 'admin.answers.update',
+        'destroy' => 'admin.answers.destroy'
+    ]);

@@ -50,10 +50,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('locations', App\Http\Controllers\Admin\LocationController::class);
         Route::resource('connectors', App\Http\Controllers\Admin\ConnectorController::class);
         Route::resource('stations', App\Http\Controllers\Admin\StationController::class);
+
         Route::resource('teachers', App\Http\Controllers\Admin\TeacherController::class);
         Route::resource('subjects', App\Http\Controllers\Admin\SubjectController::class);
         Route::resource('groups', App\Http\Controllers\Admin\GroupController::class);
         Route::resource('students', App\Http\Controllers\Admin\StudentController::class);
+        Route::resource('academicYears', App\Http\Controllers\Admin\AcademicYearController::class);
+        Route::resource('units', App\Http\Controllers\Admin\UnitController::class);
+        Route::resource('lessons', App\Http\Controllers\Admin\LessonController::class);
+        Route::resource('questions', App\Http\Controllers\Admin\QuestionController::class);
+
         Route::get('settings/general', [App\Http\Controllers\Admin\SettingController::class, 'general'])->name('settings.general');
         Route::post('settings/updateSettings', [App\Http\Controllers\Admin\SettingController::class, 'updateSettings'])->name('settings.updateSettings');
 
@@ -65,8 +71,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
 
-
-
-
-
-
+Route::resource('admin/answers', App\Http\Controllers\Admin\AnswerController::class)
+    ->names([
+        'index' => 'admin.answers.index',
+        'store' => 'admin.answers.store',
+        'show' => 'admin.answers.show',
+        'update' => 'admin.answers.update',
+        'destroy' => 'admin.answers.destroy',
+        'create' => 'admin.answers.create',
+        'edit' => 'admin.answers.edit'
+    ]);

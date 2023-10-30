@@ -73,6 +73,30 @@ return [
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
         ],
+        'academicYears' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/academicYears',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],
+        'lessons' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/lessons',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],
+        'questions' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/questions',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],
+        'units' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/units',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],
         'students' => [
             'driver' => 'local',
             'root' => base_path() . '/public/images/students',
@@ -84,7 +108,7 @@ return [
             'root' => base_path() . '/public/images/groups',
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
-        ],  'subjects' => [
+        ], 'subjects' => [
             'driver' => 'local',
             'root' => base_path() . '/public/images/subjects',
             'url' => env('APP_URL') . '/public',

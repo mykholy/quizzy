@@ -47,9 +47,61 @@
     </a>
 </li>
 
+<li class="slide {{ Request::is('admin.academicYears*') ? 'active' : '' }}">
+    <a class="side-menu__item {{ Request::is('admin.academicYears*') ? 'active' : '' }}"
+       href="{{ route('admin.academicYears.index') }}"
+    >
+        <i class=" si si-graduation side-menu__icon"></i>
+        <span class="side-menu__label">{{__('models/academicYears.plural')}}</span>
+
+    </a>
+</li>
+
+<li class="slide {{ Request::is('admin.units*') ? 'active' : '' }}">
+    <a class="side-menu__item {{ Request::is('admin.units*') ? 'active' : '' }}"
+       href="{{ route('admin.units.index') }}"
+    >
+        <i class=" si si-list side-menu__icon"></i>
+        <span class="side-menu__label">{{__('models/units.plural')}}</span>
+
+    </a>
+</li>
+
+<li class="slide {{ Request::is('admin.lessons*') ? 'active' : '' }}">
+    <a class="side-menu__item {{ Request::is('admin.lessons*') ? 'active' : '' }}"
+       href="{{ route('admin.lessons.index') }}"
+    >
+        <i class=" si si-book-open side-menu__icon"></i>
+        <span class="side-menu__label">{{__('models/lessons.plural')}}</span>
+
+    </a>
+</li>
+
+<li class="slide {{ Request::is('admin.questions*') ? 'active' : '' }}">
+    <a class="side-menu__item {{ Request::is('admin.questions*') ? 'active' : '' }}"
+       href="{{ route('admin.questions.index') }}"
+    >
+        <i class=" si si-question side-menu__icon"></i>
+        <span class="side-menu__label">{{__('models/questions.plural')}}</span>
+
+    </a>
+</li>
+
+
 <li class="slide {{ Request::is('admin/settings*') ? 'active' : '' }}">
     <a class="side-menu__item {{ Request::is('admin/settings*') ? 'active' : '' }}" href="{{ route('admin.settings.general') }}">
         <i class=" ion-md-settings side-menu__icon"></i>
         <span class="side-menu__label">{{__('models/settings.plural')}}</span>
+    </a>
+</li>
+
+
+<li class="slide {{ Request::is('admin.answers*') ? 'active' : '' }}">
+    <a class="side-menu__item {{ Request::is('admin.answers*') ? 'active' : '' }}"
+       href="{{ route('admin.answers.index') }}"
+    >
+        <i class=" ion-md-settings side-menu__icon"></i>
+                    <span class="side-menu__label">{{__('models/answers.plural')}}</span>
+        
     </a>
 </li>

@@ -2,12 +2,12 @@
 
 namespace App\DataTables\Admin;
 
-use App\Models\Admin\Group;
+use App\Models\Admin\Question;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class GroupDataTable extends DataTable
+class QuestionDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -18,40 +18,30 @@ class GroupDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-        $dataTable->editColumn('photo', function (Group $model) {
+        $dataTable->editColumn('photo', function (Question $model) {
 
             $photo = $model->photo ;
             return view('includes.lazy_photo', compact('photo'));
         });
 
-        $dataTable->editColumn('teacher_id', function (Group $model) {
-
-            $value = optional($model->teacher)->name ;
-            return $value;
-        });
-        $dataTable->editColumn('subject_id', function (Group $model) {
-
-            $value = optional($model->subject)->name ;
-            return $value;
-        });
-        $dataTable->editColumn('is_active', function (Group $model) {
+        $dataTable->editColumn('is_active', function (Question $model) {
 
              $value = $model->is_active;
              return view('includes.datatables_column_bool', compact('value'));
         });
 
-        return $dataTable->addColumn('action', 'admin.groups.datatables_actions');
+        return $dataTable->addColumn('action', 'admin.questions.datatables_actions');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Admin\Group $model
+     * @param \App\Models\Admin\Question $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Group $model)
+    public function query(Question $model)
     {
-        return $model->newQuery()->with(['subject','teacher']);
+        return $model->newQuery();
     }
 
     /**
@@ -95,10 +85,13 @@ class GroupDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'name' => new Column(['title' => __('models/groups.fields.name'), 'data' => 'name']),
-            'teacher_id' => new Column(['title' => __('models/groups.fields.teacher_id'), 'data' => 'teacher_id']),
-            'subject_id' => new Column(['title' => __('models/groups.fields.subject_id'), 'data' => 'subject_id']),
-            'photo' => new Column(['title' => __('models/groups.fields.photo'), 'data' => 'photo'])
+            'name' => new Column(['title' => __('models/questions.fields.name'), 'data' => 'name']),
+            'type' => new Column(['title' => __('models/questions.fields.type'), 'data' => 'type']),
+            'photo' => new Column(['title' => __('models/questions.fields.photo'), 'data' => 'photo']),
+            'semester' => new Column(['title' => __('models/questions.fields.semester'), 'data' => 'semester']),
+            'points' => new Column(['title' => __('models/questions.fields.points'), 'data' => 'points']),
+            'time' => new Column(['title' => __('models/questions.fields.time'), 'data' => 'time']),
+            'is_active' => new Column(['title' => __('models/questions.fields.is_active'), 'data' => 'is_active'])
         ];
     }
 
@@ -109,6 +102,6 @@ class GroupDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'groups_datatable_' . time();
+        return 'questions_datatable_' . time();
     }
 }
