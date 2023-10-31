@@ -2,9 +2,10 @@
 @section('breadcrumb')
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
-                            <h4 class="page-title">{{ __('models/questions.singular')}}</h4>
-                        <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('admin.questions.index') }}">{{ __('models/questions.singular')}}</a></li>
+            <h4 class="page-title">{{ __('models/questions.singular')}}</h4>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a
+                        href="{{ route('admin.questions.index',['lesson_id'=>request('lesson_id')]) }}">{{ __('models/questions.singular')}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ __('lang.edit')}}</li>
             </ol>
         </div>
@@ -12,14 +13,13 @@
 @endsection
 @section('content')
 
-
     <div class="col-lg-12">
 
         @include('adminlte-templates::common.errors')
 
         <div class="card">
 
-            {!! Form::model($question, ['route' => ['admin.questions.update', $question->id], 'method' => 'patch','files'=>true]) !!}
+            {!! Form::model($question, ['route' => ['admin.questions.update', [$question->id,'lesson_id'=>request('lesson_id')]], 'method' => 'patch','files'=>true]) !!}
             {!! Form::hidden('id',$question->id) !!}
             <div class="card-body">
                 <div class="row">
@@ -29,7 +29,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.questions.index') }}" class="btn btn-default"> @lang('lang.cancel') </a>
+                <a href="{{ route('admin.questions.index',['lesson_id'=>request('lesson_id')]) }}" class="btn btn-default"> @lang('lang.cancel') </a>
             </div>
 
             {!! Form::close() !!}

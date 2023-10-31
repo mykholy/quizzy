@@ -2,8 +2,8 @@
 @section('breadcrumb')
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
-                            <h4 class="page-title">{{ __('models/units.singular')}}</h4>
-                        <ol class="breadcrumb">
+            <h4 class="page-title">{{ __('models/units.singular')}}</h4>
+            <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('models/units.singular')}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page"> {{ __('lang.list') }}</li>
             </ol>
@@ -18,7 +18,7 @@
 
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('admin.units.create') }}">
+                       href="{{ route('admin.units.create',['subject_id'=>request('subject_id')]) }}">
                         {!! __('lang.add_new') !!}
                     </a>
 

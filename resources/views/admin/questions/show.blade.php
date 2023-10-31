@@ -17,7 +17,7 @@
                 <h3 class="card-title">@lang('models/questions.plural') @lang('lang.detail')</h3>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('admin.questions.index') }}">
+                       href="{{ route('admin.questions.index',['lesson_id'=>request('lesson_id')]) }}">
                         @lang('lang.back')
                     </a>
                 </div>

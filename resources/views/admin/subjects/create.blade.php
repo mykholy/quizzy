@@ -2,9 +2,10 @@
 @section('breadcrumb')
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
-                        <h4 class="page-title">{{ __('models/subjects.singular')}}</h4>
-                        <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('admin.subjects.index') }}">{{ __('models/subjects.singular')}}</a></li>
+            <h4 class="page-title">{{ __('models/subjects.singular')}}</h4>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a
+                        href="{{ route('admin.subjects.index') }}">{{ __('models/subjects.singular')}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{__('lang.create')}}</li>
             </ol>
         </div>

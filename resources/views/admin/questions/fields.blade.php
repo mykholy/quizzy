@@ -25,12 +25,40 @@
     {!! Form::text('description', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- subject_id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('subject_id', __('models/questions.fields.subject_id').':') !!}
+    {!! Form::select('subject_id',\App\Models\Admin\Subject::pluck('name','id')->toArray(),request('subject_id'), array('id'=>'subject_id','onchange'=>'change_subject(this.value);','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('subject_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+
+    @if ($errors->has('subject_id'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('subject_id') }}</small>
+
+             </span>
+    @endif
+</div>
+
+<!-- unit_id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('unit_id', __('models/questions.fields.unit_id').':') !!}
+    {!! Form::select('unit_id',\App\Models\Admin\Unit::pluck('name','id')->toArray(),request('unit_id'), array('onchange'=>'change_unit(this.value);','id'=>'unit_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('unit_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+
+    @if ($errors->has('unit_id'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('unit_id') }}</small>
+
+             </span>
+    @endif
+</div>
+
 <!-- lesson id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('lesson_id', __('models/questions.fields.lesson_id').':') !!}
-    {!! Form::select('lesson_id',\App\Models\Admin\Lesson::pluck('name','id')->toArray(),request('lesson_id'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('lesson_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::select('lesson_id',\App\Models\Admin\Lesson::pluck('name','id')->toArray(),request('lesson_id'), array('id'=>'lesson_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('lesson_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
-    @if ($errors->has('subject_id'))
+    @if ($errors->has('lesson_id'))
         <span class="invalid-feedback">
 
                 <small class="text-danger">{{ $errors->first('lesson_id') }}</small>
@@ -38,27 +66,6 @@
              </span>
     @endif
 </div>
-
-<!-- academic_year_id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('academic_year_id', __('models/questions.fields.academic_year_id').':') !!}
-    {!! Form::select('academic_year_id',\App\Models\Admin\AcademicYear::pluck('name','id')->toArray(),request('academic_year_id'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('academic_year_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
-
-    @if ($errors->has('academic_year_id'))
-        <span class="invalid-feedback">
-
-                <small class="text-danger">{{ $errors->first('academic_year_id') }}</small>
-
-             </span>
-    @endif
-</div>
-
-<!-- Semester Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('semester', __('models/questions.fields.semester').':') !!}
-    {!! Form::select('semester', ['1' => 'First', '2' => 'Second'], null, ['class' => 'form-control custom-select']) !!}
-</div>
-
 
 
 <!-- points Field -->
@@ -93,10 +100,6 @@
 <div class="clearfix"></div>
 
 
-
-
-
-
 <!-- 'bootstrap / Toggle Switch Is Active Field' -->
 <div class="form-group col-sm-6">
 
@@ -111,3 +114,32 @@
 
 
 
+@push('page_scripts')
+    <script>
+        @if(!isset($question))
+        change_subject($('#subject_id').val());
+        change_unit($('#unit_id').val());
+        @endif
+        function change_subject(subject_id) {
+            let url_ajax = "{{url('admin/questions')}}/" + subject_id + "/units";
+            $.ajax({
+                url: url_ajax,
+                success: function (response) {
+                    jQuery('#unit_id').html(response);
+                    $('#unit_id').val(null).trigger('change');
+                }
+            });
+        }
+
+        function change_unit(unit_id) {
+            let url_ajax = "{{url('admin/questions')}}/"+unit_id+"/lessons";
+            $.ajax({
+                url: url_ajax ,
+                success: function (response) {
+                    jQuery('#lesson_id').html(response);
+                    $('#lesson_id').val(null).trigger('change');
+                }
+            });
+        }
+    </script>
+@endpush

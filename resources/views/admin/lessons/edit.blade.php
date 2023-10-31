@@ -19,7 +19,7 @@
 
         <div class="card">
 
-            {!! Form::model($lesson, ['route' => ['admin.lessons.update', $lesson->id], 'method' => 'patch','files'=>true]) !!}
+            {!! Form::model($lesson, ['route' => ['admin.lessons.update', [$lesson->id,'unit_id'=>request('unit_id')]], 'method' => 'patch','files'=>true]) !!}
             {!! Form::hidden('id',$lesson->id) !!}
             <div class="card-body">
                 <div class="row">
@@ -29,7 +29,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.lessons.index') }}" class="btn btn-default"> @lang('lang.cancel') </a>
+                <a href="{{ route('admin.lessons.index',['unit_id'=>request('unit_id')]) }}" class="btn btn-default"> @lang('lang.cancel') </a>
             </div>
 
             {!! Form::close() !!}

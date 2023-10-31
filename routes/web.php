@@ -58,6 +58,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('academicYears', App\Http\Controllers\Admin\AcademicYearController::class);
         Route::resource('units', App\Http\Controllers\Admin\UnitController::class);
         Route::resource('lessons', App\Http\Controllers\Admin\LessonController::class);
+        Route::get('questions/{id}/units', [App\Http\Controllers\Admin\QuestionController::class,'ajax_get_units_by_subject'])->name('questions.ajax_get_units_by_subject');
+        Route::get('questions/{id}/lessons', [App\Http\Controllers\Admin\QuestionController::class,'ajax_get_lessons_by_unit']);
         Route::resource('questions', App\Http\Controllers\Admin\QuestionController::class);
         Route::resource('answers', App\Http\Controllers\Admin\AnswerController::class);
 

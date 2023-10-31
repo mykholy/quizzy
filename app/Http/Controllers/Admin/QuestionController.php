@@ -7,7 +7,9 @@ use App\Http\Requests\Admin\CreateQuestionRequest;
 use App\Http\Requests\Admin\UpdateQuestionRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Admin\Answer;
+use App\Models\Admin\Lesson;
 use App\Models\Admin\Question;
+use App\Models\Admin\Unit;
 use Illuminate\Http\Request;
 
 
@@ -18,7 +20,7 @@ class QuestionController extends AppBaseController
      */
     public function index(QuestionDataTable $questionDataTable)
     {
-    return $questionDataTable->render('admin.questions.index');
+    return $questionDataTable->render('admin.questions.index',['lesson_id' => request('lesson_id')]);
     }
 
 
@@ -54,7 +56,7 @@ class QuestionController extends AppBaseController
         $this->generate_answer_question_helper($question);
         session()->flash('success',__('messages.saved', ['model' => __('models/questions.singular')]));
 
-        return redirect(route('admin.questions.index'));
+        return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
     }
 
     /**
@@ -69,7 +71,7 @@ class QuestionController extends AppBaseController
             session()->flash('error',__('models/questions.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.questions.index'));
+            return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
         }
 
         return view('admin.questions.show')->with('question', $question);
@@ -87,7 +89,7 @@ class QuestionController extends AppBaseController
             session()->flash('error',__('models/questions.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.questions.index'));
+            return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
         }
 
         return view('admin.questions.edit')->with('question', $question);
@@ -105,7 +107,7 @@ class QuestionController extends AppBaseController
             session()->flash('error',__('models/questions.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.questions.index'));
+            return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
         }
 
         $request_data = $request->except(['_token', 'photo','file']);
@@ -124,7 +126,7 @@ class QuestionController extends AppBaseController
 
         session()->flash('success',__('messages.updated', ['model' => __('models/questions.singular')]));
 
-        return redirect(route('admin.questions.index'));
+        return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
     }
 
     /**
@@ -141,7 +143,7 @@ class QuestionController extends AppBaseController
             session()->flash('error',__('models/questions.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.questions.index'));
+            return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
         }
 
         $question->delete();
@@ -149,7 +151,7 @@ class QuestionController extends AppBaseController
         session()->flash('success',__('messages.deleted', ['model' => __('models/questions.singular')]));
 
 
-        return redirect(route('admin.questions.index'));
+        return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
     }
     public function generate_answer_question_helper($question)
     {
@@ -181,4 +183,18 @@ class QuestionController extends AppBaseController
 
     }
 
+    public function ajax_get_units_by_subject($id)
+    {
+
+        $unites = Unit::where('subject_id', $id)->pluck('name', 'id')->toArray();
+
+        return view('includes.ajax_options', ['data' => $unites, 'name' => 'unit_id', 'placeholder' => __('models/units.singular')]);
+    }
+    public function ajax_get_lessons_by_unit($id)
+    {
+
+        $lessons = Lesson::where('unit_id', $id)->pluck('name', 'id')->toArray();
+
+        return view('includes.ajax_options', ['data' => $lessons, 'name' => 'lesson_id', 'placeholder' => __('models/lessons.singular')]);
+    }
 }

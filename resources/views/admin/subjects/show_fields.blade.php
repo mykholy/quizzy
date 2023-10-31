@@ -12,6 +12,18 @@
     </p>
 </div>
 
+<!-- Semester Field -->
+<div class="col-sm-12">
+    {!! Form::label('semester', __('models/subjects.fields.semester').':') !!}
+    <p>{{ $subject->semester }}</p>
+</div>
+
+<!-- academic_year_id Field -->
+<div class="col-sm-12">
+    {!! Form::label('academic_year_id', __('models/subjects.fields.academic_year_id').':') !!}
+    <p>{{ optional($subject->academicYear)->name }}</p>
+</div>
+
 <!-- Is Active Field -->
 <div class="col-sm-12">
     {!! Form::label('is_active', __('models/subjects.fields.is_active').':') !!}

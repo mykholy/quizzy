@@ -47,7 +47,9 @@ class LessonDataTable extends DataTable
      */
     public function query(Lesson $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->when(request('unit_id'), function ($q) {
+            $q->where('unit_id', request('unit_id'));
+        });
     }
 
     /**
@@ -60,6 +62,7 @@ class LessonDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->ajax(['url' => url()->full()])
             ->addAction(['width' => 'auto', 'printable' => false, 'searchable' => false, 'exporting' => false, 'title' => __('lang.action')])
             ->parameters([
                 'stateSave' => true,

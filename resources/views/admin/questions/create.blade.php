@@ -2,9 +2,11 @@
 @section('breadcrumb')
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
-                        <h4 class="page-title">{{ __('models/questions.singular')}}</h4>
-                        <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('admin.questions.index') }}">{{ __('models/questions.singular')}}</a></li>
+            <h4 class="page-title">{{ __('models/questions.singular')}}</h4>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a
+                        href="{{ route('admin.questions.index',['lesson_id'=>request('lesson_id')]) }}">{{ __('models/questions.singular')}}</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">{{__('lang.create')}}</li>
             </ol>
         </div>
@@ -30,7 +32,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.questions.index') }}" class="btn btn-default"> @lang('lang.cancel') </a>
+                <a href="{{ route('admin.questions.index',['lesson_id'=>request('lesson_id')]) }}" class="btn btn-default"> @lang('lang.cancel') </a>
             </div>
 
             {!! Form::close() !!}

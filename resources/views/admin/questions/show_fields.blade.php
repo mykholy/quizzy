@@ -29,11 +29,7 @@
     <p>{{ $question->file }}</p>
 </div>
 
-<!-- Semester Field -->
-<div class="col-sm-12">
-    {!! Form::label('semester', __('models/questions.fields.semester').':') !!}
-    <p>{{ $question->semester }}</p>
-</div>
+
 
 <!-- Points Field -->
 <div class="col-sm-12">

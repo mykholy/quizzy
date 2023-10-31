@@ -16,10 +16,14 @@
             <div class="card-header">
                 <h3 class="card-title">@lang('models/lessons.plural') @lang('lang.detail')</h3>
 
-                <div class="col-sm-6">
+                <div class="d-flex justify-content-between">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('admin.lessons.index') }}">
+                       href="{{ route('admin.lessons.index',['unit_id'=>request('unit_id')]) }}">
                         @lang('lang.back')
+                    </a>
+                    <a class="btn btn-primary float-left"
+                       href="{{ route('admin.questions.index',['lesson_id'=>$lesson->id]) }}">
+                        @lang('models/questions.plural')
                     </a>
                 </div>
 

@@ -17,7 +17,7 @@ class LessonController extends AppBaseController
      */
     public function index(LessonDataTable $lessonDataTable)
     {
-    return $lessonDataTable->render('admin.lessons.index');
+    return $lessonDataTable->render('admin.lessons.index',['unit_id' => request('unit_id')]);
     }
 
 
@@ -47,7 +47,7 @@ class LessonController extends AppBaseController
 
         session()->flash('success',__('messages.saved', ['model' => __('models/lessons.singular')]));
 
-        return redirect(route('admin.lessons.index'));
+        return redirect(route('admin.lessons.index',['unit_id' => request('unit_id')]));
     }
 
     /**
@@ -62,10 +62,10 @@ class LessonController extends AppBaseController
             session()->flash('error',__('models/lessons.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.lessons.index'));
+            return redirect(route('admin.lessons.index',['unit_id' => request('unit_id')]));
         }
 
-        return view('admin.lessons.show')->with('lesson', $lesson);
+        return view('admin.lessons.show',['unit_id' => request('unit_id')])->with('lesson', $lesson);
     }
 
     /**
@@ -80,10 +80,10 @@ class LessonController extends AppBaseController
             session()->flash('error',__('models/lessons.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.lessons.index'));
+            return redirect(route('admin.lessons.index',['unit_id' => request('unit_id')]));
         }
 
-        return view('admin.lessons.edit')->with('lesson', $lesson);
+        return view('admin.lessons.edit',)->with('lesson', $lesson);
     }
 
     /**
@@ -98,7 +98,7 @@ class LessonController extends AppBaseController
             session()->flash('error',__('models/lessons.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.lessons.index'));
+            return redirect(route('admin.lessons.index',['unit_id' => request('unit_id')]));
         }
 
         $request_data = $request->except(['_token', 'photo']);
@@ -112,7 +112,7 @@ class LessonController extends AppBaseController
 
         session()->flash('success',__('messages.updated', ['model' => __('models/lessons.singular')]));
 
-        return redirect(route('admin.lessons.index'));
+        return redirect(route('admin.lessons.index',['unit_id' => request('unit_id')]));
     }
 
     /**
@@ -129,7 +129,7 @@ class LessonController extends AppBaseController
             session()->flash('error',__('models/lessons.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.lessons.index'));
+            return redirect(route('admin.lessons.index',['unit_id' => request('unit_id')]));
         }
 
         $lesson->delete();
@@ -137,6 +137,6 @@ class LessonController extends AppBaseController
         session()->flash('success',__('messages.deleted', ['model' => __('models/lessons.singular')]));
 
 
-        return redirect(route('admin.lessons.index'));
+        return redirect(route('admin.lessons.index',['unit_id' => request('unit_id')]));
     }
 }

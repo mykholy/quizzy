@@ -1,4 +1,8 @@
 <div class='btn-group'>
+    <a type="button" href="{{ route('admin.units.index',['subject_id'=>$id]) }}"
+       class="btn btn-primary mx-2 button-icon mb-1 btn-sm"><i
+            class="si si-list  me-2"></i> {{__('models/units.plural')}}</a>
+
     <a type="button" href="{{ route('admin.subjects.show', $id) }}" class="btn btn-info mx-2 button-icon mb-1 btn-sm"><i
             class="fe fe-eye me-2"></i> {{__('lang.show')}}</a>
     <a type="button" href="{{ route('admin.subjects.edit', $id) }}"

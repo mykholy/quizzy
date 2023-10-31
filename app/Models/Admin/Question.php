@@ -23,10 +23,10 @@ class Question extends Model
         'description',
         'photo',
         'file',
-        'semester',
+//        'semester',
         'points',
         'lesson_id',
-        'academic_year_id',
+//        'academic_year_id',
         'time',
         'is_active'
     ];
@@ -37,7 +37,6 @@ class Question extends Model
         'description' => 'string',
         'photo' => 'string',
         'file' => 'string',
-        'semester' => 'string',
         'points' => 'decimal:2',
         'time' => 'string',
         'is_active' => 'boolean'
@@ -46,7 +45,6 @@ class Question extends Model
     public static array $rules = [
         'name' => 'nullable',
         'description' => 'nullable',
-        'semester' => 'in:1,2',
         'points' => 'min:0'
     ];
 
@@ -58,10 +56,7 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class, 'question_id');
     }
-    public function academicYear(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Admin\AcademicYear::class, 'academic_year_id', 'id');
-    }
+
 
     public function getPhotoAttribute($value)
     {

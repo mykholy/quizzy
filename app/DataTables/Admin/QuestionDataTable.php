@@ -20,8 +20,15 @@ class QuestionDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $dataTable->editColumn('photo', function (Question $model) {
 
-            $photo = $model->photo ;
+            $photo = $model->photo;
             return view('includes.lazy_photo', compact('photo'));
+        });
+        $dataTable->editColumn('lesson_id', function (Question $model) {
+            $lesson = $model->lesson;
+            $lesson_name = optional($lesson)->name;
+            $unit_name = optional($lesson->unit)->name;
+            $subject_name = optional($lesson->unit->subject)->name;
+            return $lesson_name . " >> " . $unit_name . " >> " . $subject_name;
         });
 
         $dataTable->editColumn('type', function (Question $question) {
@@ -31,12 +38,12 @@ class QuestionDataTable extends DataTable
         });
         $dataTable->editColumn('is_active', function (Question $model) {
 
-             $value = $model->is_active;
-             return view('includes.datatables_column_bool', compact('value'));
+            $value = $model->is_active;
+            return view('includes.datatables_column_bool', compact('value'));
         });
         return $dataTable->addColumn('action', function (Question $question) {
             return view('admin.questions.datatables_actions', compact('question'));
-        })->rawColumns(["action",'is_active']);
+        })->rawColumns(["action", 'is_active']);
     }
 
     /**
@@ -47,7 +54,9 @@ class QuestionDataTable extends DataTable
      */
     public function query(Question $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['lesson.unit.subject'])->when(request('lesson_id'), function ($q) {
+            $q->where('lesson_id', request('lesson_id'));
+        });
     }
 
     /**
@@ -60,15 +69,16 @@ class QuestionDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->ajax(['url' => url()->full()])
             ->addAction(['width' => 'auto', 'printable' => false, 'searchable' => false, 'exporting' => false, 'title' => __('lang.action')])
             ->parameters([
                 'stateSave' => true,
                 'responsive' => true,
                 "autoWidth" => true,
-                'dom'       => 'Bfrltip',
+                'dom' => 'Bfrltip',
                 'orderable' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
+                'order' => [[0, 'desc']],
+                'buttons' => [
                     // Enable Buttons as per your need
 //                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
 //                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
@@ -94,9 +104,9 @@ class QuestionDataTable extends DataTable
             'name' => new Column(['title' => __('models/questions.fields.name'), 'data' => 'name']),
             'type' => new Column(['title' => __('models/questions.fields.type'), 'data' => 'type']),
             'photo' => new Column(['title' => __('models/questions.fields.photo'), 'data' => 'photo']),
-            'semester' => new Column(['title' => __('models/questions.fields.semester'), 'data' => 'semester']),
             'points' => new Column(['title' => __('models/questions.fields.points'), 'data' => 'points']),
             'time' => new Column(['title' => __('models/questions.fields.time'), 'data' => 'time']),
+            'lesson_id' => new Column(['title' => __('models/questions.fields.lesson_unit_subject'), 'data' => 'lesson_id']),
             'is_active' => new Column(['title' => __('models/questions.fields.is_active'), 'data' => 'is_active'])
         ];
     }

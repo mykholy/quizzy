@@ -17,10 +17,14 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">@lang('models/subjects.plural') @lang('lang.detail')</h3>
-                <div class="col-sm-6">
+                <div class="d-flex justify-content-between">
                     <a class="btn btn-primary float-right"
                        href="{{ route('admin.subjects.index') }}">
                         @lang('lang.back')
+                    </a>
+                    <a class="btn btn-primary float-left"
+                       href="{{ route('admin.units.index',['subject_id'=>$subject->id]) }}">
+                        @lang('models/units.plural')
                     </a>
                 </div>
 

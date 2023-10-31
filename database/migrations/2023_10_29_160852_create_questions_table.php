@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->string('photo')->default('images/questions/avatar.png');
             $table->string('file')->nullable();
-            $table->string('semester')->nullable();
             $table->decimal('points')->unsigned()->default(0);
             $table->string('time')->nullable();
             $table->boolean('is_active')->default(true);
@@ -29,10 +28,7 @@ return new class extends Migration {
                 ->on('lessons')
                 ->nullOnDelete();
 
-            $table->unsignedBigInteger('academic_year_id')->nullable();
-            $table->foreign('academic_year_id')->references('id')
-                ->on('academic_years')
-                ->nullOnDelete();
+
 
             $table->timestamps();
         });

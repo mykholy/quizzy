@@ -11,6 +11,8 @@ class Subject extends Model
     public $fillable = [
         'name',
         'photo',
+        'academic_year_id',
+        'semester',
         'is_active'
     ];
 
@@ -21,8 +23,13 @@ class Subject extends Model
     ];
 
     public static array $rules = [
-        'name' => 'required|min:3|max:100'
+        'name' => 'required|min:3|max:100',
+        'semester' => 'in:1,2',
     ];
+    public function academicYear(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Admin\AcademicYear::class, 'academic_year_id', 'id');
+    }
     public function getPhotoAttribute($value)
     {
         return $value ? asset($value) : null;

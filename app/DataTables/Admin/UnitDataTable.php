@@ -47,7 +47,9 @@ class UnitDataTable extends DataTable
      */
     public function query(Unit $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->when(request('subject_id'),function ($q){
+            $q->where('subject_id',request('subject_id'));
+        });
     }
 
     /**
@@ -60,6 +62,7 @@ class UnitDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->ajax(['url'=>url()->full()])
             ->addAction(['width' => 'auto', 'printable' => false, 'searchable' => false, 'exporting' => false, 'title' => __('lang.action')])
             ->parameters([
                 'stateSave' => true,

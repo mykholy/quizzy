@@ -19,7 +19,7 @@
 
         <div class="card">
 
-            {!! Form::model($unit, ['route' => ['admin.units.update', $unit->id], 'method' => 'patch','files'=>true]) !!}
+            {!! Form::model($unit, ['route' => ['admin.units.update', [$unit->id,'subject_id'=>request('subject_id')]], 'method' => 'patch','files'=>true]) !!}
             {!! Form::hidden('id',$unit->id) !!}
             <div class="card-body">
                 <div class="row">

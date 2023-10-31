@@ -16,7 +16,15 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id('id');
             $table->string('name');
+            $table->string('semester')->nullable();
             $table->string('photo')->default('images/subjects/avatar.png');
+
+            $table->unsignedBigInteger('academic_year_id')->nullable();
+            $table->foreign('academic_year_id')->references('id')
+                ->on('academic_years')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

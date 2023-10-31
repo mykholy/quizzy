@@ -20,14 +20,20 @@ class SubjectDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $dataTable->editColumn('photo', function (Subject $model) {
 
-            $photo = $model->photo ;
+            $photo = $model->photo;
             return view('includes.lazy_photo', compact('photo'));
+        });
+
+        $dataTable->editColumn('academic_year_id', function (Subject $model) {
+
+            $value = optional($model->academicYear)->name;
+            return $value;
         });
 
         $dataTable->editColumn('is_active', function (Subject $model) {
 
-             $value = $model->is_active;
-             return view('includes.datatables_column_bool', compact('value'));
+            $value = $model->is_active;
+            return view('includes.datatables_column_bool', compact('value'));
         });
 
         return $dataTable->addColumn('action', 'admin.subjects.datatables_actions');
@@ -36,7 +42,7 @@ class SubjectDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Subject $model
+     * @param \App\Models\Admin\Subject $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Subject $model)
@@ -59,10 +65,10 @@ class SubjectDataTable extends DataTable
                 'stateSave' => true,
                 'responsive' => true,
                 "autoWidth" => true,
-                'dom'       => 'Bfrltip',
+                'dom' => 'Bfrltip',
                 'orderable' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
+                'order' => [[0, 'desc']],
+                'buttons' => [
                     // Enable Buttons as per your need
 //                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
 //                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
@@ -87,6 +93,8 @@ class SubjectDataTable extends DataTable
         return [
             'name' => new Column(['title' => __('models/subjects.fields.name'), 'data' => 'name']),
             'photo' => new Column(['title' => __('models/subjects.fields.photo'), 'data' => 'photo']),
+            'academic_year_id' => new Column(['title' => __('models/subjects.fields.academic_year_id'), 'data' => 'academic_year_id']),
+            'semester' => new Column(['title' => __('models/subjects.fields.semester'), 'data' => 'semester']),
             'is_active' => new Column(['title' => __('models/subjects.fields.is_active'), 'data' => 'is_active'])
         ];
     }
