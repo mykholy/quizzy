@@ -13,11 +13,9 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('locations', function (Blueprint $table) {
-            $table->text('name')->index()->change();
             $table->string('latitude')->index()->change();
             $table->string('longitude')->index()->change();
-            $table->text('description')->index()->change();
-            $table->text('address')->index()->change();
+
         });
     }
 
