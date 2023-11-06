@@ -10,6 +10,12 @@
     <p>{{ $question->type }}</p>
 </div>
 
+<!-- level Field -->
+<div class="col-sm-12">
+    {!! Form::label('level', __('models/questions.fields.level').':') !!}
+    <p>{{ $question->level }}</p>
+</div>
+
 <!-- Description Field -->
 <div class="col-sm-12">
     {!! Form::label('description', __('models/questions.fields.description').':') !!}

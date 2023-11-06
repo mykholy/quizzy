@@ -19,6 +19,20 @@
     @endif
 </div>
 
+<!-- levels Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('level', __('models/questions.fields.level').':') !!}
+    {!! Form::select('level',\App\Models\Admin\Question::getAllLevel(),request('level'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('level')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+
+    @if ($errors->has('level'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('level') }}</small>
+
+             </span>
+    @endif
+</div>
+
 <!-- Description Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('description', __('models/questions.fields.description').':') !!}
@@ -28,7 +42,7 @@
 <!-- subject_id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('subject_id', __('models/questions.fields.subject_id').':') !!}
-    {!! Form::select('subject_id',\App\Models\Admin\Subject::pluck('name','id')->toArray(),request('subject_id'), array('id'=>'subject_id','onchange'=>'change_subject(this.value);','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('subject_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::select('subject_id',\App\Models\Admin\Subject::pluck('full_name','id')->toArray(),request('subject_id'), array('id'=>'subject_id','onchange'=>'change_subject(this.value);','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('subject_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('subject_id'))
         <span class="invalid-feedback">

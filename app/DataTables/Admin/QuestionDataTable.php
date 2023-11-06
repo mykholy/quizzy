@@ -103,6 +103,7 @@ class QuestionDataTable extends DataTable
         return [
             'name' => new Column(['title' => __('models/questions.fields.name'), 'data' => 'name']),
             'type' => new Column(['title' => __('models/questions.fields.type'), 'data' => 'type']),
+            'level' => new Column(['title' => __('models/questions.fields.level'), 'data' => 'level']),
             'photo' => new Column(['title' => __('models/questions.fields.photo'), 'data' => 'photo']),
             'points' => new Column(['title' => __('models/questions.fields.points'), 'data' => 'points']),
             'time' => new Column(['title' => __('models/questions.fields.time'), 'data' => 'time']),

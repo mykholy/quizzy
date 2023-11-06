@@ -23,6 +23,7 @@ class Question extends Model
         'description',
         'photo',
         'file',
+        'level',
 //        'semester',
         'points',
         'lesson_id',
@@ -34,6 +35,7 @@ class Question extends Model
     protected $casts = [
         'name' => 'string',
         'type' => 'string',
+        'level' => 'string',
         'description' => 'string',
         'photo' => 'string',
         'file' => 'string',
@@ -52,6 +54,7 @@ class Question extends Model
     {
         return $this->belongsTo(\App\Models\Admin\Lesson::class, 'lesson_id', 'id');
     }
+
     public function answers()
     {
         return $this->hasMany(Answer::class, 'question_id');
@@ -67,10 +70,12 @@ class Question extends Model
     {
         return $value ? asset($value) : null;
     }
+
     static function getQuestionType($type)
     {
         return trans('models/questions.type.' . $type);
     }
+
     static function checkQuestionsTypeHaveAnswers($type)
     {
 
@@ -83,15 +88,25 @@ class Question extends Model
         }
     }
 
-    public  static  function getAllTypes()
+    public static function getAllTypes()
     {
         return [
             self::$QUESTION_TYPE_SINGLE_CHOICE => trans('models/questions.type.' . self::$QUESTION_TYPE_SINGLE_CHOICE),
-            self::$QUESTION_TYPE_MULTIPLE_CHOICE=> trans('models/questions.type.' . self::$QUESTION_TYPE_MULTIPLE_CHOICE),
-            self::$QUESTION_TYPE_TRUE_FALSE=> trans('models/questions.type.' . self::$QUESTION_TYPE_TRUE_FALSE),
-            self::$QUESTION_TYPE_SHORT_ANSWER=> trans('models/questions.type.' . self::$QUESTION_TYPE_SHORT_ANSWER),
-            self::$QUESTION_TYPE_LONG_ANSWER=> trans('models/questions.type.' . self::$QUESTION_TYPE_LONG_ANSWER),
-            self::$QUESTION_TYPE_COMPARE=> trans('models/questions.type.' . self::$QUESTION_TYPE_COMPARE),
+            self::$QUESTION_TYPE_MULTIPLE_CHOICE => trans('models/questions.type.' . self::$QUESTION_TYPE_MULTIPLE_CHOICE),
+            self::$QUESTION_TYPE_TRUE_FALSE => trans('models/questions.type.' . self::$QUESTION_TYPE_TRUE_FALSE),
+            self::$QUESTION_TYPE_SHORT_ANSWER => trans('models/questions.type.' . self::$QUESTION_TYPE_SHORT_ANSWER),
+            self::$QUESTION_TYPE_LONG_ANSWER => trans('models/questions.type.' . self::$QUESTION_TYPE_LONG_ANSWER),
+            self::$QUESTION_TYPE_COMPARE => trans('models/questions.type.' . self::$QUESTION_TYPE_COMPARE),
+        ];
+    }
+
+    public static function getAllLevel()
+    {
+
+        return [
+            'easy' => trans('models/questions.levels.easy'),
+            'medium' => trans('models/questions.levels.medium'),
+            'difficult' => trans('models/questions.levels.difficult'),
         ];
     }
 }

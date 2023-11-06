@@ -3,16 +3,22 @@
 return [
     'singular' => 'Question',
     'plural' => 'Questions',
-    'type'=>[
-        'single_choice'=>'Single Choice',
-        'multiple_choice'=>'Multiple Choice',
-        'true_false'=>'True/False',
-        'short_answer'=>'Short Answer',
-        'long_answer'=>'Long Answer',
-        'compare'=>'Compare',
+    'type' => [
+        'single_choice' => 'Single Choice',
+        'multiple_choice' => 'Multiple Choice',
+        'true_false' => 'True/False',
+        'short_answer' => 'Short Answer',
+        'long_answer' => 'Long Answer',
+        'compare' => 'Compare',
+    ],
+    'levels' => [
+        'easy' => 'Easy',
+        'medium' => 'Medium',
+        'difficult' => 'Difficult',
     ],
     'fields' => [
         'id' => 'Id',
+        'level' => 'Level',
         'name' => 'Name',
         'type' => 'Type',
         'description' => 'Description',

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id('id');
             $table->text('name')->nullable();
             $table->string('type')->nullable();
+            $table->string('level')->nullable();
             $table->text('description')->nullable();
             $table->string('photo')->default('images/questions/avatar.png');
             $table->string('file')->nullable();
