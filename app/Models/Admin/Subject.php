@@ -10,7 +10,7 @@ class Subject extends Model
     use HasFactory;
 
     public $table = 'subjects';
-    protected $appends = ['full_name'];
+protected $appends=['full_name'];
     public $fillable = [
         'name',
         'photo',
@@ -40,9 +40,22 @@ class Subject extends Model
         return $value ? asset($value) : null;
     }
 
-    public function getFullNameAttribute($value)
+    public function getFullNameAttribute()
     {
-        return $this->name.' ( '.$this->semester.' ) ';
+        return $this->name . ' ( ' . $this->semester . ' ) ';
+    }
+
+
+
+    public static  function getSelectData()
+    {
+        $formattedModel = self::all()->map(function ($model) {
+            return [
+                'id' => $model->id,
+                'name' => $model->full_name,
+            ];
+        })->pluck('name','id')->toArray();
+        return $formattedModel;
     }
 
 
