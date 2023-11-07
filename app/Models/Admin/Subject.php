@@ -42,7 +42,7 @@ protected $appends=['full_name'];
 
     public function getFullNameAttribute()
     {
-        return $this->name . ' ( ' . $this->semester . ' ) ';
+        return $this->name . ' ( ' .optional($this->academicYear)->name.' - '. $this->semester . ' ) ';
     }
 
 

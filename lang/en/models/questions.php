@@ -19,6 +19,7 @@ return [
     'fields' => [
         'id' => 'Id',
         'level' => 'Level',
+        'book_id' => 'Book',
         'name' => 'Name',
         'type' => 'Type',
         'description' => 'Description',
@@ -31,7 +32,7 @@ return [
         'time' => 'Time',
         'academic_year_id' => 'Academic year',
         'lesson_id' => 'Lesson',
-        'lesson_unit_subject' => 'Lesson >> Unit >> Subject',
+        'lesson_unit_subject' => 'Lesson >> Unit >> Book >> Subject',
         'is_active' => 'Is Active',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',

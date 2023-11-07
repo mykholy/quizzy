@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\CreateQuestionRequest;
 use App\Http\Requests\Admin\UpdateQuestionRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Admin\Answer;
+use App\Models\Admin\Book;
 use App\Models\Admin\Lesson;
 use App\Models\Admin\Question;
 use App\Models\Admin\Unit;
@@ -183,10 +184,17 @@ class QuestionController extends AppBaseController
 
     }
 
-    public function ajax_get_units_by_subject($id)
+    public function ajax_get_books_by_subject($id)
     {
 
-        $unites = Unit::where('subject_id', $id)->pluck('name', 'id')->toArray();
+        $books = Book::where('subject_id', $id)->pluck('name', 'id')->toArray();
+
+        return view('includes.ajax_options', ['data' => $books, 'name' => 'book_id', 'placeholder' => __('models/books.singular')]);
+    }
+    public function ajax_get_units_by_book($id)
+    {
+
+        $unites = Unit::where('book_id', $id)->pluck('name', 'id')->toArray();
 
         return view('includes.ajax_options', ['data' => $unites, 'name' => 'unit_id', 'placeholder' => __('models/units.singular')]);
     }

@@ -24,11 +24,26 @@ class QuestionDataTable extends DataTable
             return view('includes.lazy_photo', compact('photo'));
         });
         $dataTable->editColumn('lesson_id', function (Question $model) {
+            $value="";
             $lesson = $model->lesson;
-            $lesson_name = optional($lesson)->name;
-            $unit_name = optional($lesson->unit)->name;
-            $subject_name = optional($lesson->unit->subject)->name;
-            return $lesson_name . " >> " . $unit_name . " >> " . $subject_name;
+            if($lesson){
+                $value.=$lesson->name;
+                if($unit=$lesson->unit){
+                    $value.=' >> '.$unit->name;
+                    if($book=$unit->book){
+                        $value.=' >> '.$book->name;
+                        if ($subject=$book->subject){
+                            $value.=' >> '.$subject->name;
+                        }
+                    }
+                }
+            }
+
+//            $lesson_name = optional($lesson)->name;
+//            $unit_name = optional($lesson->unit)->name;
+//            $book_name = optional($lesson->unit->book)->name;
+//            $subject_name = optional($lesson->unit->book->subject)->name;
+            return $value;
         });
 
         $dataTable->editColumn('type', function (Question $question) {
@@ -54,7 +69,7 @@ class QuestionDataTable extends DataTable
      */
     public function query(Question $model)
     {
-        return $model->newQuery()->with(['lesson.unit.subject'])->when(request('lesson_id'), function ($q) {
+        return $model->newQuery()->with(['lesson.unit.book.subject'])->when(request('lesson_id'), function ($q) {
             $q->where('lesson_id', request('lesson_id'));
         });
     }

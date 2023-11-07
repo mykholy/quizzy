@@ -52,7 +52,19 @@
              </span>
     @endif
 </div>
+<!-- book_id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('book_id', __('models/questions.fields.book_id').':') !!}
+    {!! Form::select('book_id',\App\Models\Admin\Book::pluck('name','id')->toArray(),request('book_id'), array('onchange'=>'change_book(this.value);','id'=>'book_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('book_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
+    @if ($errors->has('book_id'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('book_id') }}</small>
+
+             </span>
+    @endif
+</div>
 <!-- unit_id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('unit_id', __('models/questions.fields.unit_id').':') !!}
@@ -132,10 +144,21 @@
     <script>
         @if(!isset($question))
         change_subject($('#subject_id').val());
+        change_book($('#book_id').val());
         change_unit($('#unit_id').val());
         @endif
         function change_subject(subject_id) {
-            let url_ajax = "{{url('admin/questions')}}/" + subject_id + "/units";
+            let url_ajax = "{{url('admin/questions')}}/" + subject_id + "/books";
+            $.ajax({
+                url: url_ajax,
+                success: function (response) {
+                    jQuery('#book_id').html(response);
+                    $('#book_id').val(null).trigger('change');
+                }
+            });
+        }
+        function change_book(book_id) {
+            let url_ajax = "{{url('admin/questions')}}/" + book_id + "/units";
             $.ajax({
                 url: url_ajax,
                 success: function (response) {

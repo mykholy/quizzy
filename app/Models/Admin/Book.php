@@ -44,7 +44,7 @@ class Book extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->name . ' ( ' . optional($this->subject)->name . ' -' . optional($this->subject)->semester . ' ) ';
+        return $this->name . ' ( ' . optional($this->subject)->full_name. ' ) ';
     }
 
     public static function getSelectData()
