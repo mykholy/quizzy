@@ -17,7 +17,7 @@ class UnitController extends AppBaseController
      */
     public function index(UnitDataTable $unitDataTable)
     {
-    return $unitDataTable->render('admin.units.index',['subject_id' => request('subject_id')]);
+    return $unitDataTable->render('admin.units.index',['book_id' => request('book_id')]);
     }
 
 
@@ -47,7 +47,7 @@ class UnitController extends AppBaseController
 
         session()->flash('success',__('messages.saved', ['model' => __('models/units.singular')]));
 
-        return redirect(route('admin.units.index',['subject_id'=>request('subject_id')]));
+        return redirect(route('admin.units.index',['book_id'=>request('book_id')]));
     }
 
     /**
@@ -62,10 +62,10 @@ class UnitController extends AppBaseController
             session()->flash('error',__('models/units.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.units.index',['subject_id'=>request('subject_id')]));
+            return redirect(route('admin.units.index',['book_id'=>request('book_id')]));
         }
 
-        return view('admin.units.show',['subject_id'=>request('subject_id')])->with('unit', $unit);
+        return view('admin.units.show',['book_id'=>request('book_id')])->with('unit', $unit);
     }
 
     /**
@@ -80,10 +80,10 @@ class UnitController extends AppBaseController
             session()->flash('error',__('models/units.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.units.index',['subject_id'=>request('subject_id')]));
+            return redirect(route('admin.units.index',['book_id'=>request('book_id')]));
         }
 
-        return view('admin.units.edit',['subject_id'=>request('subject_id')])->with('unit', $unit);
+        return view('admin.units.edit',['book_id'=>request('book_id')])->with('unit', $unit);
     }
 
     /**
@@ -98,7 +98,7 @@ class UnitController extends AppBaseController
             session()->flash('error',__('models/units.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.units.index',['subject_id'=>request('subject_id')]));
+            return redirect(route('admin.units.index',['book_id'=>request('book_id')]));
         }
 
         $request_data = $request->except(['_token', 'photo']);
@@ -112,7 +112,7 @@ class UnitController extends AppBaseController
 
         session()->flash('success',__('messages.updated', ['model' => __('models/units.singular')]));
 
-        return redirect(route('admin.units.index',['subject_id'=>request('subject_id')]));
+        return redirect(route('admin.units.index',['book_id'=>request('book_id')]));
     }
 
     /**
@@ -129,7 +129,7 @@ class UnitController extends AppBaseController
             session()->flash('error',__('models/units.singular').' '.__('messages.not_found'));
 
 
-            return redirect(route('admin.units.index',['subject_id'=>request('subject_id')]));
+            return redirect(route('admin.units.index',['book_id'=>request('book_id')]));
         }
 
         $unit->delete();
@@ -137,6 +137,6 @@ class UnitController extends AppBaseController
         session()->flash('success',__('messages.deleted', ['model' => __('models/units.singular')]));
 
 
-        return redirect(route('admin.units.index',['subject_id'=>request('subject_id')]));
+        return redirect(route('admin.units.index',['book_id'=>request('book_id')]));
     }
 }

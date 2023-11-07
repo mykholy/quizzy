@@ -73,3 +73,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 
+
+Route::resource('admin/books', App\Http\Controllers\Admin\BookController::class)
+    ->names([
+        'index' => 'admin.books.index',
+        'store' => 'admin.books.store',
+        'show' => 'admin.books.show',
+        'update' => 'admin.books.update',
+        'destroy' => 'admin.books.destroy',
+        'create' => 'admin.books.create',
+        'edit' => 'admin.books.edit'
+    ]);

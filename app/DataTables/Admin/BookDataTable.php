@@ -2,12 +2,12 @@
 
 namespace App\DataTables\Admin;
 
-use App\Models\Admin\Unit;
+use App\Models\Admin\Book;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class UnitDataTable extends DataTable
+class BookDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -18,37 +18,35 @@ class UnitDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-        $dataTable->editColumn('photo', function (Unit $model) {
+        $dataTable->editColumn('photo', function (Book $model) {
 
             $photo = $model->photo ;
             return view('includes.lazy_photo', compact('photo'));
         });
+        $dataTable->editColumn('subject_id', function (Book $model) {
 
-        $dataTable->editColumn('book_id', function (Unit $model) {
-
-            $value = optional($model->book)->name ;
+            $value = optional($model->subject)->name ;
             return $value;
         });
-
-        $dataTable->editColumn('is_active', function (Unit $model) {
+        $dataTable->editColumn('is_active', function (Book $model) {
 
              $value = $model->is_active;
              return view('includes.datatables_column_bool', compact('value'));
         });
 
-        return $dataTable->addColumn('action', 'admin.units.datatables_actions');
+        return $dataTable->addColumn('action', 'admin.books.datatables_actions');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Admin\Unit $model
+     * @param \App\Models\Admin\Book $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Unit $model)
+    public function query(Book $model)
     {
-        return $model->newQuery()->when(request('book_id'),function ($q){
-            $q->where('book_id',request('book_id'));
+        return $model->newQuery()->when(request('subject_id'),function ($q){
+            $q->where('subject_id',request('subject_id'));
         });
     }
 
@@ -94,10 +92,10 @@ class UnitDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'name' => new Column(['title' => __('models/units.fields.name'), 'data' => 'name']),
-            'photo' => new Column(['title' => __('models/units.fields.photo'), 'data' => 'photo']),
-            'book_id' => new Column(['title' => __('models/units.fields.book_id'), 'data' => 'book_id']),
-            'is_active' => new Column(['title' => __('models/units.fields.is_active'), 'data' => 'is_active'])
+            'name' => new Column(['title' => __('models/books.fields.name'), 'data' => 'name']),
+            'photo' => new Column(['title' => __('models/books.fields.photo'), 'data' => 'photo']),
+            'subject_id' => new Column(['title' => __('models/books.fields.subject_id'), 'data' => 'subject_id']),
+            'is_active' => new Column(['title' => __('models/books.fields.is_active'), 'data' => 'is_active'])
         ];
     }
 
@@ -108,6 +106,6 @@ class UnitDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'units_datatable_' . time();
+        return 'books_datatable_' . time();
     }
 }

@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('units', function (Blueprint $table) {
+        Schema::create('books', function (Blueprint $table) {
             $table->id('id');
             $table->text('name')->nullable();
             $table->text('description')->nullable();
-            $table->string('photo')->default('images/units/avatar.png');
+            $table->string('photo')->default('images/books/avatar.png');
 
-            $table->unsignedBigInteger('book_id')->nullable();
-            $table->foreign('book_id')->references('id')
-                ->on('books')
+            $table->unsignedBigInteger('subject_id')->nullable();
+            $table->foreign('subject_id')->references('id')
+                ->on('subjects')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::drop('units');
+        Schema::drop('books');
     }
 };

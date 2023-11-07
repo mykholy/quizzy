@@ -190,3 +190,13 @@ Route::resource('admin/answers', App\Http\Controllers\API\Admin\AnswerAPIControl
         'update' => 'admin.answers.update',
         'destroy' => 'admin.answers.destroy'
     ]);
+
+Route::resource('admin/books', App\Http\Controllers\API\Admin\BookAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.books.index',
+        'store' => 'admin.books.store',
+        'show' => 'admin.books.show',
+        'update' => 'admin.books.update',
+        'destroy' => 'admin.books.destroy'
+    ]);

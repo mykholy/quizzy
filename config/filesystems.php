@@ -114,9 +114,16 @@ return [
             'root' => base_path() . '/public/images/groups',
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
-        ], 'subjects' => [
+        ],
+        'subjects' => [
             'driver' => 'local',
             'root' => base_path() . '/public/images/subjects',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],
+        'books' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/books',
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
         ],

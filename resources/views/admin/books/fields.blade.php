@@ -1,24 +1,24 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('name', __('models/units.fields.name').':') !!}
+    {!! Form::label('name', __('models/books.fields.name').':') !!}
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Description Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('description', __('models/units.fields.description').':') !!}
+    {!! Form::label('description', __('models/books.fields.description').':') !!}
     {!! Form::text('description', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- book_id Field -->
+<!-- subject_id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('book_id', __('models/units.fields.book_id').':') !!}
-    {!! Form::select('book_id',\App\Models\Admin\Book::getSelectData(),request('book_id'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('book_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::label('subject_id', __('models/books.fields.subject_id').':') !!}
+    {!! Form::select('subject_id',\App\Models\Admin\Subject::getSelectData(),request('subject_id'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('subject_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
-    @if ($errors->has('book_id'))
+    @if ($errors->has('subject_id'))
         <span class="invalid-feedback">
 
-                <small class="text-danger">{{ $errors->first('book_id') }}</small>
+                <small class="text-danger">{{ $errors->first('subject_id') }}</small>
 
              </span>
     @endif
@@ -26,7 +26,7 @@
 
 <!-- Photo Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('photo', __('models/units.fields.photo').':') !!}
+    {!! Form::label('photo', __('models/books.fields.photo').':') !!}
     <div class="mb-3">
         {!! Form::file('photo', ['class' => 'form-control']) !!}
     </div>
@@ -39,7 +39,7 @@
     <div class="form-checkbox custom-control">
         {!! Form::hidden('is_active', 0) !!}
         {!! Form::checkbox('is_active', 1, null,  ['id'=>'is_active','class' => 'custom-control-input']) !!}
-        {!! Form::label('is_active', __('models/units.fields.is_active').':', ['class' => 'custom-control-label mt-1']) !!}
+        {!! Form::label('is_active', __('models/books.fields.is_active').':', ['class' => 'custom-control-label mt-1']) !!}
 
     </div>
 

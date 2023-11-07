@@ -57,6 +57,16 @@
     </a>
 </li>
 
+<li class="slide {{ Request::is('admin.books*') ? 'active' : '' }}">
+    <a class="side-menu__item {{ Request::is('admin.books*') ? 'active' : '' }}"
+       href="{{ route('admin.books.index') }}"
+    >
+        <i class=" si si-book-open side-menu__icon"></i>
+        <span class="side-menu__label">{{__('models/books.plural')}}</span>
+
+    </a>
+</li>
+
 <li class="slide {{ Request::is('admin.units*') ? 'active' : '' }}">
     <a class="side-menu__item {{ Request::is('admin.units*') ? 'active' : '' }}"
        href="{{ route('admin.units.index') }}"
@@ -94,6 +104,7 @@
         <span class="side-menu__label">{{__('models/settings.plural')}}</span>
     </a>
 </li>
+
 
 
 

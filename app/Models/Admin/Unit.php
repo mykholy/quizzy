@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Unit extends Model
 {
-    use HasFactory;    public $table = 'units';
+    use HasFactory;
+    public $table = 'units';
 
     public $fillable = [
         'name',
         'description',
         'photo',
-        'subject_id',
+        'book_id',
         'is_active'
     ];
 
@@ -32,8 +33,8 @@ class Unit extends Model
         return $value ? asset($value) : null;
     }
 
-    public function subject(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function book(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\Admin\Subject::class, 'subject_id', 'id');
+        return $this->belongsTo(\App\Models\Admin\Book::class, 'book_id', 'id');
     }
 }

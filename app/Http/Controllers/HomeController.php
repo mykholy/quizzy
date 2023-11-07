@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin\AcademicYear;
+use App\Models\Admin\Book;
 use App\Models\Admin\Group;
 use App\Models\Admin\Lesson;
 use App\Models\Admin\Question;
@@ -37,6 +38,7 @@ class HomeController extends Controller
             ['title' => __('models/groups.plural'), 'color' => 'info', 'count' => Group::count()],
             ['title' => __('models/students.plural'), 'color' => 'success', 'count' => Student::count()],
             ['title' => __('models/academicYears.plural'), 'color' => 'danger', 'count' => AcademicYear::count()],
+            ['title' => __('models/books.plural'), 'color' => 'primary', 'count' => Book::count()],
             ['title' => __('models/units.plural'), 'color' => 'success', 'count' => Unit::count()],
             ['title' => __('models/lessons.plural'), 'color' => 'warning', 'count' => Lesson::count()],
             ['title' => __('models/questions.plural'), 'color' => 'primary', 'count' => Question::count()],
