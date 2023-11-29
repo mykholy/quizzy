@@ -4,18 +4,30 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
-class Student extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
+class Student extends  Authenticatable  implements JWTSubject
 {
-    use HasFactory;    public $table = 'students';
+    use HasFactory;
+
+    public $table = 'students';
 
     public $fillable = [
         'name',
+        'username',
         'email',
         'phone',
         'password',
         'photo',
         'provider_id',
         'provider_type',
+        'governorate',
+        'area',
+        'residence_area',
+        'specialization',
+        'academic_year_id',
+        'date_of_birth',
         'device_token',
         'is_active'
     ];
@@ -51,6 +63,30 @@ class Student extends Model
     public function getPhotoAttribute($value)
     {
         return $value ? asset($value) : null;
+    }
+    public function academicYear(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Admin\AcademicYear::class, 'academic_year_id', 'id');
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 
 }

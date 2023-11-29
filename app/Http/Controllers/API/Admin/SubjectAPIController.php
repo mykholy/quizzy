@@ -62,7 +62,7 @@ class SubjectAPIController extends AppBaseController
     public function show($id): JsonResponse
     {
         /** @var Subject $subject */
-        $subject = Subject::find($id);
+        $subject = Subject::with('academicYear')->find($id);
 
         if (empty($subject)) {
             return $this->sendError(

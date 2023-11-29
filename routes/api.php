@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Admin\LocationAPIController;
-use App\Http\Controllers\API\Auth\AuthClientAPIController;
+use App\Http\Controllers\API\Auth\AuthStudentAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,17 +21,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'auth'], function () {
-    Route::post('check-user', [AuthClientAPIController::class, 'check_user']);
-    Route::post('login', [AuthClientAPIController::class, 'login']);
-    Route::post('social-login', [AuthClientAPIController::class, 'socialLogin']);
-    Route::post('logout', [AuthClientAPIController::class, 'logout']);
-    Route::post('register', [AuthClientAPIController::class, 'register']);
-    Route::get('profile', [AuthClientAPIController::class, 'profile']);
-    Route::post('update-profile', [AuthClientAPIController::class, 'updateProfile']);
+    Route::post('check-user', [AuthStudentAPIController::class, 'check_user']);
+    Route::post('login', [AuthStudentAPIController::class, 'login']);
+    Route::post('social-login', [AuthStudentAPIController::class, 'socialLogin']);
+    Route::post('logout', [AuthStudentAPIController::class, 'logout']);
+    Route::post('register', [AuthStudentAPIController::class, 'register']);
+    Route::get('profile', [AuthStudentAPIController::class, 'profile']);
+    Route::post('update-profile', [AuthStudentAPIController::class, 'updateProfile']);
 
 });
 
-Route::get('settings', [AuthClientAPIController::class, 'settings']);
+Route::get('settings', [AuthStudentAPIController::class, 'settings']);
 
 Route::resource('clients', App\Http\Controllers\API\Admin\ClientAPIController::class)
     ->only(['show', 'index'])
@@ -111,7 +111,7 @@ Route::resource('admin/teachers', App\Http\Controllers\API\Admin\TeacherAPIContr
         'destroy' => 'admin.teachers.destroy'
     ]);
 
-Route::resource('admin/subjects', App\Http\Controllers\API\Admin\SubjectAPIController::class)
+Route::resource('subjects', App\Http\Controllers\API\Admin\SubjectAPIController::class)
     ->except(['create', 'edit'])
     ->names([
         'index' => 'admin.subjects.index',
@@ -141,7 +141,7 @@ Route::resource('admin/students', App\Http\Controllers\API\Admin\StudentAPIContr
         'destroy' => 'admin.students.destroy'
     ]);
 
-Route::resource('admin/academic-years', App\Http\Controllers\API\Admin\AcademicYearAPIController::class)
+Route::resource('academic-years', App\Http\Controllers\API\Admin\AcademicYearAPIController::class)
     ->except(['create', 'edit'])
     ->names([
         'index' => 'admin.academicYears.index',

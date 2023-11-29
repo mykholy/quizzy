@@ -4,7 +4,7 @@ namespace App\Http\Requests\API;
 
 use App\Helpers\APIRequest;
 
-class RegisterClientAPIRequest extends APIRequest
+class RegisterStudentAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,13 @@ class RegisterClientAPIRequest extends APIRequest
             'email' => 'required|unique:clients',
             'photo' => 'nullable|file',
             'phone' => 'nullable|unique:clients',
-            'car_id' => 'nullable|exists:cars,id',
-            'car_model' => 'nullable',
+            'academic_year_id' => 'nullable|exists:academic_years,id',
+            'date_of_birth' => 'nullable|data_format:Y-m-d',
+            'username' => 'nullable',
+            'governorate' => 'nullable',
+            'area' => 'nullable',
+            'residence_area' => 'nullable',
+            'specialization' => 'nullable',
             'provider_id' => 'nullable',
             'provider_type' => 'nullable',
             'device_token' => 'nullable',

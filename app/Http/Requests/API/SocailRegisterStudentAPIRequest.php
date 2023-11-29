@@ -4,7 +4,7 @@ namespace App\Http\Requests\API;
 
 use App\Helpers\APIRequest;
 
-class SocailRegisterClientAPIRequest extends APIRequest
+class SocailRegisterStudentAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.

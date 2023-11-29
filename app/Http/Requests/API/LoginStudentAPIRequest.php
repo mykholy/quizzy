@@ -4,7 +4,7 @@ namespace App\Http\Requests\API;
 
 use App\Helpers\APIRequest;
 
-class LoginClientAPIRequest extends APIRequest
+class LoginStudentAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,17 @@ class LoginClientAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return [
-            'email' => 'required',
+        $rules = [
+
             'password' => 'required',
         ];
+        if (request('type') == "phone")
+            $rules['phone'] = 'required';
+        else
+            $rules['email'] = 'required';
+
+        return $rules;
+
     }
 
 

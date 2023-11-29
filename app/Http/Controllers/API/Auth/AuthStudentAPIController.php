@@ -7,39 +7,41 @@ use anlutro\LaravelSettings\Facades\Setting;
 use App\Http\Controllers\AppBaseController;
 
 
-use App\Http\Requests\API\LoginClientAPIRequest;
-use App\Http\Requests\API\RegisterClientAPIRequest;
-use App\Http\Requests\API\SocailRegisterClientAPIRequest;
-use App\Http\Resources\Admin\ClientResource;
-use App\Models\Admin\Client;
+use App\Http\Requests\API\LoginStudentAPIRequest;
+use App\Http\Requests\API\RegisterStudentAPIRequest;
+use App\Http\Requests\API\SocailRegisterStudentAPIRequest;
+use App\Http\Resources\Admin\StudentResource;
+use App\Models\Admin\Student;
 
 use Illuminate\Http\Request;
 
 
-class AuthClientAPIController extends AppBaseController
+class AuthStudentAPIController extends AppBaseController
 {
 
     public function __construct()
     {
 
-        $this->middleware('auth:api-client', ['except' => ['socialLogin', 'login', 'check_user', 'register', 'settings']]);
+        $this->middleware('auth:api-student', ['except' => ['socialLogin', 'login', 'check_user', 'register', 'settings']]);
     }
 
 
-    public function login(LoginClientAPIRequest $request)
+    public function login(LoginStudentAPIRequest $request)
     {
 
+        if ($request->type == "phone")
+            $credentials = $request->only(['phone', 'password']);
+        else
+            $credentials = $request->only(['email', 'password']);
 
-        $credentials = $request->only(['email', 'password']);
-
-        if (!$token = auth('api-client')->attempt($credentials)) {
+        if (!$token = auth('api-student')->attempt($credentials)) {
             return $this->sendError('Unauthorized');
         }
 
 
         //check user is IsActive
-        if (!auth('api-client')->user()->is_active) {
-            return $this->sendError('Client has been blocked.');
+        if (!auth('api-student')->user()->is_active) {
+            return $this->sendError('Student has been blocked.');
         }
 
 
@@ -51,22 +53,22 @@ class AuthClientAPIController extends AppBaseController
 
     public function logout()
     {
-        auth('api-client')->logout();
+        auth('api-student')->logout();
         return $this->sendSuccess('User successfully signed out');
 
     }
 
     public function profile()
     {
-        $user = auth('api-client')->user();
+        $user = auth('api-student')->user();
 
-        return $this->sendResponse(new ClientResource($user), 'User successfully retrieved');
+        return $this->sendResponse(new StudentResource($user), 'User successfully retrieved');
 
     }
 
     public function updateProfile(Request $request)
     {
-        $user = auth('api-client')->user();
+        $user = auth('api-student')->user();
         $request_data = $request->all();
         if ($request->has('photo') && $request->photo != null) {
             $request_data['photo'] = uploadImage('clients', $request->photo);
@@ -78,14 +80,15 @@ class AuthClientAPIController extends AppBaseController
         $user->save();
 
 
-        return $this->sendResponse(new ClientResource($user), 'User successfully retrieved');
+        return $this->sendResponse(new StudentResource($user), 'User successfully retrieved');
 
     }
 
     public function settings()
     {
         $settings = Setting::all();
-        $settings['logo'] = asset($settings['logo']);
+        if ($settings)
+            $settings['logo'] = asset($settings['logo']);
 
         return $this->sendResponse($settings, 'Settings successfully retrieved');
 
@@ -94,21 +97,21 @@ class AuthClientAPIController extends AppBaseController
     public function check_user(Request $request)
     {
 
-        if ($user = Client::where('email', $request->email)
+        if ($user = Student::where('email', $request->email)
             ->orWhere('phone', $request->email)
             ->orWhere('provider_id', $request->email)
             ->first()) {
-            return $this->sendResponse(new ClientResource($user), 'Client already exists.');
+            return $this->sendResponse(new StudentResource($user), 'Student already exists.');
 
         }
 
 
-        return $this->sendError('Client not exists.');
+        return $this->sendError('Student not exists.');
 
 
     }
 
-    public function register(RegisterClientAPIRequest $request)
+    public function register(RegisterStudentAPIRequest $request)
     {
 
         $request_data = [
@@ -120,7 +123,7 @@ class AuthClientAPIController extends AppBaseController
         }
 
 
-        $client = Client::create(array_merge(
+        $client = Student::create(array_merge(
             $request->validated(),
             $request_data
         ));
@@ -131,7 +134,7 @@ class AuthClientAPIController extends AppBaseController
             return $this->sendError(trans('lang.api.user_block'));
         }
 
-        if (!$token = auth('api-client')->login($client)) {
+        if (!$token = auth('api-student')->login($client)) {
             return $this->sendError('Unauthorized');
         }
 
@@ -140,7 +143,7 @@ class AuthClientAPIController extends AppBaseController
 
     }
 
-    public function socialLogin(SocailRegisterClientAPIRequest $request)
+    public function socialLogin(SocailRegisterStudentAPIRequest $request)
     {
 
         $request_data = $request->all();
@@ -152,12 +155,12 @@ class AuthClientAPIController extends AppBaseController
         }
 
 
-        if ($client = Client::where('provider_id', $request->provider_id)->first()) {
+        if ($client = Student::where('provider_id', $request->provider_id)->first()) {
             if (!$client->is_active) {
                 return $this->sendError(trans('lang.api.user_block'));
             }
 
-            if (!$token = auth('api-client')->login($client)) {
+            if (!$token = auth('api-student')->login($client)) {
                 return $this->sendError('Unauthorized');
             }
 
@@ -165,7 +168,7 @@ class AuthClientAPIController extends AppBaseController
         }
 
 
-        $client = Client::create($request_data);
+        $client = Student::create($request_data);
 
 
         //check user is IsActive
@@ -173,7 +176,7 @@ class AuthClientAPIController extends AppBaseController
             return $this->sendError(trans('lang.api.user_block'));
         }
 
-        if (!$token = auth('api-client')->login($client)) {
+        if (!$token = auth('api-student')->login($client)) {
             return $this->sendError('Unauthorized');
         }
 
@@ -185,7 +188,7 @@ class AuthClientAPIController extends AppBaseController
 
     protected function createNewToken($token)
     {
-        $user = Client::find(auth('api-client')->id());
+        $user = Student::find(auth('api-student')->id());
         if (!$user)
             return $this->sendError('Unauthorized');
 
@@ -193,8 +196,8 @@ class AuthClientAPIController extends AppBaseController
         $data = [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api-client')->factory()->getTTL() * 60,
-            'user' => new ClientResource($user)
+            'expires_in' => auth('api-student')->factory()->getTTL() * 60,
+            'user' => new StudentResource($user)
         ];
         return $data;
 
