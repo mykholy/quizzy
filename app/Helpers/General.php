@@ -1,6 +1,18 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 
+function send_mail($data, $to)
+{
+    $from = env('MAIL_FROM_ADDRESS');
+    $name_app = env('MAIL_FROM_NAME');
+
+    Mail::send(['text' => 'mail'], $data, function ($message) use ($from, $to, $name_app,$data) {
+        $message->to($to, $name_app)->subject($name_app . ' | '.$data['subject']);
+        $message->from($from, $name_app);
+    });
+    return true;
+}
 function uploadImage($folder, $image)
 {
 

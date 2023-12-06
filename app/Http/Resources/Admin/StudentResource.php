@@ -33,6 +33,7 @@ class StudentResource extends JsonResource
             'device_token' => $this->device_token,
             'academic_year' => $this->whenLoaded('academicYear', new AcademicYearResource($this->academicYear)),
 
+            'hasVerifiedEmail' => $this->hasVerifiedEmail(),
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

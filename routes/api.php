@@ -28,6 +28,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('register', [AuthStudentAPIController::class, 'register']);
     Route::get('profile', [AuthStudentAPIController::class, 'profile']);
     Route::post('update-profile', [AuthStudentAPIController::class, 'updateProfile']);
+    Route::post('forget_password', [AuthStudentAPIController::class, 'forgetPassword']);
+    Route::post('sendVerifyEmail', [AuthStudentAPIController::class, 'sendVerifyEmail']);
+    Route::post('verify-email-code', [AuthStudentAPIController::class, 'VerifyEmailCode']);
+    Route::post('reset', [AuthStudentAPIController::class, 'reset']);
 
 });
 
