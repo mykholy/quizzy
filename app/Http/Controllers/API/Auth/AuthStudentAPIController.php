@@ -230,7 +230,7 @@ class AuthStudentAPIController extends AppBaseController
         send_mail(['name' => $user->name, 'code' => $passwordReset->token,'subject'=>'Forget Password'], $user->email);
         return $this->sendResponse([
             'email' => $passwordReset->email,
-            'code' => $passwordReset->token,
+//            'code' => $passwordReset->token,
         ], 'Done');
     }
     public function sendVerifyEmail($user=null)
@@ -256,7 +256,7 @@ class AuthStudentAPIController extends AppBaseController
         send_mail(['name' => $user->name, 'code' => $passwordReset->token,'subject'=>'Verify Email'], $user->email);
         return $this->sendResponse([
             'email' => $passwordReset->email,
-            'code' => $passwordReset->token,
+//            'code' => $passwordReset->token,
         ], 'Done');
     }
 
