@@ -29,9 +29,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('profile', [AuthStudentAPIController::class, 'profile']);
     Route::post('update-profile', [AuthStudentAPIController::class, 'updateProfile']);
     Route::post('forget_password', [AuthStudentAPIController::class, 'forgetPassword']);
+    Route::post('reset', [AuthStudentAPIController::class, 'reset']);
     Route::post('sendVerifyEmail', [AuthStudentAPIController::class, 'sendVerifyEmail']);
     Route::post('verify-email-code', [AuthStudentAPIController::class, 'VerifyEmailCode']);
-    Route::post('reset', [AuthStudentAPIController::class, 'reset']);
+
 
 });
 
@@ -203,4 +204,15 @@ Route::resource('admin/books', App\Http\Controllers\API\Admin\BookAPIController:
         'show' => 'admin.books.show',
         'update' => 'admin.books.update',
         'destroy' => 'admin.books.destroy'
+    ]);
+
+
+Route::resource('admin/exams', App\Http\Controllers\API\Admin\ExamAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.exams.index',
+        'store' => 'admin.exams.store',
+        'show' => 'admin.exams.show',
+        'update' => 'admin.exams.update',
+        'destroy' => 'admin.exams.destroy'
     ]);

@@ -1,0 +1,35 @@
+<?php
+
+return [
+    'singular' => 'Exam',
+    'plural' => 'Exams',
+    'direct' => 'Direct',
+    'after_finish' => 'After Finish',
+    'type' => [
+        'choice' => 'Choice',
+        'choice_specialist' => 'Choice From Specialist',
+        'randomly' => 'Randomly',
+        'ai' => 'AI',
+    ],
+    'fields' => [
+        'id' => 'Id',
+        'name' => 'Name',
+        'type' => 'Type',
+        'question_types' => 'Question Types',
+        'level' => 'Level',
+        'type_assessment' => 'Type Assessment',
+        'description' => 'Description',
+        'photo' => 'Photo',
+        'file' => 'File',
+        'semester' => 'Semester',
+        'points' => 'Points',
+        'time' => 'Time',
+        'subject_id' => 'Subject',
+        'book_id' => 'Book',
+        'unit_id' => 'Unit',
+        'lesson_id' => 'Lesson',
+        'is_active' => 'Is Active',
+        'created_at' => 'Created At',
+        'updated_at' => 'Updated At',
+    ],
+];

@@ -97,6 +97,16 @@
     </a>
 </li>
 
+<li class="slide {{ Request::is('admin.exams*') ? 'active' : '' }}">
+    <a class="side-menu__item {{ Request::is('admin.exams*') ? 'active' : '' }}"
+       href="{{ route('admin.exams.index') }}"
+    >
+        <i class=" si si-question side-menu__icon"></i>
+        <span class="side-menu__label">{{__('models/exams.plural')}}</span>
+
+    </a>
+</li>
+
 
 <li class="slide {{ Request::is('admin/settings*') ? 'active' : '' }}">
     <a class="side-menu__item {{ Request::is('admin/settings*') ? 'active' : '' }}" href="{{ route('admin.settings.general') }}">
@@ -104,6 +114,8 @@
         <span class="side-menu__label">{{__('models/settings.plural')}}</span>
     </a>
 </li>
+
+
 
 
 

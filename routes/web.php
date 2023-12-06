@@ -85,3 +85,14 @@ Route::resource('admin/books', App\Http\Controllers\Admin\BookController::class)
         'create' => 'admin.books.create',
         'edit' => 'admin.books.edit'
     ]);
+
+Route::resource('admin/exams', App\Http\Controllers\Admin\ExamController::class)
+    ->names([
+        'index' => 'admin.exams.index',
+        'store' => 'admin.exams.store',
+        'show' => 'admin.exams.show',
+        'update' => 'admin.exams.update',
+        'destroy' => 'admin.exams.destroy',
+        'create' => 'admin.exams.create',
+        'edit' => 'admin.exams.edit'
+    ]);
