@@ -71,6 +71,9 @@ class AuthStudentAPIController extends AppBaseController
 
     public function updateProfile(Request $request)
     {
+        try {
+
+
         $user = auth('api-student')->user();
         $request_data = $request->all();
         if ($request->has('photo') && $request->photo != null) {
@@ -81,7 +84,9 @@ class AuthStudentAPIController extends AppBaseController
         }
         $user->fill($request_data);
         $user->save();
-
+        }catch (\Exception $e){
+            return  $this->sendError($e->getMessage());
+        }
 
         return $this->sendResponse(new StudentResource($user), 'User successfully retrieved');
 
