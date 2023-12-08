@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Mail;
 
-function send_mail($data, $to)
+function send_mail($data, $to,$view="mail")
 {
     $from = env('MAIL_FROM_ADDRESS');
     $name_app = env('MAIL_FROM_NAME');
 
-    Mail::send(['text' => 'mail'], $data, function ($message) use ($from, $to, $name_app,$data) {
+    Mail::send(['text' => $view], $data, function ($message) use ($from, $to, $name_app,$data) {
         $message->to($to, $name_app)->subject($name_app . ' | '.$data['subject']);
         $message->from($from, $name_app);
     });

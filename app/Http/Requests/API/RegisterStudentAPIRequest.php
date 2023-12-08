@@ -25,8 +25,8 @@ class RegisterStudentAPIRequest extends APIRequest
     {
         return [
             'name' => 'required',
-            'password' => 'required|min:6',
-            'email' => 'required|unique:students',
+            'password' => 'nullable|min:6',
+            'email' => 'nullable|unique:students',
             'photo' => 'nullable|file',
             'phone' => 'nullable|unique:students',
             'academic_year_id' => 'nullable|exists:academic_years,id',
