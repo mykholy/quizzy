@@ -34,6 +34,8 @@ class StudentResource extends JsonResource
             'academic_year' => $this->whenLoaded('academicYear', new AcademicYearResource($this->academicYear)),
 
             'hasVerifiedEmail' => $this->hasVerifiedEmail(),
+            'phone_verified' => $this->phone_verified,
+            'location_area' => $this->location_area,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

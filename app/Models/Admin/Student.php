@@ -19,6 +19,7 @@ class Student extends  Authenticatable  implements JWTSubject , MustVerifyEmail
     public $fillable = [
         'name',
         'username',
+        'location_area',
         'email',
         'phone',
         'password',
@@ -32,6 +33,7 @@ class Student extends  Authenticatable  implements JWTSubject , MustVerifyEmail
         'academic_year_id',
         'date_of_birth',
         'device_token',
+        'phone_verified',
         'is_active'
     ];
     /**
@@ -52,7 +54,8 @@ class Student extends  Authenticatable  implements JWTSubject , MustVerifyEmail
         'provider_id' => 'string',
         'provider_type' => 'string',
         'device_token' => 'string',
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'phone_verified' => 'boolean'
     ];
 
     public static array $rules = [
