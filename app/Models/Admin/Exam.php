@@ -55,6 +55,10 @@ class Exam extends Model
         'points' => 'min:0'
     ];
 
+    public function getPhotoAttribute($value)
+    {
+        return $value ? asset($value) : null;
+    }
     public function subject(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Admin\Subject::class, 'subject_id', 'id');
@@ -83,6 +87,7 @@ class Exam extends Model
     {
         return $this->belongsToMany(Question::class);
     }
+
 
     public static function getAllTypes()
     {
