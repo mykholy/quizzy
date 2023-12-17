@@ -10,6 +10,7 @@ class Question extends Model
     use HasFactory;
 
     public $table = 'questions';
+    protected $with=['answers'];
     public static $QUESTION_TYPE_SINGLE_CHOICE = "single_choice";
     public static $QUESTION_TYPE_MULTIPLE_CHOICE = "multiple_choice";
     public static $QUESTION_TYPE_TRUE_FALSE = "true_false";
