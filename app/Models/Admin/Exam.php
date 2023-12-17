@@ -75,6 +75,15 @@ class Exam extends Model
         return $this->belongsTo(\App\Models\Admin\Lesson::class, 'lesson_id', 'id');
     }
 
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
+    }
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class);
+    }
+
     public static function getAllTypes()
     {
         return [

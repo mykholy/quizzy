@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Requests\API\Admin\CreateExamAPIRequest;
 use App\Http\Requests\API\Admin\UpdateExamAPIRequest;
 use App\Models\Admin\Exam;
+use App\Models\Admin\Question;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -15,13 +16,21 @@ use App\Http\Resources\Admin\ExamResource;
  */
 class ExamAPIController extends AppBaseController
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth:api-student');
+
+    }
     /**
      * Display a listing of the Exams.
      * GET|HEAD /exams
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Exam::query();
+        $query = Exam::query()->whereHas('students', function ($q) {
+            $q->where('students.id', auth('api-student')->id());
+        });
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
@@ -44,13 +53,25 @@ class ExamAPIController extends AppBaseController
      */
     public function store(CreateExamAPIRequest $request): JsonResponse
     {
-        $input = $request->all();
+        $request_data = $request->except(['_token', 'photo']);
+        if ($request->hasFile('photo')) {
 
+            $request_data['photo'] = uploadImage('exams', $request->photo);
+
+        }
         /** @var Exam $exam */
-        $exam = Exam::create($input);
+        $exam = Exam::create($request_data);
+        $student=auth('api-student')->user();
+
+        $numberOfRandomQuestions = 10; // Adjust the number as needed
+        $randomQuestionIds = Question::inRandomOrder()->pluck('id')->take($numberOfRandomQuestions);
+
+        $exam->questions()->attach($randomQuestionIds);
+
+        $student->exams()->attach([$exam->id]);
 
         return $this->sendResponse(
-            new ExamResource($exam),
+            new ExamResource(Exam::with('questions')->find($exam->id)),
             __('messages.saved', ['model' => __('models/exams.singular')])
         );
     }
@@ -62,7 +83,9 @@ class ExamAPIController extends AppBaseController
     public function show($id): JsonResponse
     {
         /** @var Exam $exam */
-        $exam = Exam::find($id);
+        $exam = Exam::with('questions')->whereHas('students', function ($q) {
+                $q->where('students.id', auth('api-student')->id());
+            })->find($id);
 
         if (empty($exam)) {
             return $this->sendError(
@@ -86,9 +109,9 @@ class ExamAPIController extends AppBaseController
         $exam = Exam::find($id);
 
         if (empty($exam)) {
-        return $this->sendError(
-            __('messages.not_found', ['model' => __('models/exams.singular')])
-        );
+            return $this->sendError(
+                __('messages.not_found', ['model' => __('models/exams.singular')])
+            );
         }
 
         $exam->fill($request->all());

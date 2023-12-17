@@ -75,6 +75,11 @@ class Student extends  Authenticatable  implements JWTSubject , MustVerifyEmail
         return $this->belongsTo(\App\Models\Admin\AcademicYear::class, 'academic_year_id', 'id');
     }
 
+    public function exams()
+    {
+        return $this->belongsToMany(Exam::class);
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

@@ -208,7 +208,7 @@ Route::resource('admin/books', App\Http\Controllers\API\Admin\BookAPIController:
     ]);
 
 
-Route::resource('admin/exams', App\Http\Controllers\API\Admin\ExamAPIController::class)
+Route::resource('exams', App\Http\Controllers\API\Admin\ExamAPIController::class)
     ->except(['create', 'edit'])
     ->names([
         'index' => 'admin.exams.index',
