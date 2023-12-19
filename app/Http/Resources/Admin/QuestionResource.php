@@ -24,6 +24,8 @@ class QuestionResource extends JsonResource
             'points' => $this->points,
             'time' => $this->time,
             'is_active' => $this->is_active,
+            'answers' => $this->whenLoaded('answers', AnswerResource::collection($this->answers)),
+
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
