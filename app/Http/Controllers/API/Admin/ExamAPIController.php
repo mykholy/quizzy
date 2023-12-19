@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Requests\API\Admin\CreateExamAPIRequest;
 use App\Http\Requests\API\Admin\UpdateExamAPIRequest;
 use App\Models\Admin\Exam;
+use App\Models\Admin\Lesson;
 use App\Models\Admin\Question;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class ExamAPIController extends AppBaseController
         $this->middleware('auth:api-student');
 
     }
+
     /**
      * Display a listing of the Exams.
      * GET|HEAD /exams
@@ -61,12 +63,25 @@ class ExamAPIController extends AppBaseController
         }
         /** @var Exam $exam */
         $exam = Exam::create($request_data);
-        $student=auth('api-student')->user();
+        $student = auth('api-student')->user();
+        $numberOfQuestions = 10; // Adjust the number as needed
+        $query = Question::query();
+        if ($request_data['type'] == Exam::$EXAM_TYPE_RANDOMLY) {
 
-        $numberOfRandomQuestions = 10; // Adjust the number as needed
-        $randomQuestionIds = Question::inRandomOrder()->pluck('id')->take($numberOfRandomQuestions);
+            $questionIds = $query->inRandomOrder()->pluck('id')->take($numberOfQuestions);
 
-        $exam->questions()->attach($randomQuestionIds);
+        } else if ($request_data['type'] == Exam::$EXAM_TYPE_CHOICE) {
+            if ($request->unit_id && !($request->lesson_id)) {
+                $lessonIds = Lesson::where('unit_id', $request->unit_id)->pluck('id')->toArray();
+                $questionIds = $query->whereIn('lesson_id', $lessonIds)->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+            } else
+                $questionIds = $query->where('lesson_id', $request->lesson_id)->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+        } else {
+            $questionIds = $query->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+        }
+
+
+        $exam->questions()->attach($questionIds);
 
         $student->exams()->attach([$exam->id]);
 
@@ -84,8 +99,8 @@ class ExamAPIController extends AppBaseController
     {
         /** @var Exam $exam */
         $exam = Exam::with('questions')->whereHas('students', function ($q) {
-                $q->where('students.id', auth('api-student')->id());
-            })->find($id);
+            $q->where('students.id', auth('api-student')->id());
+        })->find($id);
 
         if (empty($exam)) {
             return $this->sendError(
