@@ -74,8 +74,11 @@ class ExamAPIController extends AppBaseController
             if ($request->unit_id && !($request->lesson_id)) {
                 $lessonIds = Lesson::where('unit_id', $request->unit_id)->pluck('id')->toArray();
                 $questionIds = $query->whereIn('lesson_id', $lessonIds)->inRandomOrder()->pluck('id')->take($numberOfQuestions);
-            } else
+            } elseif ($request->lesson_id)
                 $questionIds = $query->where('lesson_id', $request->lesson_id)->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+            else
+                $questionIds = $query->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+
         } else {
             $questionIds = $query->inRandomOrder()->pluck('id')->take($numberOfQuestions);
         }
