@@ -40,6 +40,11 @@ class ExamAPIController extends AppBaseController
         if ($request->get('limit')) {
             $query->limit($request->get('limit'));
         }
+        if ($request->get('type')) {
+            $query->where('type', $request->type);
+        }if ($request->get('subject_id')) {
+            $query->where('subject_id', $request->subject_id);
+        }
 
         $exams = $query->get();
 

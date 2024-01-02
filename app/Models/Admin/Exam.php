@@ -85,7 +85,7 @@ class Exam extends Model
     }
     public function questions()
     {
-        return $this->belongsToMany(Question::class);
+        return $this->belongsToMany(Question::class)->withPivot('points');
     }
 
 

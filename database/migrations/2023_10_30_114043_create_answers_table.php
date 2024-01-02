@@ -28,7 +28,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->string('photo')->default('images/answers/avatar.png');
+            $table->string('photo')->nullable();
             $table->boolean('is_correct')->nullable();
             $table->timestamps();
         });

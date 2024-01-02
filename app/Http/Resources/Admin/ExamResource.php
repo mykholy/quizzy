@@ -25,6 +25,7 @@ class ExamResource extends JsonResource
             'photo' => $this->photo,
             'file' => $this->file,
             'semester' => $this->semester,
+            'subject_id' => $this->subject_id,
             'points' => $this->points,
             'time' => $this->time,
             'is_active' => $this->is_active,

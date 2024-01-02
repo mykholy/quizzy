@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\Admin\ExamAttemptsController;
 use App\Http\Controllers\API\Admin\LocationAPIController;
 use App\Http\Controllers\API\Auth\AuthStudentAPIController;
 use Illuminate\Http\Request;
@@ -217,3 +218,6 @@ Route::resource('exams', App\Http\Controllers\API\Admin\ExamAPIController::class
         'update' => 'admin.exams.update',
         'destroy' => 'admin.exams.destroy'
     ]);
+Route::post('exams/start', [ExamAttemptsController::class, 'start_exam']);
+Route::post('exams/answer_question', [ExamAttemptsController::class, 'answer_question']);
+
