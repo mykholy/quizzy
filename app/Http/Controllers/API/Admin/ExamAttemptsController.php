@@ -39,7 +39,7 @@ class ExamAttemptsController extends AppBaseController
         $request_data['attempt_started_at'] = Carbon::now();
 
         $request_data['exam_id'] = $exam_id;
-        $request_data['book_id'] = $exam->book->id;
+        $request_data['book_id'] = $exam->book_id;
         $request_data['student_id'] = auth('api-student')->id();
         $exam_attempt = ExamAttempt::create($request_data);
         return $this->sendResponse($exam_attempt, __('messages.retrieved', ['model' => __('models/exam_attempts.plural')]));
