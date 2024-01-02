@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('type')->nullable();
             $table->string('level')->nullable();
             $table->text('description')->nullable();
-            $table->string('photo')->default('images/questions/avatar.png');
+            $table->string('photo')->nullable();
             $table->string('file')->nullable();
             $table->decimal('points')->unsigned()->default(0);
             $table->string('time')->nullable();

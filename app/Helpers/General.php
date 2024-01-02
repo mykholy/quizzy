@@ -2,6 +2,33 @@
 
 use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Support\Facades\Http;
+
+function checkFileType($url)
+{
+    $response = Http::head($url); // Send a HEAD request to get headers
+
+    if ($response->successful()) {
+        $contentType = $response->header('Content-Type');
+        $extension = pathinfo($url, PATHINFO_EXTENSION);
+
+        // Check MIME type or file extension
+        if (str_starts_with($contentType, 'audio/') || in_array($extension, ['mp3', 'wav', 'ogg'])) {
+            return 'audio';
+        } elseif (str_starts_with($contentType, 'video/') || in_array($extension, ['mp4', 'avi', 'mkv'])) {
+            return 'video';
+        } elseif (str_starts_with($contentType, 'image/') || in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+            return 'image';
+        } else {
+            return 'Unknown';
+        }
+    } else {
+        return 'Error';
+    }
+}
+
+
+
 function send_mail($data, $to,$view="mail")
 {
     $from = env('MAIL_FROM_ADDRESS');

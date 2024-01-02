@@ -111,7 +111,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('photo', __('models/questions.fields.photo').':') !!}
     <div class="mb-3">
-        {!! Form::file('photo', ['class' => 'form-control']) !!}
+        {!! Form::file('photo', ['class' => 'form-control','accept' => 'image/*']) !!}
     </div>
 </div>
 
@@ -120,7 +120,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('file', __('models/questions.fields.file').':') !!}
     <div class="mb-3">
-        {!! Form::file('file', ['class' => 'form-control']) !!}
+        {!! Form::file('file', ['class' => 'form-control','accept' => 'audio/*,video/*']) !!}
     </div>
 </div>
 <div class="clearfix"></div>
