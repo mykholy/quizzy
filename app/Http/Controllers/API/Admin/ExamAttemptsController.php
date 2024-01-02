@@ -150,7 +150,7 @@ class ExamAttemptsController extends AppBaseController
         $questions_answered_correct = AttemptAnswer::where(['exam_attempt_id' => $exam_attempt_id, 'is_correct' => 1, 'student_id' => auth('api-student')->id()])->pluck('question_id')->toArray();
         $total_earned_marks = Question::whereIn('id', $questions_answered_correct)->sum('points');
         $attempt_info = [
-            'total_answered_questions' => AttemptAnswer::where('quiz_attempt_id', $exam_attempt_id)->count(),
+            'total_answered_questions' => AttemptAnswer::where('exam_attempt_id', $exam_attempt_id)->count(),
             'earned_marks' => $total_earned_marks,
 
         ];
