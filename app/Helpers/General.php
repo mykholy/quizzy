@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Http;
 
 function checkFileType($url)
 {
+    if (!$url) {
+        return null;
+    }
+
     $response = Http::head($url); // Send a HEAD request to get headers
 
     if ($response->successful()) {
