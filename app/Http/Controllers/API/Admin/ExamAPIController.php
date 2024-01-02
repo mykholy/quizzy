@@ -42,8 +42,11 @@ class ExamAPIController extends AppBaseController
         }
         if ($request->get('type')) {
             $query->where('type', $request->type);
-        }if ($request->get('subject_id')) {
+        }
+        if ($request->get('subject_id')) {
             $query->where('subject_id', $request->subject_id);
+        }if ($request->get('type_assessment')) {
+            $query->where('type_assessment', $request->type_assessment);
         }
 
         $exams = $query->get();

@@ -55,6 +55,9 @@ class ExamAttemptsController extends AppBaseController
         if (!$exam_attempt)
             return $this->sendError(__('messages.not_found', ['model' => __('exam_attempts.singular')]));
 
+        $is_answered = AttemptAnswer::where(['exam_attempt_id' => $exam_attempt_id, 'question_id' => $question_id])->first();
+        if ($is_answered)
+            return $this->sendError(__('lang.question_answered'));
 
 
         $request_data = $request->except(['student_id', 'exam_id', 'is_correct']);
@@ -72,8 +75,7 @@ class ExamAttemptsController extends AppBaseController
                 return $this->sendError(__('messages.not_found', ['model' => __('exam_attempts.singular')]));
 
 
-
-        } elseif ($question_type === Question::$QUESTION_TYPE_MULTIPLE_CHOICE ) {
+        } elseif ($question_type === Question::$QUESTION_TYPE_MULTIPLE_CHOICE) {
 
             $given_answer = array_filter($given_answer, function ($id) {
                 return is_numeric($id) && $id > 0;
@@ -103,7 +105,7 @@ class ExamAttemptsController extends AppBaseController
                 $is_answer_was_correct = true;
             }
 
-        } elseif ($question_type === Question::$QUESTION_TYPE_SHORT_ANSWER || $question_type === Question::$QUESTION_TYPE_LONG_ANSWER ) {
+        } elseif ($question_type === Question::$QUESTION_TYPE_SHORT_ANSWER || $question_type === Question::$QUESTION_TYPE_LONG_ANSWER) {
             $review_required = true;
         } elseif ($question_type === 'ordering' || $question_type === 'matching' || $question_type === 'image_matching') {
             $given_answer = str_replace('"', '', json_encode($given_answer));
@@ -118,7 +120,7 @@ class ExamAttemptsController extends AppBaseController
             if ($given_answer == json_encode($get_original_answers)) {
                 $is_answer_was_correct = true;
             }
-        } elseif ($question_type === 'image_answering' ) { //TO::DO
+        } elseif ($question_type === 'image_answering') { //TO::DO
             $given_answer = ($given_answer);
             $given_answer = json_encode($given_answer);
             $get_original_answers = Answer::where(['question_id' => $question_id, 'question_type' => $question_type])
@@ -129,9 +131,9 @@ class ExamAttemptsController extends AppBaseController
                 $is_answer_was_correct = true;
             }
         }
-        $question_mark = $is_answer_was_correct ? $question->question_mark : 0;
+        $question_mark = $is_answer_was_correct ? $question->points : 0;
         $request_data['given_answer'] = $given_answer;
-        $request_data['question_mark'] = $question->question_mark;
+        $request_data['question_mark'] = $question->points;
         $request_data['achieved_mark'] = $question_mark;
         $request_data['minus_mark'] = 0;
         $request_data['is_correct'] = $is_answer_was_correct ? 1 : 0;
