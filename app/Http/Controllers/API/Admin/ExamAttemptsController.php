@@ -7,6 +7,7 @@ use App\Http\Controllers\AppBaseController;
 
 use App\Http\Requests\API\Admin\AttemptAnswerAPIRequest;
 use App\Http\Requests\API\Admin\ExamAttemptAPIRequest;
+use App\Http\Resources\Admin\ExamAttemptResource;
 use App\Models\Admin\Answer;
 use App\Models\Admin\AttemptAnswer;
 use App\Models\Admin\Exam;
@@ -246,7 +247,7 @@ class ExamAttemptsController extends AppBaseController
 
         $charts = $this->attempt_answers_chart($exam_attempt_id);
 
-        $data['exam_attempt'] = $exam_attempt;
+        $data['exam_attempt'] = new ExamAttemptResource($exam_attempt);
         $data['attempt_answers'] = $attempt_answers;
         $data['charts'] = $charts;
 
