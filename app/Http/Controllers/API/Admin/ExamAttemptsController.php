@@ -220,9 +220,9 @@ class ExamAttemptsController extends AppBaseController
             ->orderby('id', 'asc')
             ->paginate(10);
 
-        $charts = $this->exam_attempts_chart($student_id, $exam_id);
+//        $charts = $this->exam_attempts_chart($student_id, $exam_id);
         $data['exam_attempts'] = $exam_attempts;
-        $data['charts'] = $charts;
+//        $data['charts'] = $charts;
 
         return $this->sendResponse($data, trans('backend.api.saved'));
     }
