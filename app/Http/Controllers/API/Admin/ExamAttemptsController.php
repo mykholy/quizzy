@@ -173,80 +173,80 @@ class ExamAttemptsController extends AppBaseController
 
     }
 
-    public function quizzes(Request $request)
+    public function exams(Request $request)
     {
         $student_id = auth('api-student')->id();
-        $quizzes_attempts = QuizAttempt::with(['quiz', 'book', 'student', 'page_section'])
-            ->whereHas('book')
+        $exams_attempts = ExamAttempt::with(['exam', 'subject', 'student'])
+            ->whereHas('exam')
             ->where('student_id', $student_id)
-            ->when(request('selected_book_id'), function ($q) {
-                $q->where('book_id', request('selected_book_id'));
+            ->when(request('selected_subject_id'), function ($q) {
+                $q->where('subject_id', request('selected_subject_id'));
             })
             ->when(request('selected_from') && request('selected_to'), function ($q) {
                 $q->whereBetween('created_at', [request('selected_from'), request('selected_to')]);
             })
             ->select('*', \DB::raw('count(*) as total_attempt'))
-            ->groupBy('page_section_id')
+            ->groupBy('exam_id')
             ->orderby('id', 'asc')
-            ->paginate(env('BACKEND_PAGINATION'));
+            ->paginate(10);
 
-        $charts = $this->quizzes_chart($student_id);
-        $data['quizzes_attempts'] = $quizzes_attempts;
+        $charts = $this->exams_chart($student_id);
+        $data['exams_attempts'] = $exams_attempts;
         $data['charts'] = $charts;
 
         return $this->sendResponse($data, trans('backend.api.saved'));
     }
 
-    public function quiz_attempts($quiz_id, Request $request)
+    public function exam_attempts($exam_id, Request $request)
     {
 
 
-        $quiz = Quiz::find($quiz_id);
+        $exam = Exam::find($exam_id);
         $student_id = auth('api-student')->id();
 
-        if (!$quiz)
-            return $this->sendError(trans('backend.api.not_found_model', ['model' => trans('backend.quiz_attempts')]));
+        if (!$exam)
+            return $this->sendError(trans('backend.api.not_found_model', ['model' => trans('backend.exam_attempts')]));
 
-        $quiz_attempts = QuizAttempt::with(['quiz', 'book', 'student', 'page_section'])
-            ->whereHas('book')
+        $exam_attempts = ExamAttempt::with(['exam', 'subject', 'student'])
+            ->whereHas('subject')
             ->where('student_id', $student_id)
-            ->where('quiz_id', $quiz_id)
-            ->when(request('selected_book_id'), function ($q) {
-                $q->where('book_id', request('selected_book_id'));
+            ->where('exam_id', $exam_id)
+            ->when(request('selected_subject_id'), function ($q) {
+                $q->where('subject_id', request('selected_subject_id'));
             })
             ->when(request('selected_from') && request('selected_to'), function ($q) {
                 $q->whereBetween('created_at', [request('selected_from'), request('selected_to')]);
             })
             ->orderby('id', 'asc')
-            ->paginate(env('BACKEND_PAGINATION'));
+            ->paginate(10);
 
-        $charts = $this->quiz_attempts_chart($student_id, $quiz_id);
-        $data['quiz_attempts'] = $quiz_attempts;
+        $charts = $this->exam_attempts_chart($student_id, $exam_id);
+        $data['exam_attempts'] = $exam_attempts;
         $data['charts'] = $charts;
 
         return $this->sendResponse($data, trans('backend.api.saved'));
     }
 
-    public function attempt_answers($quiz_attempt_id)
+    public function attempt_answers($exam_attempt_id)
     {
 
 
-        $quiz_attempt = QuizAttempt::with(['quiz', 'book'])
+        $exam_attempt = ExamAttempt::with(['exam', 'book','subject'])
             ->where(['student_id' => auth('api-student')->id()])
-            ->find($quiz_attempt_id);
-        if (!$quiz_attempt)
-            return $this->sendError(trans('backend.api.not_found_model', ['model' => trans('backend.quiz_attempt')]));
+            ->find($exam_attempt_id);
+        if (!$exam_attempt)
+            return $this->sendError(trans('backend.api.not_found_model', ['model' => trans('backend.exam_attempt')]));
 
 
         $attempt_answers = AttemptAnswer::with(['question'])
-            ->where('quiz_attempt_id', $quiz_attempt_id)
+            ->where('exam_attempt_id', $exam_attempt_id)
             ->orderby('id', 'asc')
-            ->paginate(env('BACKEND_PAGINATION'));
+            ->paginate(10);
 
 
-        $charts = $this->attempt_answers_chart($quiz_attempt_id);
+        $charts = $this->attempt_answers_chart($exam_attempt_id);
 
-        $data['quiz_attempt'] = $quiz_attempt;
+        $data['exam_attempt'] = $exam_attempt;
         $data['attempt_answers'] = $attempt_answers;
         $data['charts'] = $charts;
 
@@ -254,18 +254,18 @@ class ExamAttemptsController extends AppBaseController
 
     }
 
-    public function quizzes_chart($student_id)
+    public function exams_chart($student_id)
     {
         $data = [];
         $charts = [
-            ['chart_key' => 'book_id', 'chart_name' => __('backend.book'), 'foreign' => true, 'relation' => 'book', 'title' => 'title_en'],
-            ['chart_key' => 'page_section_id', 'chart_name' => __('backend.page_section'), 'foreign' => true, 'relation' => 'page_section', 'title' => 'title'],
+            ['chart_key' => 'subject_id', 'chart_name' => __('backend.subject'), 'foreign' => true, 'relation' => 'subject', 'title' => 'name'],
+            ['chart_key' => 'exam_id', 'chart_name' => __('backend.exam'), 'foreign' => true, 'relation' => 'exam', 'title' => 'name'],
         ];
         foreach ($charts as $chart) {
             if ($chart['foreign'])
-                $cf_details_lines = \App\Models\Crm\QuizAttempt::with(['book', 'page_section'])->whereHas('book')->select('id', 'book_id', 'student_id', 'page_section_id', \DB::raw('CAST(count(*) AS UNSIGNED) as num'))
-                    ->when(request('selected_book_id'), function ($q) {
-                        $q->where('book_id', request('selected_book_id'));
+                $cf_details_lines = \App\Models\Admin\ExamAttempt::with(['subject', 'exam'])->whereHas('exam')->select('id', 'subject_id', 'student_id', 'exam_id', \DB::raw('CAST(count(*) AS UNSIGNED) as num'))
+                    ->when(request('selected_subject_id'), function ($q) {
+                        $q->where('subject_id', request('selected_subject_id'));
                     })
                     ->when(request('selected_student_id'), function ($q) use ($student_id) {
                         $q->where('student_id', $student_id);
@@ -277,9 +277,9 @@ class ExamAttemptsController extends AppBaseController
                     ->withCasts(['num' => 'integer'])
                     ->get();
             else
-                $cf_details_lines = \App\Models\Crm\QuizAttempt::select(\DB::raw('CAST(count(*) AS UNSIGNED) as num'), "{$chart["chart_key"]} as label")
-                    ->when(request('selected_book_id'), function ($q) {
-                        $q->where('book_id', request('selected_book_id'));
+                $cf_details_lines = \App\Models\Admin\ExamAttempt::select(\DB::raw('CAST(count(*) AS UNSIGNED) as num'), "{$chart["chart_key"]} as label")
+                    ->when(request('selected_subject_id'), function ($q) {
+                        $q->where('subject_id', request('selected_subject_id'));
                     })
                     ->when(request('selected_student_id'), function ($q) use ($student_id) {
                         $q->where('student_id', $student_id);
@@ -298,23 +298,23 @@ class ExamAttemptsController extends AppBaseController
 
     }
 
-    public function quiz_attempts_chart($student_id, $quiz_id)
+    public function exam_attempts_chart($student_id, $exam_id)
     {
         $data = [];
         $charts = [
             ['chart_key' => 'attempt_started_at', 'chart_name' => __('backend.attempt_started_at'), 'foreign' => false],
             ['chart_key' => 'attempt_ended_at', 'chart_name' => __('backend.attempt_ended_at'), 'foreign' => false],
             ['chart_key' => 'attempt_status', 'chart_name' => __('backend.attempt_status'), 'foreign' => false],
-            ['chart_key' => 'book_id', 'chart_name' => __('backend.book'), 'foreign' => true, 'relation' => 'book', 'title' => 'title_en'],
-            ['chart_key' => 'page_section_id', 'chart_name' => __('backend.page_section'), 'foreign' => true, 'relation' => 'page_section', 'title' => 'title'],
+            ['chart_key' => 'subject_id', 'chart_name' => __('backend.subject'), 'foreign' => true, 'relation' => 'subject', 'title' => 'name'],
+            ['chart_key' => 'exam_id', 'chart_name' => __('backend.exam'), 'foreign' => true, 'relation' => 'exam', 'title' => 'name'],
         ];
         foreach ($charts as $chart) {
             if ($chart['foreign'])
-                $cf_details_lines = \App\Models\Crm\QuizAttempt::with(['book', 'page_section', 'quiz'])->select('id', 'quiz_id', 'book_id', 'student_id', 'page_section_id', \DB::raw('CAST(count(*) AS UNSIGNED) as num'))
-                    ->when(request('selected_book_id'), function ($q) {
-                        $q->where('book_id', request('selected_book_id'));
+                $cf_details_lines = \App\Models\Admin\ExamAttempt::with(['subject', 'exam'])->select('id', 'exam_id', 'subject_id', 'student_id', \DB::raw('CAST(count(*) AS UNSIGNED) as num'))
+                    ->when(request('selected_subject_id'), function ($q) {
+                        $q->where('subject_id', request('selected_subject_id'));
                     })
-                    ->where('quiz_id', $quiz_id)
+                    ->where('exam_id', $exam_id)
                     ->when(request('selected_student_id'), function ($q) use ($student_id) {
                         $q->where('student_id', $student_id);
                     })
@@ -325,11 +325,11 @@ class ExamAttemptsController extends AppBaseController
                     ->withCasts(['num' => 'integer'])
                     ->get();
             else
-                $cf_details_lines = \App\Models\Crm\QuizAttempt::select(\DB::raw('CAST(count(*) AS UNSIGNED) as num'), "{$chart["chart_key"]} as label")
-                    ->when(request('selected_book_id'), function ($q) {
-                        $q->where('book_id', request('selected_book_id'));
+                $cf_details_lines = \App\Models\Admin\ExamAttempt::select(\DB::raw('CAST(count(*) AS UNSIGNED) as num'), "{$chart["chart_key"]} as label")
+                    ->when(request('selected_subject_id'), function ($q) {
+                        $q->where('subject_id', request('selected_subject_id'));
                     })
-                    ->where('quiz_id', $quiz_id)
+                    ->where('exam_id', $exam_id)
                     ->when(request('selected_student_id'), function ($q) use ($student_id) {
                         $q->where('student_id', $student_id);
                     })
@@ -347,7 +347,7 @@ class ExamAttemptsController extends AppBaseController
 
     }
 
-    public function attempt_answers_chart($quiz_attempt_id)
+    public function attempt_answers_chart($exam_attempt_id)
     {
         $data = [];
         $charts = [
@@ -355,14 +355,14 @@ class ExamAttemptsController extends AppBaseController
         ];
         foreach ($charts as $chart) {
             if ($chart['foreign'])
-                $cf_details_lines = \App\Models\Crm\AttemptAnswer::with(['question'])->select('id', 'quiz_id', 'question_id', 'student_id', \DB::raw('CAST(count(*) AS UNSIGNED) as num'))
-                    ->where('quiz_attempt_id', $quiz_attempt_id)
+                $cf_details_lines = \App\Models\Admin\AttemptAnswer::with(['question'])->select('id', 'exam_id', 'question_id', 'student_id', \DB::raw('CAST(count(*) AS UNSIGNED) as num'))
+                    ->where('exam_attempt_id', $exam_attempt_id)
                     ->groupBy($chart['chart_key'])
                     ->withCasts(['num' => 'integer'])
                     ->get();
             else
-                $cf_details_lines = \App\Models\Crm\AttemptAnswer::select(\DB::raw('CAST(count(*) AS UNSIGNED) as num'), "{$chart["chart_key"]} as label")
-                    ->where('quiz_attempt_id', $quiz_attempt_id)
+                $cf_details_lines = \App\Models\Admin\AttemptAnswer::select(\DB::raw('CAST(count(*) AS UNSIGNED) as num'), "{$chart["chart_key"]} as label")
+                    ->where('exam_attempt_id', $exam_attempt_id)
                     ->groupBy($chart['chart_key'])
                     ->withCasts(['num' => 'integer'])
                     ->get();

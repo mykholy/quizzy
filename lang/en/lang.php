@@ -21,5 +21,5 @@ return [
   'done'=>'Done',
   'import'=>'Import',
   'settings'=>'Settings',
-  'question_answered'=>'This question has been answered before',
+  'question_answered'=>'This question has been answered before.',
 ];
