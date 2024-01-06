@@ -158,7 +158,7 @@ Route::resource('academic-years', App\Http\Controllers\API\Admin\AcademicYearAPI
         'destroy' => 'admin.academicYears.destroy'
     ]);
 
-Route::resource('admin/units', App\Http\Controllers\API\Admin\UnitAPIController::class)
+Route::resource('units', App\Http\Controllers\API\Admin\UnitAPIController::class)
     ->except(['create', 'edit'])
     ->names([
         'index' => 'admin.units.index',
@@ -168,7 +168,7 @@ Route::resource('admin/units', App\Http\Controllers\API\Admin\UnitAPIController:
         'destroy' => 'admin.units.destroy'
     ]);
 
-Route::resource('admin/lessons', App\Http\Controllers\API\Admin\LessonAPIController::class)
+Route::resource('lessons', App\Http\Controllers\API\Admin\LessonAPIController::class)
     ->except(['create', 'edit'])
     ->names([
         'index' => 'admin.lessons.index',
@@ -210,7 +210,6 @@ Route::resource('admin/books', App\Http\Controllers\API\Admin\BookAPIController:
 
 
 Route::resource('exams', App\Http\Controllers\API\Admin\ExamAPIController::class)
-    ->except(['create', 'edit'])
     ->names([
         'index' => 'admin.exams.index',
         'store' => 'admin.exams.store',

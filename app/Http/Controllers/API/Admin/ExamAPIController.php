@@ -4,9 +4,13 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Requests\API\Admin\CreateExamAPIRequest;
 use App\Http\Requests\API\Admin\UpdateExamAPIRequest;
+use App\Http\Resources\Admin\SubjectResource;
+use App\Http\Resources\Admin\UnitResource;
 use App\Models\Admin\Exam;
 use App\Models\Admin\Lesson;
 use App\Models\Admin\Question;
+use App\Models\Admin\Subject;
+use App\Models\Admin\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -45,7 +49,8 @@ class ExamAPIController extends AppBaseController
         }
         if ($request->get('subject_id')) {
             $query->where('subject_id', $request->subject_id);
-        }if ($request->get('type_assessment')) {
+        }
+        if ($request->get('type_assessment')) {
             $query->where('type_assessment', $request->type_assessment);
         }
 
@@ -54,6 +59,24 @@ class ExamAPIController extends AppBaseController
         return $this->sendResponse(
             ExamResource::collection($exams),
             __('messages.retrieved', ['model' => __('models/exams.plural')])
+        );
+    }
+
+    public function create(Request $request): JsonResponse
+    {
+
+        $subject = Subject::find($request->subject_id);
+        $book_ids = $subject->books->pluck('id')->toArray();
+
+        $units = Unit::whereIn('book_id', $book_ids)->get();
+
+        $data['subject'] = new SubjectResource($subject);
+        $data['units'] = UnitResource::collection($units);
+        $data['lessons'] = UnitResource::collection($units);
+
+        return $this->sendResponse(
+            $data,
+            __('messages.retrieved', ['model' => __('models/exams.singular')])
         );
     }
 

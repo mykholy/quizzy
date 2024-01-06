@@ -10,7 +10,7 @@ class Subject extends Model
     use HasFactory;
 
     public $table = 'subjects';
-protected $appends=['full_name'];
+    protected $appends = ['full_name'];
     public $fillable = [
         'name',
         'photo',
@@ -42,19 +42,22 @@ protected $appends=['full_name'];
 
     public function getFullNameAttribute()
     {
-        return $this->name . ' ( ' .optional($this->academicYear)->name.' - '. $this->semester . ' ) ';
+        return $this->name . ' ( ' . optional($this->academicYear)->name . ' - ' . $this->semester . ' ) ';
     }
 
+    public function books(): \Illuminate\Database\Eloquent\Relations\hasMany
+    {
+        return $this->hasMany(\App\Models\Admin\Subject::class, 'book_id');
+    }
 
-
-    public static  function getSelectData()
+    public static function getSelectData()
     {
         $formattedModel = self::all()->map(function ($model) {
             return [
                 'id' => $model->id,
                 'name' => $model->full_name,
             ];
-        })->pluck('name','id')->toArray();
+        })->pluck('name', 'id')->toArray();
         return $formattedModel;
     }
 

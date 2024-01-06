@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Requests\API\Admin\CreateUnitAPIRequest;
 use App\Http\Requests\API\Admin\UpdateUnitAPIRequest;
+use App\Models\Admin\Subject;
 use App\Models\Admin\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class UnitAPIController extends AppBaseController
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Unit::query();
+        $query = Unit::query()->with('lessons');
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
@@ -30,7 +31,13 @@ class UnitAPIController extends AppBaseController
             $query->limit($request->get('limit'));
         }
 
-        $units = $query->get();
+        $units = $query
+            ->when($request->subject_id, function ($q) use ($request) {
+                $subject = Subject::find($request->subject_id);
+                $book_ids = $subject->books->pluck('id')->toArray();
+                $q->whereIn('book_id', $book_ids);
+            })
+            ->get();
 
         return $this->sendResponse(
             UnitResource::collection($units),
@@ -62,7 +69,7 @@ class UnitAPIController extends AppBaseController
     public function show($id): JsonResponse
     {
         /** @var Unit $unit */
-        $unit = Unit::find($id);
+        $unit = Unit::with('lessons')->find($id);
 
         if (empty($unit)) {
             return $this->sendError(
@@ -86,9 +93,9 @@ class UnitAPIController extends AppBaseController
         $unit = Unit::find($id);
 
         if (empty($unit)) {
-        return $this->sendError(
-            __('messages.not_found', ['model' => __('models/units.singular')])
-        );
+            return $this->sendError(
+                __('messages.not_found', ['model' => __('models/units.singular')])
+            );
         }
 
         $unit->fill($request->all());

@@ -32,6 +32,11 @@ class Unit extends Model
     {
         return $value ? asset($value) : null;
     }
+    public function lessons(): \Illuminate\Database\Eloquent\Relations\hasMany
+    {
+        return $this->hasMany(\App\Models\Admin\Lesson::class, 'unit_id');
+    }
+
 
     public function book(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
