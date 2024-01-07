@@ -30,6 +30,7 @@ class Question extends Model
         'lesson_id',
 //        'academic_year_id',
         'time',
+        'reference',
         'is_active'
     ];
 
