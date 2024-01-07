@@ -207,27 +207,29 @@ class ExamAPIController extends AppBaseController
     public function getQuestionsIdsByTotalTime($query, $numberOfQuestions = 10, $time = null)
     {
         $questionIds = [];
+        $uniqueQuestionIds = collect(); // Using a collection as a set for uniqueness
         if ($time) {
             $timeLimit = (int)$time;
             $cumulativeTime = 0;
 
             // Get questions randomly until cumulative time exceeds the limit
-            while ($cumulativeTime <= $timeLimit && count($questionIds) < $numberOfQuestions) {
+            while ($cumulativeTime <= $timeLimit && $uniqueQuestionIds->count() < $numberOfQuestions) {
                 $randomQuestion = $query->inRandomOrder()->first();
                 if ($randomQuestion) {
                     $questionTime = (int)$randomQuestion->time;
                     $cumulativeTime += $questionTime;
 
-                    // Only add the question if the cumulative time is still within the limit
-                    if ($cumulativeTime <= $timeLimit) {
-                        $questionIds[] = $randomQuestion->id;
+                    // Only add the question if the cumulative time is still within the limit and it's not already in the set
+                    if ($cumulativeTime <= $timeLimit && !$uniqueQuestionIds->contains($randomQuestion->id)) {
+                        $uniqueQuestionIds->push($randomQuestion->id);
                     }
                 }
             }
-        } else
-            $questionIds = $query->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+        } else {
+            $uniqueQuestionIds = $query->inRandomOrder()->pluck('id')->unique()->take($numberOfQuestions);
+        }
 
-        return $questionIds;
+        return $uniqueQuestionIds->toArray();
     }
 
 }
