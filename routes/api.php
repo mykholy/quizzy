@@ -178,7 +178,7 @@ Route::resource('lessons', App\Http\Controllers\API\Admin\LessonAPIController::c
         'destroy' => 'admin.lessons.destroy'
     ]);
 
-Route::resource('admin/questions', App\Http\Controllers\API\Admin\QuestionAPIController::class)
+Route::resource('questions', App\Http\Controllers\API\Admin\QuestionAPIController::class)
     ->except(['create', 'edit'])
     ->names([
         'index' => 'admin.questions.index',
