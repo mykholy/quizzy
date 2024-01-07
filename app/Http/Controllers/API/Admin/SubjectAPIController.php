@@ -30,7 +30,14 @@ class SubjectAPIController extends AppBaseController
             $query->limit($request->get('limit'));
         }
 
-        $subjects = $query->get();
+        $subjects = $query
+            ->when(\request('semester'), function ($q) {
+                $q->where('semester', \request('semester'));
+            })
+            ->when(\request('academic_year_id'), function ($q) {
+                $q->where('academic_year_id', \request('academic_year_id'));
+            })
+            ->get();
 
         return $this->sendResponse(
             SubjectResource::collection($subjects),
@@ -86,9 +93,9 @@ class SubjectAPIController extends AppBaseController
         $subject = Subject::find($id);
 
         if (empty($subject)) {
-        return $this->sendError(
-            __('messages.not_found', ['model' => __('models/subjects.singular')])
-        );
+            return $this->sendError(
+                __('messages.not_found', ['model' => __('models/subjects.singular')])
+            );
         }
 
         $subject->fill($request->all());

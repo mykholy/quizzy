@@ -25,6 +25,7 @@ class QuestionResource extends JsonResource
             'file_type' => checkFileType($this->file),
             'points' => $this->points,
             'time' => $this->time,
+            'reference' => $this->reference,
             'lesson_id' => $this->lesson_id,
             'is_active' => $this->is_active,
             'answers' => $this->whenLoaded('answers', AnswerResource::collection($this->answers)),

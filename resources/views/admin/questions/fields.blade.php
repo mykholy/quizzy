@@ -106,6 +106,11 @@
     {!! Form::number('time', null, ['min'=>0,'class' => 'form-control']) !!}
 </div>
 
+<!-- reference Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('reference', __('models/questions.fields.reference').':') !!}
+    {!! Form::text('reference', null, ['class' => 'form-control']) !!}
+</div>
 
 <!-- Photo Field -->
 <div class="form-group col-sm-6">
