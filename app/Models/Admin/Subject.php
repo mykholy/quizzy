@@ -27,7 +27,7 @@ class Subject extends Model
 
     public static array $rules = [
         'name' => 'required|min:3|max:100',
-        'semester' => 'in:1,2',
+        'semester' => 'in:1,2,3,4',
     ];
 
     public function academicYear(): \Illuminate\Database\Eloquent\Relations\BelongsTo

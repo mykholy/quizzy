@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('questions', function (Blueprint $table) {
             $table->text('reference')->nullable();
-            $table->text(' notes')->nullable();
-            $table->boolean(' need_review')->default(0);
+            $table->text('notes')->nullable();
+            $table->boolean('need_review')->default(0);
         });
     }
 
