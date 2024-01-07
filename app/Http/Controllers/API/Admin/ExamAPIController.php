@@ -11,6 +11,7 @@ use App\Models\Admin\Lesson;
 use App\Models\Admin\Question;
 use App\Models\Admin\Subject;
 use App\Models\Admin\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -92,26 +93,32 @@ class ExamAPIController extends AppBaseController
             $request_data['photo'] = uploadImage('exams', $request->photo);
 
         }
+
         /** @var Exam $exam */
         $exam = Exam::create($request_data);
         $student = auth('api-student')->user();
         $numberOfQuestions = 10; // Adjust the number as needed
+
+        $timeLimit = $request->input('time', null);
+
         $query = Question::query();
         if ($request_data['type'] == Exam::$EXAM_TYPE_RANDOMLY) {
 
-            $questionIds = $query->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+            $questionIds = $this->getQuestionsIdsByTotalTime($query, $numberOfQuestions, $timeLimit);
 
         } else if ($request_data['type'] == Exam::$EXAM_TYPE_CHOICE) {
             if ($request->unit_id && !($request->lesson_id)) {
                 $lessonIds = Lesson::where('unit_id', $request->unit_id)->pluck('id')->toArray();
-                $questionIds = $query->whereIn('lesson_id', $lessonIds)->inRandomOrder()->pluck('id')->take($numberOfQuestions);
-            } elseif ($request->lesson_id)
-                $questionIds = $query->where('lesson_id', $request->lesson_id)->inRandomOrder()->pluck('id')->take($numberOfQuestions);
-            else
-                $questionIds = $query->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+                $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
+
+            } elseif ($request->lesson_id) {
+                $questionIds = $this->getQuestionsIdsByTotalTime($query->where('lesson_id', $request->lesson_id), $numberOfQuestions, $timeLimit);
+
+            } else
+                $questionIds = $this->getQuestionsIdsByTotalTime($query, $numberOfQuestions, $timeLimit);
 
         } else {
-            $questionIds = $query->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+            $questionIds = $this->getQuestionsIdsByTotalTime($query, $numberOfQuestions, $timeLimit);
         }
 
 
@@ -196,4 +203,31 @@ class ExamAPIController extends AppBaseController
             __('messages.deleted', ['model' => __('models/exams.singular')])
         );
     }
+
+    public function getQuestionsIdsByTotalTime($query, $numberOfQuestions = 10, $time = null)
+    {
+        $questionIds = [];
+        if ($time) {
+            $timeLimit = (int)$time;
+            $cumulativeTime = 0;
+
+            // Get questions randomly until cumulative time exceeds the limit
+            while ($cumulativeTime <= $timeLimit && count($questionIds) < $numberOfQuestions) {
+                $randomQuestion = $query->inRandomOrder()->first();
+                if ($randomQuestion) {
+                    $questionTime = (int)$randomQuestion->time;
+                    $cumulativeTime += $questionTime;
+
+                    // Only add the question if the cumulative time is still within the limit
+                    if ($cumulativeTime <= $timeLimit) {
+                        $questionIds[] = $randomQuestion->id;
+                    }
+                }
+            }
+        } else
+            $questionIds = $query->inRandomOrder()->pluck('id')->take($numberOfQuestions);
+
+        return $questionIds;
+    }
+
 }
