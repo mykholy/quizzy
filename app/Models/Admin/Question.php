@@ -31,6 +31,8 @@ class Question extends Model
 //        'academic_year_id',
         'time',
         'reference',
+        'notes',
+        'need_review',
         'is_active'
     ];
 
@@ -43,6 +45,7 @@ class Question extends Model
         'file' => 'string',
         'points' => 'decimal:2',
         'time' => 'string',
+        'need_review' => 'boolean',
         'is_active' => 'boolean'
     ];
 

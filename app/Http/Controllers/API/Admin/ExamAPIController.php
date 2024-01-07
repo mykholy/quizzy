@@ -101,7 +101,10 @@ class ExamAPIController extends AppBaseController
 
         $timeLimit = $request->input('time', null);
 
-        $query = Question::query();
+        $query = Question::query()
+            ->when(\request('question_types'), function ($q) {
+                $q->whereIn('question_types', \request('question_types'));
+            });
         if ($request_data['type'] == Exam::$EXAM_TYPE_RANDOMLY) {
 
             $questionIds = $this->getQuestionsIdsByTotalTime($query, $numberOfQuestions, $timeLimit);

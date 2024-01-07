@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('questions', function (Blueprint $table) {
             $table->text('reference')->nullable();
+            $table->text(' notes')->nullable();
+            $table->boolean(' need_review')->default(0);
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
     {
         Schema::table('questions', function (Blueprint $table) {
             $table->dropColumn('reference');
+            $table->dropColumn('notes');
+            $table->dropColumn('need_review');
         });
     }
 };
