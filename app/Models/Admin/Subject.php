@@ -47,7 +47,7 @@ class Subject extends Model
 
     public function books(): \Illuminate\Database\Eloquent\Relations\hasMany
     {
-        return $this->hasMany(\App\Models\Admin\Subject::class, 'book_id');
+        return $this->hasMany(\App\Models\Admin\Book::class, 'subject_id');
     }
 
     public static function getSelectData()
