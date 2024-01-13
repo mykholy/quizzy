@@ -205,13 +205,15 @@ class ExamAttemptsController extends AppBaseController
         $exam = Exam::find($exam_id);
         $student_id = auth('api-student')->id();
 
-        if (!$exam)
-            return $this->sendError(trans('backend.api.not_found_model', ['model' => trans('backend.exam_attempts')]));
+//        if (!$exam)
+//            return $this->sendError(trans('backend.api.not_found_model', ['model' => trans('backend.exam_attempts')]));
 
         $exam_attempts = ExamAttempt::with(['exam', 'subject', 'student'])
             ->whereHas('exam')
             ->where('student_id', $student_id)
-            ->where('exam_id', $exam_id)
+            ->when($exam_id, function ($q)use($exam_id) {
+                $q->where('subject_id', $exam_id);
+            })
             ->when(request('selected_subject_id'), function ($q) {
                 $q->where('subject_id', request('selected_subject_id'));
             })
