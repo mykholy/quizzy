@@ -208,8 +208,8 @@ class ExamAttemptsController extends AppBaseController
         $exam_attempts = ExamAttempt::with(['exam', 'subject', 'student'])
             ->whereHas('exam')
             ->where('student_id', $student_id)
-            ->when($exam_id, function ($q) use ($exam_id) {
-                $q->where('exam_id', $exam_id);
+            ->when(request('exam_id'), function ($q)  {
+                $q->where('exam_id', request('exam_id'));
             })
             ->when(request('selected_subject_id'), function ($q) {
                 $q->where('subject_id', request('selected_subject_id'));
