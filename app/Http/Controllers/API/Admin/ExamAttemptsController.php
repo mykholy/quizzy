@@ -198,7 +198,7 @@ class ExamAttemptsController extends AppBaseController
         return $this->sendResponse($data, trans('backend.api.saved'));
     }
 
-    public function exam_attempts(Request $request,$exam_id = null)
+    public function exam_attempts(Request $request)
     {
 
 
