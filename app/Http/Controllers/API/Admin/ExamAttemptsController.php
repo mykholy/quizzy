@@ -198,18 +198,17 @@ class ExamAttemptsController extends AppBaseController
         return $this->sendResponse($data, trans('backend.api.saved'));
     }
 
-    public function exam_attempts($exam_id=null, Request $request)
+    public function exam_attempts(Request $request,$exam_id = null)
     {
 
 
-        
         $student_id = auth('api-student')->id();
 
 
         $exam_attempts = ExamAttempt::with(['exam', 'subject', 'student'])
             ->whereHas('exam')
             ->where('student_id', $student_id)
-            ->when($exam_id, function ($q)use($exam_id) {
+            ->when($exam_id, function ($q) use ($exam_id) {
                 $q->where('exam_id', $exam_id);
             })
             ->when(request('selected_subject_id'), function ($q) {
@@ -232,7 +231,7 @@ class ExamAttemptsController extends AppBaseController
     {
 
 
-        $exam_attempt = ExamAttempt::with(['exam', 'book','subject'])
+        $exam_attempt = ExamAttempt::with(['exam', 'book', 'subject'])
             ->where(['student_id' => auth('api-student')->id()])
             ->find($exam_attempt_id);
         if (!$exam_attempt)
