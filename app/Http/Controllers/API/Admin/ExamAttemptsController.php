@@ -144,7 +144,8 @@ class ExamAttemptsController extends AppBaseController
         /* check if question_type open ended or short ans the set is_correct default value null before saving
                     */
         if (in_array($question_type, array(Question::$QUESTION_TYPE_LONG_ANSWER, Question::$QUESTION_TYPE_SHORT_ANSWER, 'image_answering'))) {
-            $request_data['is_correct'] = null;
+            $this->mb_similar_text($given_answer, 'ياسر', $per);
+            $request_data['is_correct'] = $per>70?1:0;
         }
         $attempt_answer = AttemptAnswer::create($request_data);
 
@@ -375,5 +376,22 @@ class ExamAttemptsController extends AppBaseController
 
     }
 
+
+
+
+    //from http://www.phperz.com/article/14/1029/31806.html
+function mb_split_str($str) {
+    preg_match_all("/./u", $str, $arr);
+    return $arr[0];
+}
+
+//based on http://www.phperz.com/article/14/1029/31806.html, added percent
+function mb_similar_text($str1, $str2, &$percent) {
+    $arr_1 = array_unique(mb_split_str($str1));
+    $arr_2 = array_unique(mb_split_str($str2));
+    $similarity = count($arr_2) - count(array_diff($arr_2, $arr_1));
+    $percent = ($similarity * 200) / (strlen($str1) + strlen($str2) );
+    return $similarity;
+}
 
 }
