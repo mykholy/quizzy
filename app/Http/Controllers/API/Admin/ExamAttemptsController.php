@@ -387,8 +387,8 @@ function mb_split_str($str) {
 
 //based on http://www.phperz.com/article/14/1029/31806.html, added percent
 function mb_similar_text($str1, $str2, &$percent) {
-    $arr_1 = array_unique(mb_split_str($str1));
-    $arr_2 = array_unique(mb_split_str($str2));
+    $arr_1 = array_unique($this->mb_split_str($str1));
+    $arr_2 = array_unique($this->mb_split_str($str2));
     $similarity = count($arr_2) - count(array_diff($arr_2, $arr_1));
     $percent = ($similarity * 200) / (strlen($str1) + strlen($str2) );
     return $similarity;
