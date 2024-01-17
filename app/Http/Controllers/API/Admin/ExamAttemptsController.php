@@ -154,7 +154,7 @@ class ExamAttemptsController extends AppBaseController
                 '$per'=>$per,
             ]);
             if ($question_type == Question::$QUESTION_TYPE_LONG_ANSWER)
-                $request_data['is_correct'] = $per > 70 ? 1 : 0;
+                $request_data['is_correct'] = $per > 60 ? 1 : 0;
             else
                 $request_data['is_correct'] = $per > 90 ? 1 : 0;
         }
