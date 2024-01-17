@@ -15,6 +15,7 @@ use App\Models\Admin\ExamAttempt;
 use App\Models\Admin\Question;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class ExamAttemptsController extends AppBaseController
@@ -145,8 +146,13 @@ class ExamAttemptsController extends AppBaseController
                     */
         if (in_array($question_type, array(Question::$QUESTION_TYPE_LONG_ANSWER, Question::$QUESTION_TYPE_SHORT_ANSWER, 'image_answering'))) {
             $get_original_answer = $question->answers->first();
-            $this->mb_similar_text(strtolower($given_answer), strtolower($get_original_answer->answer_two_gap_match), $per);
-
+            similar_text(strtolower($given_answer), strtolower($get_original_answer->answer_two_gap_match), $per);
+            Log::info("similar_text",[
+                'strtolower($given_answer)'=>strtolower($given_answer),
+                'strtolower($get_original_answer->answer_two_gap_match)'=>strtolower($get_original_answer->answer_two_gap_match),
+                '$get_original_answer'=>json_encode($get_original_answer),
+                '$per'=>$per,
+            ]);
             if ($question_type == Question::$QUESTION_TYPE_LONG_ANSWER)
                 $request_data['is_correct'] = $per > 70 ? 1 : 0;
             else
