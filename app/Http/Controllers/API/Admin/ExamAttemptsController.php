@@ -247,11 +247,12 @@ class ExamAttemptsController extends AppBaseController
                 ->count() + 1;
 
         // 4. Calculate number of correct answers for a specific subject
-        $numberCorrectAnswer = AttemptAnswer::where([
-            'is_correct' => 1,
-            'student_id' => auth('api-student')->id(),
-            'subject_id' => $subjectId,
-        ])->count();
+        $numberCorrectAnswer = AttemptAnswer::whereHas('question', function ($query) use ($subjectId) {
+            $query->where('subject_id', $subjectId);
+        })
+            ->where('is_correct', 1)
+            ->where('student_id', auth('api-student')->id())
+            ->count();
 
         // Now you have the calculated values based on the specified subject_id.
         $data = [
