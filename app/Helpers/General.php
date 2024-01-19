@@ -7,26 +7,31 @@ use Illuminate\Support\Facades\Http;
 function getImageDimensions($imageUrl)
 {
     try {
-        // Get image content from the remote URL
-        $imageContent = file_get_contents($imageUrl);
+        $width=0;
+        $height=0;
+        if($imageUrl) {
+            // Get image content from the remote URL
+            $imageContent = file_get_contents($imageUrl);
 
-        if ($imageContent === false) {
-            // Handle error (unable to fetch image)
-            return "Error: Unable to fetch image from $imageUrl";
+            if ($imageContent === false) {
+                // Handle error (unable to fetch image)
+                return "Error: Unable to fetch image from $imageUrl";
+            }
+
+            // Get image dimensions
+            $imageSize = getimagesizefromstring($imageContent);
+
+            if ($imageSize === false) {
+                // Handle error (unable to get image dimensions)
+                return "Error: Unable to get image dimensions for $imageUrl";
+            }
+
+            // Extract width and height from the image size array
+            list($width, $height) = $imageSize;
+
+            // Output or use the dimensions as needed
+
         }
-
-        // Get image dimensions
-        $imageSize = getimagesizefromstring($imageContent);
-
-        if ($imageSize === false) {
-            // Handle error (unable to get image dimensions)
-            return "Error: Unable to get image dimensions for $imageUrl";
-        }
-
-        // Extract width and height from the image size array
-        list($width, $height) = $imageSize;
-
-        // Output or use the dimensions as needed
         return ['width' => $width, 'height' => $height];
     }catch (\Exception $e){
         return ['width' => null, 'height' => null];

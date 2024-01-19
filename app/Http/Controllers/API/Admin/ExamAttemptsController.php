@@ -210,6 +210,25 @@ class ExamAttemptsController extends AppBaseController
         return $this->sendResponse($data, trans('backend.api.saved'));
     }
 
+    public function top_students(Request $request)
+    {
+        $topStudents = ExamAttempt::with(['exam', 'subject', 'student'])
+            ->whereHas('exam')
+            ->when(request('selected_subject_id'), function ($q) {
+                $q->where('subject_id', request('selected_subject_id'));
+            })->when(request('selected_exam_id'), function ($q) {
+                $q->where('exam_id', request('selected_exam_id'));
+            })
+            ->when(request('selected_from') && request('selected_to'), function ($q) {
+                $q->whereBetween('created_at', [request('selected_from'), request('selected_to')]);
+            })
+            ->orderByDesc('earned_marks')
+            ->limit(10)
+            ->get();
+
+        return $this->sendResponse(ExamAttemptResource::collection($topStudents), trans('backend.api.saved'));
+    }
+
     public function exam_attempts(Request $request)
     {
 
@@ -404,5 +423,8 @@ class ExamAttemptsController extends AppBaseController
         $percent = ($similarity * 200) / (strlen($str1) + strlen($str2));
         return $similarity;
     }
+
+
+
 
 }
