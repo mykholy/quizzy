@@ -23,6 +23,8 @@ class AnswerResource extends JsonResource
             'answer_order' => $this->answer_order,
             'answer_settings' => $this->answer_settings,
             'photo' => $this->photo,
+            'image_dimensions' => getImageDimensions($this->photo),
+
             'is_correct' => $this->is_correct,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

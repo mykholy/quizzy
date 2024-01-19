@@ -19,6 +19,8 @@ class LessonResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'photo' => $this->photo,
+            'image_dimensions' => getImageDimensions($this->photo),
+
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

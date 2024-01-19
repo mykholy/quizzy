@@ -23,6 +23,8 @@ class ExamResource extends JsonResource
             'type_assessment' => $this->type_assessment,
             'description' => $this->description,
             'photo' => $this->photo,
+            'image_dimensions' => getImageDimensions($this->photo),
+
             'file' => $this->file,
             'semester' => $this->semester,
             'subject_id' => $this->subject_id,

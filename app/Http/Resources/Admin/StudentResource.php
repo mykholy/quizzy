@@ -22,6 +22,8 @@ class StudentResource extends JsonResource
             'phone' => $this->phone,
 
             'photo' => $this->photo,
+            'image_dimensions' => getImageDimensions($this->photo),
+
             'date_of_birth' => $this->date_of_birth,
             'governorate' => $this->governorate,
             'area' => $this->area,

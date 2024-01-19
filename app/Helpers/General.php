@@ -4,6 +4,31 @@ use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Http;
 
+function getImageDimensions($imageUrl)
+{
+    // Get image content from the remote URL
+    $imageContent = file_get_contents($imageUrl);
+
+    if ($imageContent === false) {
+        // Handle error (unable to fetch image)
+        return "Error: Unable to fetch image from $imageUrl";
+    }
+
+    // Get image dimensions
+    $imageSize = getimagesizefromstring($imageContent);
+
+    if ($imageSize === false) {
+        // Handle error (unable to get image dimensions)
+        return "Error: Unable to get image dimensions for $imageUrl";
+    }
+
+    // Extract width and height from the image size array
+    list($width, $height) = $imageSize;
+
+    // Output or use the dimensions as needed
+    return ['width' => $width, 'height' => $height];
+}
+
 function checkFileType($url)
 {
     if (!$url) {
@@ -32,18 +57,18 @@ function checkFileType($url)
 }
 
 
-
-function send_mail($data, $to,$view="mail")
+function send_mail($data, $to, $view = "mail")
 {
     $from = env('MAIL_FROM_ADDRESS');
     $name_app = env('MAIL_FROM_NAME');
 
-    Mail::send(['text' => $view], $data, function ($message) use ($from, $to, $name_app,$data) {
-        $message->to($to, $name_app)->subject($name_app . ' | '.$data['subject']);
+    Mail::send(['text' => $view], $data, function ($message) use ($from, $to, $name_app, $data) {
+        $message->to($to, $name_app)->subject($name_app . ' | ' . $data['subject']);
         $message->from($from, $name_app);
     });
     return true;
 }
+
 function uploadImage($folder, $image)
 {
 

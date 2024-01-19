@@ -21,6 +21,8 @@ class QuestionResource extends JsonResource
             'level' => $this->level,
             'description' => $this->description,
             'photo' => $this->photo,
+            'image_dimensions' => getImageDimensions($this->photo),
+
             'file' => $this->file,
             'file_type' => checkFileType($this->file),
             'points' => $this->points,

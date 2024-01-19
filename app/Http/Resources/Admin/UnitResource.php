@@ -19,6 +19,8 @@ class UnitResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'photo' => $this->photo,
+            'image_dimensions' => getImageDimensions($this->photo),
+
             'lessons' => LessonResource::collection($this->whenLoaded('lessons')),
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
