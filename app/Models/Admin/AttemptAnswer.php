@@ -28,6 +28,10 @@ class AttemptAnswer extends Model
     {
         return $this->belongsTo(Question::class, 'question_id');
     }
+    public function examAttempt()
+    {
+        return $this->belongsTo(ExamAttempt::class, 'exam_attempt_id', 'id');
+    }
 
 
 }
