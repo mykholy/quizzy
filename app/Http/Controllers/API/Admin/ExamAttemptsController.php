@@ -241,10 +241,18 @@ class ExamAttemptsController extends AppBaseController
 
         // 3. Calculate your ranking for a specific subject
         // Replace 'your_score' with the actual score of the current student
+        // Replace 'your_score' with the actual score of the current student
         $yourScore = ExamAttempt::where('subject_id', $subjectId)->value('earned_marks');
-        $yourRanking = ExamAttempt::where('subject_id', $subjectId)
-                ->where('earned_marks', '>', $yourScore)
-                ->count() + 1;
+
+        // Check if $yourScore is not null before proceeding
+        if ($yourScore !== null) {
+            $yourRanking = ExamAttempt::where('subject_id', $subjectId)
+                    ->where('earned_marks', '>', $yourScore)
+                    ->count() + 1;
+        } else {
+            // Handle the case where $yourScore is null (e.g., subject_id not found)
+            $yourRanking = null;
+        }
 
         // 4. Calculate number of correct answers for a specific subject
         $numberCorrectAnswer = AttemptAnswer::whereHas('question', function ($query) use ($subjectId) {
