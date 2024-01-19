@@ -218,6 +218,7 @@ Route::resource('exams', App\Http\Controllers\API\Admin\ExamAPIController::class
         'destroy' => 'admin.exams.destroy'
     ]);
 
+Route::get('exams/{subject_id}/achievements', [ExamAttemptsController::class, 'achievements']);
 Route::get('exams/students/top', [ExamAttemptsController::class, 'top_students']);
 Route::post('exams/start', [ExamAttemptsController::class, 'start_exam']);
 Route::post('exams/answer_question', [ExamAttemptsController::class, 'answer_question']);

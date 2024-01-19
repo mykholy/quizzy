@@ -147,11 +147,11 @@ class ExamAttemptsController extends AppBaseController
         if (in_array($question_type, array(Question::$QUESTION_TYPE_LONG_ANSWER, Question::$QUESTION_TYPE_SHORT_ANSWER, 'image_answering'))) {
             $get_original_answer = $question->answers->first();
             similar_text(strtolower($given_answer), strtolower($get_original_answer->answer_two_gap_match), $per);
-            Log::info("similar_text",[
-                'strtolower($given_answer)'=>strtolower($given_answer),
-                'strtolower($get_original_answer->answer_two_gap_match)'=>strtolower($get_original_answer->answer_two_gap_match),
-                '$get_original_answer'=>json_encode($get_original_answer),
-                '$per'=>$per,
+            Log::info("similar_text", [
+                'strtolower($given_answer)' => strtolower($given_answer),
+                'strtolower($get_original_answer->answer_two_gap_match)' => strtolower($get_original_answer->answer_two_gap_match),
+                '$get_original_answer' => json_encode($get_original_answer),
+                '$per' => $per,
             ]);
             if ($question_type == Question::$QUESTION_TYPE_LONG_ANSWER)
                 $request_data['is_correct'] = $per > 60 ? 1 : 0;
@@ -227,6 +227,41 @@ class ExamAttemptsController extends AppBaseController
             ->get();
 
         return $this->sendResponse(ExamAttemptResource::collection($topStudents), trans('backend.api.saved'));
+    }
+
+    public function achievements($subject_id, Request $request)
+    {
+        $subjectId = $subject_id; // your subject_id value;
+
+        // 1. Calculate total earned marks for a specific subject
+        $totalEarnedMarks = ExamAttempt::where('subject_id', $subjectId)->sum('earned_marks');
+
+        // 2. Calculate total questions attempted for a specific subject
+        $totalQuestions = ExamAttempt::where('subject_id', $subjectId)->value('total_answered_questions');
+
+        // 3. Calculate your ranking for a specific subject
+        // Replace 'your_score' with the actual score of the current student
+        $yourScore = ExamAttempt::where('subject_id', $subjectId)->value('earned_marks');
+        $yourRanking = ExamAttempt::where('subject_id', $subjectId)
+                ->where('earned_marks', '>', $yourScore)
+                ->count() + 1;
+
+        // 4. Calculate number of correct answers for a specific subject
+        $numberCorrectAnswer = AttemptAnswer::where([
+            'is_correct' => 1,
+            'student_id' => auth('api-student')->id(),
+            'subject_id' => $subjectId,
+        ])->count();
+
+        // Now you have the calculated values based on the specified subject_id.
+        $data = [
+            'totalEarnedMarks' => $totalEarnedMarks,
+            'totalQuestions' => $totalQuestions,
+            'yourRanking' => $yourRanking,
+            'numberCorrectAnswer' => $numberCorrectAnswer,
+        ];
+
+        return $this->sendResponse($data, trans('backend.api.saved'));
     }
 
     public function exam_attempts(Request $request)
@@ -423,8 +458,6 @@ class ExamAttemptsController extends AppBaseController
         $percent = ($similarity * 200) / (strlen($str1) + strlen($str2));
         return $similarity;
     }
-
-
 
 
 }
