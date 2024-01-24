@@ -73,8 +73,8 @@ class ExamAttemptsController extends AppBaseController
             $answer = Answer::find($given_answer);//id for selected ans
             if ($answer)
                 $is_answer_was_correct = (bool)$answer->is_correct;
-            else
-                return $this->sendError(__('messages.not_found', ['model' => __('exam_attempts.singular')]));
+//            else
+//                return $this->sendError(__('messages.not_found', ['model' => __('exam_attempts.singular')]));
 
 
         } elseif ($question_type === Question::$QUESTION_TYPE_MULTIPLE_CHOICE) {

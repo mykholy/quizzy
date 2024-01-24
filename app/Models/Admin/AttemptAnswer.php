@@ -21,6 +21,7 @@ class AttemptAnswer extends Model
         'question_mark' => 'string',
         'achieved_mark' => 'string',
         'minus_mark' => 'string',
+        'time_spent' => 'integer',
         'is_correct' => 'boolean',
     ];
 
