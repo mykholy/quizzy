@@ -190,7 +190,10 @@ class ExamAttemptsController extends AppBaseController
     {
         $student_id = auth('api-student')->id();
         $exams_attempts = ExamAttempt::with(['exam', 'subject', 'student'])
-            ->whereHas('exam')
+            ->whereHas('exam', function ($q) {
+                $q->where('type', 'after_finish'); // Filter exams where the type is 'after_finish'
+            })
+            ->whereColumn('total_questions', '!=', 'total_answered_questions') // Filter exams where total_questions != total_answered_questions
             ->where('student_id', $student_id)
             ->when(request('selected_subject_id'), function ($q) {
                 $q->where('subject_id', request('selected_subject_id'));
