@@ -8,6 +8,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\Admin\AttemptAnswerAPIRequest;
 use App\Http\Requests\API\Admin\ExamAttemptAPIRequest;
 use App\Http\Resources\Admin\ExamAttemptResource;
+use App\Http\Resources\Admin\TopStudentExamAttemptResource;
 use App\Models\Admin\Answer;
 use App\Models\Admin\AttemptAnswer;
 use App\Models\Admin\Exam;
@@ -232,7 +233,7 @@ class ExamAttemptsController extends AppBaseController
             ->limit(10)
             ->get();
 
-        return $this->sendResponse(ExamAttemptResource::collection($topStudents), trans('backend.api.saved'));
+        return $this->sendResponse(TopStudentExamAttemptResource::collection($topStudents), trans('backend.api.saved'));
     }
 
     public function achievements($subject_id, Request $request)
