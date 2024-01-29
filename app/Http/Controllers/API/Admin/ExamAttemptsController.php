@@ -302,9 +302,13 @@ class ExamAttemptsController extends AppBaseController
         $numericChartData = array_values($chartData);
 
 
+        // Calculate the total earned marks for the week
+        $totalEarnedMarks = array_sum($chartData);
+
         return [
             'labels' => $dayLabels,
             'data' => $numericChartData,
+            'totalEarnedMarks' => $totalEarnedMarks,
         ];
     }
 
