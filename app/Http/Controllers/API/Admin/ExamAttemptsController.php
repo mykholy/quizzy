@@ -216,10 +216,13 @@ class ExamAttemptsController extends AppBaseController
     public function top_students(Request $request)
     {
         $topStudents = ExamAttempt::with(['exam', 'subject', 'student'])
-            ->whereHas('exam')
-            ->when(request('selected_subject_id'), function ($q) {
-                $q->where('subject_id', request('selected_subject_id'));
-            })->when(request('selected_exam_id'), function ($q) {
+
+            ->whereHas('exam', function ($query)  {
+                $query->when(request('selected_subject_id'), function ($q) {
+                    $q->where('subject_id', request('selected_subject_id'));
+                });
+            })
+            ->when(request('selected_exam_id'), function ($q) {
                 $q->where('exam_id', request('selected_exam_id'));
             })
             ->when(request('selected_from') && request('selected_to'), function ($q) {
