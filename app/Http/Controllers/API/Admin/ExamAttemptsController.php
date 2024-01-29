@@ -337,7 +337,7 @@ class ExamAttemptsController extends AppBaseController
 
         $exam_attempts = ExamAttempt::with(['exam', 'subject', 'student'])
             ->whereHas('exam', function ($q) {
-                $q->where('type', '!=', 'after_finish'); // Filter exams where the type is 'after_finish'
+                $q->where('type_assessment', '!=', 'after_finish'); // Filter exams where the type is 'after_finish'
             })
             ->whereColumn('total_questions', '!=', 'total_answered_questions') // Filter exams where total_questions != total_answered_questions
             ->where('student_id', $student_id)
