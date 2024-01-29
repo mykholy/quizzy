@@ -233,7 +233,14 @@ class ExamAttemptsController extends AppBaseController
 //            ->limit(10)
             ->paginate($request->input('limit',10));
 
-        return $this->sendResponse(TopStudentExamAttemptResource::collection($topStudents)->response()->getData(true), trans('backend.api.saved'));
+        // Find the position of the current student
+        $currentStudentPosition = $topStudents->pluck('id')->search(auth('api-student')->id());
+
+// Retrieve the current student and 5 students above and below
+        $studentsToShow = $topStudents->splice(max(0, $currentStudentPosition - 5), 11);
+
+
+        return $this->sendResponse(TopStudentExamAttemptResource::collection($studentsToShow)->response()->getData(true), trans('backend.api.saved'));
     }
 
     public function achievements($subject_id, Request $request)
