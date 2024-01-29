@@ -191,7 +191,7 @@ class ExamAttemptsController extends AppBaseController
         $student_id = auth('api-student')->id();
         $exams_attempts = ExamAttempt::with(['exam', 'subject', 'student'])
             ->whereHas('exam', function ($q) {
-                $q->where('type', '!=','after_finish'); // Filter exams where the type is 'after_finish'
+                $q->where('type', '!=', 'after_finish'); // Filter exams where the type is 'after_finish'
             })
             ->whereColumn('total_questions', '!=', 'total_answered_questions') // Filter exams where total_questions != total_answered_questions
             ->where('student_id', $student_id)
@@ -277,12 +277,16 @@ class ExamAttemptsController extends AppBaseController
         return $this->sendResponse($data, trans('backend.api.saved'));
     }
 
-    public function chart_achievements($subjectId){
+    public function chart_achievements($subjectId)
+    {
         $weekStart = now()->startOfWeek();
         $weekEnd = now()->endOfWeek();
 
-        $data = ExamAttempt::where('subject_id', $subjectId)
+        $data = ExamAttempt::whereHas('exam', function ($query) use ($subjectId) {
+            $query->where('subject_id', $subjectId);
+        })
             ->whereBetween('attempt_started_at', [$weekStart, $weekEnd])
+            ->with('attemptAnswers') // Eager load relationship if needed
             ->get();
 
         $chartData = [];
@@ -315,7 +319,7 @@ class ExamAttemptsController extends AppBaseController
 
         $exam_attempts = ExamAttempt::with(['exam', 'subject', 'student'])
             ->whereHas('exam', function ($q) {
-                $q->where('type', '!=','after_finish'); // Filter exams where the type is 'after_finish'
+                $q->where('type', '!=', 'after_finish'); // Filter exams where the type is 'after_finish'
             })
             ->whereColumn('total_questions', '!=', 'total_answered_questions') // Filter exams where total_questions != total_answered_questions
             ->where('student_id', $student_id)
