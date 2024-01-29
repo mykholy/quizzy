@@ -15,10 +15,11 @@ class TopStudentExamAttemptResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data=parent::toArray($request);
-        $data=collect($data)->only(['student','total_marks','earned_marks'])->toArray();
-        $data['number_correct_answer']=AttemptAnswer::where(['exam_attempt_id' => $this->id, 'is_correct' => 1, 'student_id' => auth('api-student')->id()])->count();
-        $data['number_wrong_answer']=AttemptAnswer::where(['exam_attempt_id' => $this->id, 'is_correct' => 0, 'student_id' => auth('api-student')->id()])->count();
+        $data = parent::toArray($request);
+        $data = collect($data)->only(['student', 'total_marks', 'earned_marks'])->toArray();
+        $data['student'] = collect($data['student'])->only(['id', 'name', 'username', 'email', 'photo'])->toArray();
+//        $data['number_correct_answer']=AttemptAnswer::where(['exam_attempt_id' => $this->id, 'is_correct' => 1, 'student_id' => auth('api-student')->id()])->count();
+//        $data['number_wrong_answer']=AttemptAnswer::where(['exam_attempt_id' => $this->id, 'is_correct' => 0, 'student_id' => auth('api-student')->id()])->count();
         return $data;
     }
 }
