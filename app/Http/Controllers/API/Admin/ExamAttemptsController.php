@@ -231,7 +231,7 @@ class ExamAttemptsController extends AppBaseController
             })
             ->orderByDesc('earned_marks')
 //            ->limit(10)
-            ->paginate(30);
+            ->paginate($request->input('limit',10));
 
         return $this->sendResponse(TopStudentExamAttemptResource::collection($topStudents)->response()->getData(true), trans('backend.api.saved'));
     }
