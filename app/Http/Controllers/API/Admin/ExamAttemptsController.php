@@ -288,24 +288,23 @@ class ExamAttemptsController extends AppBaseController
             ->whereBetween('created_at', [$weekStart, $weekEnd])
             ->get();
 
-        $chartData = [];
-        $dayLabels = [];
+        // Initialize an array for each day of the week with zero values
+        $dayLabels = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $chartData = array_fill_keys($dayLabels, 0);
 
+// Update the values based on the fetched data
         foreach ($data as $attempt) {
-            $day = $attempt->created_at->format('l'); // Get day name
-            $chartData[] = [
-                'day' => $day,
-                'earned_marks' => $attempt->earned_marks,
-            ];
-
-            // Ensure unique day labels
-            if (!in_array($day, $dayLabels)) {
-                $dayLabels[] = $day;
-            }
+            $day = $attempt->created_at->format('l');
+            $chartData[$day] += $attempt->earned_marks;
         }
+
+// Convert the associative array to a numeric array for Chart.js
+        $numericChartData = array_values($chartData);
+
+
         return [
             'labels' => $dayLabels,
-            'data' => $chartData,
+            'data' => $numericChartData,
         ];
     }
 
