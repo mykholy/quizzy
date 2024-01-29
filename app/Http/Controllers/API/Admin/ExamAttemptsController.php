@@ -239,8 +239,13 @@ class ExamAttemptsController extends AppBaseController
 // Retrieve the current student and 5 students above and below
         $studentsToShow = $topStudents->splice(max(0, $currentStudentPosition - 5), 11);
 
+// Add rank to each student
+        $rankedStudents = $studentsToShow->map(function ($student, $index) {
+            $student->rank = $index + 1; // Ranks start from 1
+            return $student;
+        });
 
-        return $this->sendResponse(TopStudentExamAttemptResource::collection($studentsToShow)->response()->getData(true), trans('backend.api.saved'));
+        return $this->sendResponse(TopStudentExamAttemptResource::collection($rankedStudents)->response()->getData(true), trans('backend.api.saved'));
     }
 
     public function achievements($subject_id, Request $request)
