@@ -230,7 +230,7 @@ class ExamAttemptsController extends AppBaseController
                 $q->whereBetween('created_at', [request('selected_from'), request('selected_to')]);
             })
             ->orderByDesc('earned_marks')
-            ->limit(10)
+//            ->limit(10)
             ->get();
 
         return $this->sendResponse(TopStudentExamAttemptResource::collection($topStudents), trans('backend.api.saved'));
