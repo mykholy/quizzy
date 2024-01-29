@@ -271,9 +271,39 @@ class ExamAttemptsController extends AppBaseController
             'totalQuestions' => $totalQuestions,
             'yourRanking' => $yourRanking,
             'numberCorrectAnswer' => $numberCorrectAnswer,
+            'chart' => $this->chart_achievements($subjectId),
         ];
 
         return $this->sendResponse($data, trans('backend.api.saved'));
+    }
+
+    public function chart_achievements($subjectId){
+        $weekStart = now()->startOfWeek();
+        $weekEnd = now()->endOfWeek();
+
+        $data = ExamAttempt::where('subject_id', $subjectId)
+            ->whereBetween('attempt_started_at', [$weekStart, $weekEnd])
+            ->get();
+
+        $chartData = [];
+        $dayLabels = [];
+
+        foreach ($data as $attempt) {
+            $day = $attempt->attempt_started_at->format('l'); // Get day name
+            $chartData[] = [
+                'day' => $day,
+                'earned_marks' => $attempt->earned_marks,
+            ];
+
+            // Ensure unique day labels
+            if (!in_array($day, $dayLabels)) {
+                $dayLabels[] = $day;
+            }
+        }
+        return [
+            'labels' => $dayLabels,
+            'data' => $chartData,
+        ];
     }
 
     public function exam_attempts(Request $request)
