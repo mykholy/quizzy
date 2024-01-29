@@ -351,7 +351,7 @@ class ExamAttemptsController extends AppBaseController
                 $q->whereBetween('created_at', [request('selected_from'), request('selected_to')]);
             })
             ->orderby('id', 'asc')
-            ->paginate(10);
+            ->paginate($request->input('limit',10));
 
 //        $charts = $this->exam_attempts_chart($student_id, $exam_id);
         $data['exam_attempts'] = $exam_attempts;
