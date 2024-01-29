@@ -51,6 +51,7 @@ class Exam extends Model
     public static array $rules = [
         'name' => 'nullable',
         'description' => 'nullable',
+        'subject_id' => 'nullable|exists:subjects,id',
         'semester' => 'in:1,2,3,4',
         'points' => 'min:0'
     ];
@@ -59,6 +60,7 @@ class Exam extends Model
     {
         return $value ? asset($value) : null;
     }
+
     public function subject(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Admin\Subject::class, 'subject_id', 'id');
@@ -83,6 +85,7 @@ class Exam extends Model
     {
         return $this->belongsToMany(Student::class);
     }
+
     public function questions()
     {
         return $this->belongsToMany(Question::class);
@@ -102,8 +105,8 @@ class Exam extends Model
     public static function getAllTypeAssessment()
     {
         return [
-            'direct' => trans('models/exams.direct' ),
-            'after_finish' => trans('models/exams.after_finish' ),
+            'direct' => trans('models/exams.direct'),
+            'after_finish' => trans('models/exams.after_finish'),
         ];
     }
 }
