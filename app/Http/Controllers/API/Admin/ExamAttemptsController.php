@@ -286,7 +286,6 @@ class ExamAttemptsController extends AppBaseController
             $query->where('subject_id', $subjectId);
         })
             ->whereBetween('attempt_started_at', [$weekStart, $weekEnd])
-            ->with('attemptAnswers') // Eager load relationship if needed
             ->get();
 
         $chartData = [];
