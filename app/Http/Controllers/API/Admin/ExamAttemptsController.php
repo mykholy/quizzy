@@ -285,14 +285,14 @@ class ExamAttemptsController extends AppBaseController
         $data = ExamAttempt::whereHas('exam', function ($query) use ($subjectId) {
             $query->where('subject_id', $subjectId);
         })
-            ->whereBetween('attempt_started_at', [$weekStart, $weekEnd])
+            ->whereBetween('created_at', [$weekStart, $weekEnd])
             ->get();
 
         $chartData = [];
         $dayLabels = [];
 
         foreach ($data as $attempt) {
-            $day = $attempt->attempt_started_at->format('l'); // Get day name
+            $day = $attempt->created_at->format('l'); // Get day name
             $chartData[] = [
                 'day' => $day,
                 'earned_marks' => $attempt->earned_marks,
