@@ -23,7 +23,9 @@ class BookAPIController extends AppBaseController
     {
         $query = Book::query();
 
-        if ($request->get('skip')) {
+        if ($request->get('subject_id')) {
+            $query->where('subject_id',$request->get('subject_id'));
+        }if ($request->get('skip')) {
             $query->skip($request->get('skip'));
         }
         if ($request->get('limit')) {

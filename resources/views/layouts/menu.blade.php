@@ -120,3 +120,13 @@
 
 
 
+
+<li class="slide {{ Request::is('admin.ads*') ? 'active' : '' }}">
+    <a class="side-menu__item {{ Request::is('admin.ads*') ? 'active' : '' }}"
+       href="{{ route('admin.ads.index') }}"
+    >
+        <i class=" ion-md-settings side-menu__icon"></i>
+                    <span class="side-menu__label">{{__('models/ads.plural')}}</span>
+        
+    </a>
+</li>

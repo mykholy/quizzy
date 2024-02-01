@@ -21,7 +21,7 @@ class SubjectAPIController extends AppBaseController
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Subject::query();
+        $query = Subject::query()->with(['books']);
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
@@ -69,7 +69,7 @@ class SubjectAPIController extends AppBaseController
     public function show($id): JsonResponse
     {
         /** @var Subject $subject */
-        $subject = Subject::with('academicYear')->find($id);
+        $subject = Subject::with(['academicYear','books'])->find($id);
 
         if (empty($subject)) {
             return $this->sendError(

@@ -198,7 +198,7 @@ Route::resource('admin/answers', App\Http\Controllers\API\Admin\AnswerAPIControl
         'destroy' => 'admin.answers.destroy'
     ]);
 
-Route::resource('admin/books', App\Http\Controllers\API\Admin\BookAPIController::class)
+Route::resource('books', App\Http\Controllers\API\Admin\BookAPIController::class)
     ->except(['create', 'edit'])
     ->names([
         'index' => 'admin.books.index',
@@ -228,3 +228,14 @@ Route::get('exams/exam_attempts/attempts', [ExamAttemptsController::class, 'exam
 Route::get('exams/exam_attempts/attempts/{id}', [ExamAttemptsController::class, 'exam_attempt_show']);
 Route::get('exams/attempt_answers/{exam_attempt_id}', [ExamAttemptsController::class, 'attempt_answers']);
 
+
+
+Route::resource('ads', App\Http\Controllers\API\Admin\AdAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.ads.index',
+        'store' => 'admin.ads.store',
+        'show' => 'admin.ads.show',
+        'update' => 'admin.ads.update',
+        'destroy' => 'admin.ads.destroy'
+    ]);

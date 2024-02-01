@@ -63,6 +63,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('questions/{id}/lessons', [App\Http\Controllers\Admin\QuestionController::class,'ajax_get_lessons_by_unit']);
         Route::resource('questions', App\Http\Controllers\Admin\QuestionController::class);
         Route::resource('answers', App\Http\Controllers\Admin\AnswerController::class);
+        Route::resource('ads', App\Http\Controllers\Admin\AdController::class);
 
         Route::get('settings/general', [App\Http\Controllers\Admin\SettingController::class, 'general'])->name('settings.general');
         Route::post('settings/updateSettings', [App\Http\Controllers\Admin\SettingController::class, 'updateSettings'])->name('settings.updateSettings');

@@ -22,7 +22,7 @@ class UnitAPIController extends AppBaseController
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Unit::query()->with('lessons');
+        $query = Unit::query()->with(['lessons','book']);
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
@@ -69,7 +69,7 @@ class UnitAPIController extends AppBaseController
     public function show($id): JsonResponse
     {
         /** @var Unit $unit */
-        $unit = Unit::with('lessons')->find($id);
+        $unit = Unit::with(['lessons','book'])->find($id);
 
         if (empty($unit)) {
             return $this->sendError(
