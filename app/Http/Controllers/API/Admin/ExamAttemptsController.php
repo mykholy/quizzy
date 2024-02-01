@@ -376,7 +376,7 @@ class ExamAttemptsController extends AppBaseController
 
         $data = [
             'exam_attempt' => new ExamAttemptResource($exam_attempt),
-            'unsolved_questions' => QuestionResource::collection($unsolved_questions)),
+            'unsolved_questions' => QuestionResource::collection($unsolved_questions),
         ];
 
         return $this->sendResponse($data, trans('backend.api.saved'));
