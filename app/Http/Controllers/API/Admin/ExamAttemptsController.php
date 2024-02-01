@@ -363,12 +363,22 @@ class ExamAttemptsController extends AppBaseController
     {
 
 
+        $exam_attempt = ExamAttempt::with(['exam', 'subject', 'student', 'book'])->find($id);
+        // Assuming your ExamAttempt model has a "exam" relationship defined
+        $unsolved_questions = $exam_attempt->exam
+            ->questions()
+            ->whereDoesntHave('attemptAnswers', function ($query) use ($exam_attempt) {
+                $query->where('exam_attempt_id', $exam_attempt->id)
+                    ->where('student_id', auth('api-student')->id());
+            })
+            ->get();
 
+        $data = [
+            'exam_attempt' => new ExamAttemptResource($exam_attempt),
+            'unsolved_questions' => $unsolved_questions,
+        ];
 
-        $exam_attempt = ExamAttempt::with(['exam', 'subject', 'student','book'])->find($id);
-
-
-        return $this->sendResponse(new ExamAttemptResource($exam_attempt), trans('backend.api.saved'));
+        return $this->sendResponse($data, trans('backend.api.saved'));
     }
 
     public function attempt_answers($exam_attempt_id)
