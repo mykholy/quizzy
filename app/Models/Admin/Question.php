@@ -65,6 +65,17 @@ class Question extends Model
         return $this->hasMany(Answer::class, 'question_id');
     }
 
+    public function examAttempts()
+    {
+        return $this->belongsToMany(ExamAttempt::class, 'exam_question', 'question_id', 'exam_id')
+            ->withTimestamps();
+    }
+
+    public function attemptAnswers()
+    {
+        return $this->hasMany(AttemptAnswer::class, 'question_id', 'id');
+    }
+
 
     public function getPhotoAttribute($value)
     {
