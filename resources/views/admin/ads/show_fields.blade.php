@@ -7,14 +7,22 @@
 <!-- Photo Field -->
 <div class="col-sm-12">
     {!! Form::label('photo', __('models/ads.fields.photo').':') !!}
-    <p>{{ $ad->photo }}</p>
+
+    <p><img src="{{ $ad->photo }}" width="200px" height="200px" onerror="this.style.display='none';this.src=''"/>
+    </p>
 </div>
 
 <!-- Is Active Field -->
 <div class="col-sm-12">
     {!! Form::label('is_active', __('models/ads.fields.is_active').':') !!}
-    <p>{{ $ad->is_active }}</p>
+
+    <p>
+        <span
+            class=" me-1 badge bg-{{$ad->is_active?'success':'danger'}}">{{__('lang.'.($ad->is_active?'active':'not_active'))}}</span>
+
+    </p>
 </div>
+
 
 <!-- Created At Field -->
 <div class="col-sm-12">
