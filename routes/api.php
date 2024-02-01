@@ -225,5 +225,6 @@ Route::post('exams/answer_question', [ExamAttemptsController::class, 'answer_que
 
 Route::get('/exam_attempts', [ExamAttemptsController::class, 'exams']);
 Route::get('exams/exam_attempts/attempts', [ExamAttemptsController::class, 'exam_attempts']);
+Route::get('exams/exam_attempts/attempts/{id}', [ExamAttemptsController::class, 'exam_attempt_show']);
 Route::get('exams/attempt_answers/{exam_attempt_id}', [ExamAttemptsController::class, 'attempt_answers']);
 

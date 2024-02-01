@@ -8,6 +8,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\Admin\AttemptAnswerAPIRequest;
 use App\Http\Requests\API\Admin\ExamAttemptAPIRequest;
 use App\Http\Resources\Admin\ExamAttemptResource;
+use App\Http\Resources\Admin\ExamAttemptMiniResource;
 use App\Http\Resources\Admin\TopStudentExamAttemptResource;
 use App\Models\Admin\Answer;
 use App\Models\Admin\AttemptAnswer;
@@ -217,8 +218,7 @@ class ExamAttemptsController extends AppBaseController
     public function top_students(Request $request)
     {
         $topStudents = ExamAttempt::with(['exam', 'subject', 'student'])
-
-            ->whereHas('exam', function ($query)  {
+            ->whereHas('exam', function ($query) {
                 $query->when(request('selected_subject_id'), function ($q) {
                     $q->where('subject_id', request('selected_subject_id'));
                 });
@@ -231,7 +231,7 @@ class ExamAttemptsController extends AppBaseController
             })
             ->orderByDesc('earned_marks')
 //            ->limit(10)
-            ->paginate($request->input('limit',10));
+            ->paginate($request->input('limit', 10));
 
 //        // Find the position of the current student
 //        $currentStudentPosition = $topStudents->pluck('id')->search(auth('api-student')->id());
@@ -351,13 +351,24 @@ class ExamAttemptsController extends AppBaseController
                 $q->whereBetween('created_at', [request('selected_from'), request('selected_to')]);
             })
             ->orderby('id', 'asc')
-            ->paginate($request->input('limit',10));
+            ->paginate($request->input('limit', 10));
 
 //        $charts = $this->exam_attempts_chart($student_id, $exam_id);
-        $data['exam_attempts'] = $exam_attempts;
-//        $data['charts'] = $charts;
 
-        return $this->sendResponse($data, trans('backend.api.saved'));
+        $exam_attempts_resource = ExamAttemptMiniResource::collection($exam_attempts)->response()->getData(true);
+        return $this->sendResponse($exam_attempts_resource, trans('backend.api.saved'));
+    }
+
+    public function exam_attempt_show($id)
+    {
+
+
+
+
+        $exam_attempt = ExamAttempt::with(['exam', 'subject', 'student','book'])->find($id);
+
+
+        return $this->sendResponse(new ExamAttemptResource($exam_attempt), trans('backend.api.saved'));
     }
 
     public function attempt_answers($exam_attempt_id)
