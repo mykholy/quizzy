@@ -9,6 +9,7 @@ use App\Http\Requests\API\Admin\AttemptAnswerAPIRequest;
 use App\Http\Requests\API\Admin\ExamAttemptAPIRequest;
 use App\Http\Resources\Admin\ExamAttemptResource;
 use App\Http\Resources\Admin\ExamAttemptMiniResource;
+use App\Http\Resources\Admin\QuestionResource;
 use App\Http\Resources\Admin\TopStudentExamAttemptResource;
 use App\Models\Admin\Answer;
 use App\Models\Admin\AttemptAnswer;
@@ -375,7 +376,7 @@ class ExamAttemptsController extends AppBaseController
 
         $data = [
             'exam_attempt' => new ExamAttemptResource($exam_attempt),
-            'unsolved_questions' => $unsolved_questions,
+            'unsolved_questions' => QuestionResource::collection($unsolved_questions)),
         ];
 
         return $this->sendResponse($data, trans('backend.api.saved'));
