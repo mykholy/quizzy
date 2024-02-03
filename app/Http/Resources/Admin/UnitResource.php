@@ -23,7 +23,7 @@ class UnitResource extends JsonResource
             'image_dimensions' => getImageDimensions($this->photo),
 
             'lessons' => LessonResource::collection($this->whenLoaded('lessons')),
-            'book' => $this->whenLoaded('book', new BookResource($this->book)),
+            'book' =>new BookResource($this->whenLoaded('book' )) ,
 
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
