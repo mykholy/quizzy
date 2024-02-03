@@ -22,7 +22,7 @@ class UnitAPIController extends AppBaseController
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Unit::query()->with(['lessons', 'book']);
+        $query = Unit::query()->with(['lessons']);
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
