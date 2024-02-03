@@ -22,7 +22,7 @@ class UnitAPIController extends AppBaseController
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Unit::query()->with(['lessons','book']);
+        $query = Unit::query()->with(['lessons', 'book']);
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
@@ -36,6 +36,12 @@ class UnitAPIController extends AppBaseController
                 $subject = Subject::find($request->subject_id);
                 $book_ids = $subject->books->pluck('id')->toArray();
                 $q->whereIn('book_id', $book_ids);
+            })
+            ->when($request->book_id, function ($q) use ($request) {
+                $q->where('book_id', $request->book_id);
+            })
+            ->when($request->semester, function ($q) use ($request) {
+                $q->where('semester', $request->semester);
             })
             ->get();
 
@@ -69,7 +75,7 @@ class UnitAPIController extends AppBaseController
     public function show($id): JsonResponse
     {
         /** @var Unit $unit */
-        $unit = Unit::with(['lessons','book'])->find($id);
+        $unit = Unit::with(['lessons', 'book'])->find($id);
 
         if (empty($unit)) {
             return $this->sendError(
