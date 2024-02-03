@@ -209,26 +209,29 @@ class ExamAPIController extends AppBaseController
             __('messages.deleted', ['model' => __('models/exams.singular')])
         );
     }
-
     public function getQuestionsIdsByTotalTime($query, $numberOfQuestions = 10, $time = null)
     {
         $questionIds = [];
         $uniqueQuestionIds = collect(); // Using a collection as a set for uniqueness
+
         if ($time) {
-            $timeLimit = (int)$time;
+            $timeLimit = (int) $time;
             $cumulativeTime = 0;
 
-            // Get questions randomly until cumulative time exceeds the limit
-            while ($cumulativeTime <= $timeLimit && $uniqueQuestionIds->count() < $numberOfQuestions) {
-                $randomQuestion = $query->inRandomOrder()->first();
-                if ($randomQuestion) {
-                    $questionTime = (int)$randomQuestion->time;
-                    $cumulativeTime += $questionTime;
+            $questions = $query->inRandomOrder()->get();
 
-                    // Only add the question if the cumulative time is still within the limit and it's not already in the set
-                    if ($cumulativeTime <= $timeLimit && !$uniqueQuestionIds->contains($randomQuestion->id)) {
-                        $uniqueQuestionIds->push($randomQuestion->id);
-                    }
+            foreach ($questions as $randomQuestion) {
+                $questionTime = (int) $randomQuestion->time;
+
+                // Check if adding the current question exceeds the time limit
+                if ($cumulativeTime + $questionTime > $timeLimit) {
+                    break;
+                }
+
+                // Only add the question if it's not already in the set
+                if (!$uniqueQuestionIds->contains($randomQuestion->id)) {
+                    $uniqueQuestionIds->push($randomQuestion->id);
+                    $cumulativeTime += $questionTime;
                 }
             }
         } else {
@@ -237,5 +240,34 @@ class ExamAPIController extends AppBaseController
 
         return $uniqueQuestionIds->toArray();
     }
+
+
+//    public function getQuestionsIdsByTotalTime($query, $numberOfQuestions = 10, $time = null)
+//    {
+//        $questionIds = [];
+//        $uniqueQuestionIds = collect(); // Using a collection as a set for uniqueness
+//        if ($time) {
+//            $timeLimit = (int)$time;
+//            $cumulativeTime = 0;
+//
+//            // Get questions randomly until cumulative time exceeds the limit
+//            while ($cumulativeTime <= $timeLimit && $uniqueQuestionIds->count() < $numberOfQuestions) {
+//                $randomQuestion = $query->inRandomOrder()->first();
+//                if ($randomQuestion) {
+//                    $questionTime = (int)$randomQuestion->time;
+//                    $cumulativeTime += $questionTime;
+//
+//                    // Only add the question if the cumulative time is still within the limit and it's not already in the set
+//                    if ($cumulativeTime <= $timeLimit && !$uniqueQuestionIds->contains($randomQuestion->id)) {
+//                        $uniqueQuestionIds->push($randomQuestion->id);
+//                    }
+//                }
+//            }
+//        } else {
+//            $uniqueQuestionIds = $query->inRandomOrder()->pluck('id')->unique()->take($numberOfQuestions);
+//        }
+//
+//        return $uniqueQuestionIds->toArray();
+//    }
 
 }
