@@ -16,7 +16,7 @@ class ExamAttemptMiniResource extends JsonResource
     public function toArray(Request $request): array
     {
         $data = parent::toArray($request);
-        $data = collect($data)->only(['subject', 'student', 'book', 'id', 'total_questions', 'total_answered_questions'])->toArray();
+        $data = collect($data)->only(['subject','student_id', 'book', 'id', 'total_questions', 'total_answered_questions'])->toArray();
         return $data;
     }
 }

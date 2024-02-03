@@ -97,6 +97,7 @@ class UnitDataTable extends DataTable
             'name' => new Column(['title' => __('models/units.fields.name'), 'data' => 'name']),
             'photo' => new Column(['title' => __('models/units.fields.photo'), 'data' => 'photo']),
             'book_id' => new Column(['title' => __('models/units.fields.book_id'), 'data' => 'book_id']),
+            'semester' => new Column(['title' => __('models/subjects.fields.semester'), 'data' => 'semester']),
             'is_active' => new Column(['title' => __('models/units.fields.is_active'), 'data' => 'is_active'])
         ];
     }

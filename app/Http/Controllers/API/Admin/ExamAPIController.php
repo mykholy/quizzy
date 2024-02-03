@@ -117,9 +117,12 @@ class ExamAPIController extends AppBaseController
             } elseif ($request->lesson_id) {
                 $questionIds = $this->getQuestionsIdsByTotalTime($query->where('lesson_id', $request->lesson_id), $numberOfQuestions, $timeLimit);
 
-            } else
-                $questionIds = $this->getQuestionsIdsByTotalTime($query, $numberOfQuestions, $timeLimit);
+            } else {
+                $unit_ids = Unit::where('book_id', $request->book_id)->pluck('id')->toArray();
+                $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
 
+                $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
+            }
         } else {
             $questionIds = $this->getQuestionsIdsByTotalTime($query, $numberOfQuestions, $timeLimit);
         }

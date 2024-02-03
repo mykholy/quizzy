@@ -18,11 +18,6 @@
     @endif
 </div>
 
-<!-- Semester Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('semester', __('models/subjects.fields.semester').':') !!}
-    {!! Form::select('semester', ['-1'=>'All','1' => 'First', '2' => 'Second','3'=>'Third','4'=>'Fourth'], null, ['class' => 'form-control custom-select']) !!}
-</div>
 
 
 <!-- Photo Field -->

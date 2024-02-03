@@ -19,6 +19,7 @@ class UnitResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'photo' => $this->photo,
+            'semester' => $this->semester,
             'image_dimensions' => getImageDimensions($this->photo),
 
             'lessons' => LessonResource::collection($this->whenLoaded('lessons')),

@@ -14,6 +14,7 @@ class Unit extends Model
         'description',
         'photo',
         'book_id',
+        'semester',
         'is_active'
     ];
 

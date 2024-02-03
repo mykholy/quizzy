@@ -94,7 +94,7 @@ class SubjectDataTable extends DataTable
             'name' => new Column(['title' => __('models/subjects.fields.name'), 'data' => 'name']),
             'photo' => new Column(['title' => __('models/subjects.fields.photo'), 'data' => 'photo']),
             'academic_year_id' => new Column(['title' => __('models/subjects.fields.academic_year_id'), 'data' => 'academic_year_id']),
-            'semester' => new Column(['title' => __('models/subjects.fields.semester'), 'data' => 'semester']),
+//            'semester' => new Column(['title' => __('models/subjects.fields.semester'), 'data' => 'semester']),
             'is_active' => new Column(['title' => __('models/subjects.fields.is_active'), 'data' => 'is_active'])
         ];
     }

@@ -12,11 +12,11 @@
     </p>
 </div>
 
-<!-- Semester Field -->
-<div class="col-sm-12">
-    {!! Form::label('semester', __('models/subjects.fields.semester').':') !!}
-    <p>{{ $subject->semester }}</p>
-</div>
+{{--<!-- Semester Field -->--}}
+{{--<div class="col-sm-12">--}}
+{{--    {!! Form::label('semester', __('models/subjects.fields.semester').':') !!}--}}
+{{--    <p>{{ $subject->semester }}</p>--}}
+{{--</div>--}}
 
 <!-- academic_year_id Field -->
 <div class="col-sm-12">
