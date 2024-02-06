@@ -52,7 +52,7 @@ class Exam extends Model
         'name' => 'nullable',
         'description' => 'nullable',
         'subject_id' => 'nullable|exists:subjects,id',
-        'semester' => 'in:1,2,3,4',
+//        'semester' => 'in:1,2,3,4',
         'points' => 'min:0'
     ];
 
