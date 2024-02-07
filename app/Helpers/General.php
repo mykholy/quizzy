@@ -1,15 +1,44 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Http;
 
+function sendSMS($number, $msg)
+{
+
+    try {
+        $url = "http://triple-core.ps/sendbulksms.php";
+        $fields = [
+            'user_name' => env('TRIPLE_USER_NAME','quizzyps'),
+            'user_pass' => env('TRIPLE_USER_PASS','852141'),
+            'sender' => env('TRIPLE_SENDER','quizzyps'),
+            'mobile' => $number,
+            'type' => 0,
+            'text' => $msg
+        ];
+        $response = Http::withoutVerifying()
+            ->withOptions(["verify" => false])
+            ->get($url, ($fields));
+        if ($response->body() != 1001) {
+            Log::info('Exception SMS response:' . $response->json() . ' => ' . json_encode($fields));
+
+        }
+    } catch (\Exception $exception) {
+        Log::info('Exception:' . json_encode($exception));
+
+    }
+
+
+}
+
 function getImageDimensions($imageUrl)
 {
     try {
-        $width=0;
-        $height=0;
-        if($imageUrl) {
+        $width = 0;
+        $height = 0;
+        if ($imageUrl) {
             // Get image content from the remote URL
             $imageContent = file_get_contents($imageUrl);
 
@@ -33,7 +62,7 @@ function getImageDimensions($imageUrl)
 
         }
         return ['width' => $width, 'height' => $height];
-    }catch (\Exception $e){
+    } catch (\Exception $e) {
         return ['width' => null, 'height' => null];
     }
 }

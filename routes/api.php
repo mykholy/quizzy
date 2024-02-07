@@ -32,8 +32,12 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('forget_password', [AuthStudentAPIController::class, 'forgetPassword']);
     Route::post('verify-code', [AuthStudentAPIController::class, 'VerifyCode']);
     Route::post('reset', [AuthStudentAPIController::class, 'reset']);
+
     Route::post('sendVerifyEmail', [AuthStudentAPIController::class, 'sendVerifyEmail']);
     Route::post('verify-email-code', [AuthStudentAPIController::class, 'VerifyEmailCode']);
+
+    Route::post('sendVerifyPhone', [AuthStudentAPIController::class, 'sendVerifyPhone']);
+    Route::post('verify-phone-code', [AuthStudentAPIController::class, 'VerifyPhoneCode']);
 
 
 });

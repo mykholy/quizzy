@@ -25,7 +25,7 @@ class AuthStudentAPIController extends AppBaseController
     public function __construct()
     {
 
-        $this->middleware('auth:api-student', ['except' => ['socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyEmail', 'VerifyEmailCode','VerifyCode', 'settings']]);
+        $this->middleware('auth:api-student', ['except' => ['socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode','sendVerifyEmail', 'VerifyEmailCode','VerifyCode', 'settings']]);
     }
 
 
@@ -266,6 +266,91 @@ class AuthStudentAPIController extends AppBaseController
 //            'code' => $passwordReset->token,
         ], 'Done');
     }
+    public function VerifyEmailCode(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'code' => 'required|string'
+        ]);
+        $user = Student::where('email', $request->email)->first();
+        if (!$user)
+            return $this->sendError('We can\'t find a user with that email.', 200);
+
+        $passwordReset = PasswordReset::where([
+            ['token', $request->code],
+            ['email', $user->email]
+        ])->first();
+
+        if (!$passwordReset)
+            return $this->sendError('This code is invalid.', 200);
+
+        if (Carbon::parse($passwordReset->created_at)->addMinutes(env('EXPIRE_PASSWORD', 30))->isPast()) {
+            return $this->sendError('This  code is expired.', 200);
+        }
+
+
+        $user->markEmailAsVerified();
+
+
+        return $this->sendResponse(null, 'Email Verified Successfully');
+    }
+
+    public function sendVerifyPhone($user = null)
+    {
+        if (!$user) {
+            $request = request();
+            $request->validate([
+            'phone' => 'required|string',
+//                'email' => 'required',
+            ]);
+            $user = Student::where('phone', $request->phone)->first();
+
+            if (!$user)
+                return $this->sendError('User not found', 200);
+        }
+
+        $passwordReset = PasswordReset::updateOrCreate(
+            [
+                'email' => $user->phone,
+                'token' => Str::random(6)
+            ]
+        );
+        sendSMS( $user->phone,'This is code:  '.$passwordReset->token);
+        return $this->sendResponse([
+            'phone' => $passwordReset->email,
+//            'code' => $passwordReset->token,
+        ], 'Done');
+    }
+    public function VerifyPhoneCode(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required',
+            'code' => 'required|string'
+        ]);
+        $user = Student::where('phone', $request->phone)->first();
+        if (!$user)
+            return $this->sendError('We can\'t find a user with that email.', 200);
+
+        $passwordReset = PasswordReset::where([
+            ['token', $request->code],
+            ['email', $user->phone]
+        ])->first();
+
+        if (!$passwordReset)
+            return $this->sendError('This code is invalid.', 200);
+
+        if (Carbon::parse($passwordReset->created_at)->addMinutes(env('EXPIRE_PASSWORD', 30))->isPast()) {
+            return $this->sendError('This  code is expired.', 200);
+        }
+
+
+        $user->phone_verified=1;
+        $user->save();
+
+
+
+        return $this->sendResponse(null, 'Phone Verified Successfully');
+    }
 
 
     public function reset(Request $request)
@@ -300,34 +385,7 @@ class AuthStudentAPIController extends AppBaseController
         return $this->sendResponse(null, 'password reseated Successfully');
     }
 
-    public function VerifyEmailCode(Request $request)
-    {
-        $request->validate([
-            'email' => 'required',
-            'code' => 'required|string'
-        ]);
-        $user = Student::where('email', $request->email)->first();
-        if (!$user)
-            return $this->sendError('We can\'t find a user with that email.', 200);
 
-        $passwordReset = PasswordReset::where([
-            ['token', $request->code],
-            ['email', $user->email]
-        ])->first();
-
-        if (!$passwordReset)
-            return $this->sendError('This code is invalid.', 200);
-
-        if (Carbon::parse($passwordReset->created_at)->addMinutes(env('EXPIRE_PASSWORD', 30))->isPast()) {
-            return $this->sendError('This  code is expired.', 200);
-        }
-
-
-        $user->markEmailAsVerified();
-
-
-        return $this->sendResponse(null, 'Email Verified Successfully');
-    }
 
     public function VerifyCode(Request $request)
     {
