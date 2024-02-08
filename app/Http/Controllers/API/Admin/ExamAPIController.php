@@ -94,7 +94,10 @@ class ExamAPIController extends AppBaseController
             $request_data['photo'] = uploadImage('exams', $request->photo);
 
         }
-dd($request_data);
+        if (\request('question_types')){
+            $request_data['question_types'] =json_encode(\request('question_types'));
+        }
+
         /** @var Exam $exam */
         $exam = Exam::create($request_data);
         $student = auth('api-student')->user();
