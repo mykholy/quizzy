@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\API\Admin;
 
+use Carbon\Carbon;
+use App\Models\Admin\Exam;
+use App\Models\Admin\Unit;
+use App\Models\Admin\Lesson;
+use Illuminate\Http\Request;
+use App\Models\Admin\Subject;
+use App\Models\Admin\Question;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use App\Http\Resources\Admin\ExamResource;
+use App\Http\Resources\Admin\UnitResource;
+use App\Http\Controllers\AppBaseController;
+use App\Http\Resources\Admin\SubjectResource;
 use App\Http\Requests\API\Admin\CreateExamAPIRequest;
 use App\Http\Requests\API\Admin\UpdateExamAPIRequest;
-use App\Http\Resources\Admin\SubjectResource;
-use App\Http\Resources\Admin\UnitResource;
-use App\Models\Admin\Exam;
-use App\Models\Admin\Lesson;
-use App\Models\Admin\Question;
-use App\Models\Admin\Subject;
-use App\Models\Admin\Unit;
-use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\Admin\ExamResource;
 
 /**
  * Class ExamAPIController
@@ -103,6 +104,7 @@ class ExamAPIController extends AppBaseController
 
         $query = Question::query()
             ->when(\request('question_types'), function ($q) {
+                Log::info('question_types',['question_types'=>\request('question_types')]);
                 if (is_array(\request('question_types'))) {
                     $q->whereIn('question_types', \request('question_types'));
                 } else {
