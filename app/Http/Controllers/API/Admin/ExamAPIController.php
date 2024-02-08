@@ -94,7 +94,7 @@ class ExamAPIController extends AppBaseController
             $request_data['photo'] = uploadImage('exams', $request->photo);
 
         }
-
+dd($request_data);
         /** @var Exam $exam */
         $exam = Exam::create($request_data);
         $student = auth('api-student')->user();
