@@ -103,7 +103,11 @@ class ExamAPIController extends AppBaseController
 
         $query = Question::query()
             ->when(\request('question_types'), function ($q) {
-                $q->whereIn('question_types', \request('question_types'));
+                if (is_array(\request('question_types'))) {
+                    $q->whereIn('question_types', \request('question_types'));
+                } else {
+                    $q->where('question_types', \request('question_types'));
+                }
             });
         if ($request_data['type'] == Exam::$EXAM_TYPE_RANDOMLY) {
 
@@ -118,7 +122,11 @@ class ExamAPIController extends AppBaseController
                 $questionIds = $this->getQuestionsIdsByTotalTime($query->where('lesson_id', $request->lesson_id), $numberOfQuestions, $timeLimit);
 
             } else {
-                $unit_ids = Unit::where('book_id', $request->book_id)->pluck('id')->toArray();
+                $unit_ids = Unit::where('book_id', $request->book_id)
+                    ->when(request('semester'),function($q){
+                        $q->where('semester',request('semester'));
+                    })
+                    ->pluck('id')->toArray();
                 $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
 
                 $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
