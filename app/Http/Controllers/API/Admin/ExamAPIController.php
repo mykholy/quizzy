@@ -88,7 +88,7 @@ class ExamAPIController extends AppBaseController
      */
     public function store(CreateExamAPIRequest $request): JsonResponse
     {
-        $request_data = $request->except(['_token', 'photo']);
+        $request_data = $request->except(['_token', 'photo','question_types']);
         if ($request->hasFile('photo')) {
 
             $request_data['photo'] = uploadImage('exams', $request->photo);
@@ -109,9 +109,9 @@ class ExamAPIController extends AppBaseController
             ->when(\request('question_types'), function ($q) {
                 Log::info('question_types',['question_types'=>\request('question_types')]);
                 if (is_array(\request('question_types'))) {
-                    $q->whereIn('question_types', \request('question_types'));
+                    $q->whereIn('type', \request('question_types'));
                 } else {
-                    $q->where('question_types', \request('question_types'));
+                    $q->where('type', \request('question_types'));
                 }
             });
         if ($request_data['type'] == Exam::$EXAM_TYPE_RANDOMLY) {
