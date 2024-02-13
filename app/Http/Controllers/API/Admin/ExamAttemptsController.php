@@ -18,6 +18,7 @@ use App\Models\Admin\ExamAttempt;
 use App\Models\Admin\Question;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
@@ -220,6 +221,7 @@ class ExamAttemptsController extends AppBaseController
     public function top_students(Request $request)
     {
         $topStudents = ExamAttempt::with(['exam', 'subject', 'student'])
+            ->select('student_id', DB::raw('SUM(earned_marks) as total_earned_marks'))
             ->whereHas('exam', function ($query) {
                 $query->when(request('selected_subject_id'), function ($q) {
                     $q->where('subject_id', request('selected_subject_id'));
@@ -231,8 +233,8 @@ class ExamAttemptsController extends AppBaseController
             ->when(request('selected_from') && request('selected_to'), function ($q) {
                 $q->whereBetween('created_at', [request('selected_from'), request('selected_to')]);
             })
-            ->orderByDesc('earned_marks')
-//            ->limit(10)
+            ->groupBy('student_id')
+            ->orderByDesc('total_earned_marks')
             ->paginate($request->input('limit', 10));
 
 //        // Find the position of the current student
@@ -247,6 +249,7 @@ class ExamAttemptsController extends AppBaseController
 //            return $student;
 //        });
 
+        return $this->sendResponse($topStudents, trans('backend.api.saved'));
         return $this->sendResponse(TopStudentExamAttemptResource::collection($topStudents)->response()->getData(true), trans('backend.api.saved'));
     }
 
