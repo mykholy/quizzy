@@ -113,7 +113,7 @@ class ExamAttemptsController extends AppBaseController
 
         } elseif ($question_type === Question::$QUESTION_TYPE_SHORT_ANSWER || $question_type === Question::$QUESTION_TYPE_LONG_ANSWER) {
             $review_required = true;
-        } elseif ($question_type === 'ordering' || $question_type === 'matching' || $question_type === 'image_matching') {
+        } elseif ($question_type === 'ordering' || $question_type === Question::$QUESTION_TYPE_MATCHING || $question_type === 'image_matching') {
             $given_answer = str_replace('"', '', json_encode($given_answer));
             $given_answer = str_replace(' ', '', $given_answer);
 

@@ -10,6 +10,7 @@ return [
         'short_answer' => 'Short Answer',
         'long_answer' => 'Long Answer',
         'compare' => 'Compare',
+        'matching' => 'Matching',
     ],
     'levels' => [
         'easy' => 'Easy',

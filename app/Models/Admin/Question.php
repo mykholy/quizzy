@@ -13,6 +13,8 @@ class Question extends Model
     protected $with=['answers'];
     public static $QUESTION_TYPE_SINGLE_CHOICE = "single_choice";
     public static $QUESTION_TYPE_MULTIPLE_CHOICE = "multiple_choice";
+    public static $QUESTION_TYPE_MATCHING = 'matching';
+
     public static $QUESTION_TYPE_TRUE_FALSE = "true_false";
     public static $QUESTION_TYPE_SHORT_ANSWER = "short_answer";
     public static $QUESTION_TYPE_LONG_ANSWER = "long_answer";
@@ -113,6 +115,7 @@ class Question extends Model
             self::$QUESTION_TYPE_SHORT_ANSWER => trans('models/questions.type.' . self::$QUESTION_TYPE_SHORT_ANSWER),
             self::$QUESTION_TYPE_LONG_ANSWER => trans('models/questions.type.' . self::$QUESTION_TYPE_LONG_ANSWER),
             self::$QUESTION_TYPE_COMPARE => trans('models/questions.type.' . self::$QUESTION_TYPE_COMPARE),
+            self::$QUESTION_TYPE_MATCHING => trans('models/questions.type.' . self::$QUESTION_TYPE_MATCHING),
         ];
     }
 
