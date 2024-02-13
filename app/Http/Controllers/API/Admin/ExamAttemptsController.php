@@ -221,7 +221,7 @@ class ExamAttemptsController extends AppBaseController
     public function top_students(Request $request)
     {
         $topStudents = ExamAttempt::with(['exam', 'subject', 'student'])
-            ->select('student_id','total_marks', DB::raw('SUM(earned_marks) as total_earned_marks'))
+            ->select('student_id', DB::raw('SUM(earned_marks) as total_earned_marks'))
             ->whereHas('exam', function ($query) {
                 $query->when(request('selected_subject_id'), function ($q) {
                     $q->where('subject_id', request('selected_subject_id'));
