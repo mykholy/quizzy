@@ -77,7 +77,7 @@ class AuthStudentAPIController extends AppBaseController
         $user = auth('api-student')->user();
         $request_data = $request->all();
         if ($request->has('photo') && $request->photo != null) {
-            $request_data['photo'] = uploadImage('clients', $request->photo);
+            $request_data['photo'] = uploadImage('students', $request->photo);
         }
         if ($request->has('password') && $request->password != null) {
             $request_data['password'] = bcrypt($request->password);

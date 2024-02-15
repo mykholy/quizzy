@@ -44,10 +44,16 @@ class StudentAPIController extends AppBaseController
      */
     public function store(CreateStudentAPIRequest $request): JsonResponse
     {
-        $input = $request->all();
+        $request_data = $request->except(['password','photo']);
 
+        if ($request->has('photo') && $request->photo != null) {
+            $request_data['photo'] = uploadImage('students', $request->photo);
+        }
+        if ($request->has('password') && $request->password != null) {
+            $request_data['password'] = bcrypt($request->password);
+        }
         /** @var Student $student */
-        $student = Student::create($input);
+        $student = Student::create($request_data);
 
         return $this->sendResponse(
             new StudentResource($student),
@@ -91,7 +97,15 @@ class StudentAPIController extends AppBaseController
         );
         }
 
-        $student->fill($request->all());
+        $request_data = $request->except(['password','photo']);
+
+        if ($request->has('photo') && $request->photo != null) {
+            $request_data['photo'] = uploadImage('students', $request->photo);
+        }
+        if ($request->has('password') && $request->password != null) {
+            $request_data['password'] = bcrypt($request->password);
+        }
+        $student->fill($request_data);
         $student->save();
 
         return $this->sendResponse(
