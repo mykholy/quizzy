@@ -253,24 +253,34 @@ class ExamAttemptsController extends AppBaseController
         return $this->sendResponse(TopStudentExamAttemptResource::collection($topStudents)->response()->getData(true), trans('backend.api.saved'));
     }
 
-    public function achievements($subject_id, Request $request)
+    public function achievements(Request $request)
     {
-        $subjectId = $subject_id; // your subject_id value;
 
         // 1. Calculate total earned marks for a specific subject
-        $totalEarnedMarks = ExamAttempt::where('subject_id', $subjectId)->sum('earned_marks');
+        $totalEarnedMarks = ExamAttempt::when(\request('subject_id'), function ($q) {
+            $q->where('subject_id', \request('subject_id'));
+        })->where('student_id', auth('api-student')->id())
+            ->sum('earned_marks');
 
         // 2. Calculate total questions attempted for a specific subject
-        $totalQuestions = ExamAttempt::where('subject_id', $subjectId)->value('total_answered_questions');
+        $totalQuestions = ExamAttempt::when(\request('subject_id'), function ($q) {
+            $q->where('subject_id', \request('subject_id'));
+        })->where('student_id', auth('api-student')->id())
+            ->value('total_answered_questions');
 
         // 3. Calculate your ranking for a specific subject
         // Replace 'your_score' with the actual score of the current student
         // Replace 'your_score' with the actual score of the current student
-        $yourScore = ExamAttempt::where('subject_id', $subjectId)->value('earned_marks');
+        $yourScore = ExamAttempt::when(\request('subject_id'), function ($q) {
+            $q->where('subject_id', \request('subject_id'));
+        })->where('student_id', auth('api-student')->id())
+            ->value('earned_marks');
 
         // Check if $yourScore is not null before proceeding
         if ($yourScore !== null) {
-            $yourRanking = ExamAttempt::where('subject_id', $subjectId)
+            $yourRanking = ExamAttempt::when(\request('subject_id'), function ($q) {
+                    $q->where('subject_id', \request('subject_id'));
+                })
                     ->where('earned_marks', '>', $yourScore)
                     ->count() + 1;
         } else {
@@ -279,8 +289,10 @@ class ExamAttemptsController extends AppBaseController
         }
 
         // 4. Calculate number of correct answers for a specific subject
-        $numberCorrectAnswer = AttemptAnswer::whereHas('examAttempt', function ($query) use ($subjectId) {
-            $query->where('subject_id', $subjectId);
+        $numberCorrectAnswer = AttemptAnswer::whereHas('examAttempt', function ($query) {
+            $query->when(\request('subject_id'), function ($q) {
+                $q->where('subject_id', \request('subject_id'));
+            });
         })
             ->where('is_correct', 1)
             ->where('student_id', auth('api-student')->id())
@@ -292,7 +304,7 @@ class ExamAttemptsController extends AppBaseController
             'totalQuestions' => $totalQuestions,
             'yourRanking' => $yourRanking,
             'numberCorrectAnswer' => $numberCorrectAnswer,
-            'chart' => $this->chart_achievements($subjectId),
+            'chart' => $this->chart_achievements(\request('subject_id')),
         ];
 
         return $this->sendResponse($data, trans('backend.api.saved'));
@@ -304,7 +316,9 @@ class ExamAttemptsController extends AppBaseController
         $weekEnd = now()->endOfWeek();
 
         $data = ExamAttempt::whereHas('exam', function ($query) use ($subjectId) {
-            $query->where('subject_id', $subjectId);
+            $query->when($subjectId, function ($q) use ($subjectId) {
+                $q->where('subject_id', $subjectId);
+            });
         })
             ->whereBetween('created_at', [$weekStart, $weekEnd])
             ->get();
