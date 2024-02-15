@@ -104,13 +104,15 @@ class StudentController extends AppBaseController
             return redirect(route('admin.students.index'));
         }
 
-        $request_data = $request->except(['_token', 'photo']);
+        $request_data = $request->except(['_token','password','photo']);
 
-        if ($request->password)
-            $request_data['password'] = bcrypt($request->password);
 
         if ($request->hasFile('photo')) {
             $request_data['photo'] = uploadImage('students', $request->photo);
+        }
+
+        if ($request->has('password') && $request->password != null) {
+            $request_data['password'] = bcrypt($request->password);
         }
 
         $student->fill($request_data);
