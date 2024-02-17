@@ -12,8 +12,8 @@ function sendSMS($number, $msg)
         $url = "http://triple-core.ps/sendbulksms.php";
         $fields = [
             'user_name' => env('TRIPLE_USER_NAME','quizzyps'),
-            'user_pass' => env('TRIPLE_USER_PASS','852141'),
-            'sender' => env('TRIPLE_SENDER','quizzyps'),
+            'user_pass' => env('TRIPLE_USER_PASS','Pass@2024'),
+            'sender' => env('TRIPLE_SENDER','Quizzy.ps'),
             'mobile' => $number,
             'type' => 0,
             'text' => $msg
