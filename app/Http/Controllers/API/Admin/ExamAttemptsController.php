@@ -300,10 +300,10 @@ class ExamAttemptsController extends AppBaseController
 
         // Now you have the calculated values based on the specified subject_id.
         $data = [
-            'totalEarnedMarks' => $totalEarnedMarks,
-            'totalQuestions' => $totalQuestions,
-            'yourRanking' => $yourRanking,
-            'numberCorrectAnswer' => $numberCorrectAnswer,
+            'totalEarnedMarks' => number_format($totalEarnedMarks),
+            'totalQuestions' => number_format($totalQuestions),
+            'yourRanking' => number_format($yourRanking),
+            'numberCorrectAnswer' => number_format($numberCorrectAnswer),
             'chart' => $this->chart_achievements(\request('subject_id')),
         ];
 
@@ -320,6 +320,7 @@ class ExamAttemptsController extends AppBaseController
                 $q->where('subject_id', $subjectId);
             });
         })
+            ->where('student_id', auth('api-student')->id())
             ->whereBetween('created_at', [$weekStart, $weekEnd])
             ->get();
 

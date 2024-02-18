@@ -18,6 +18,8 @@ class AdResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'photo' => $this->photo,
+            'image_dimensions' => getImageDimensions($this->photo),
+
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

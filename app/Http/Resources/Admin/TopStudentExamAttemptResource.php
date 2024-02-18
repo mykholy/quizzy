@@ -18,6 +18,7 @@ class TopStudentExamAttemptResource extends JsonResource
         $data = parent::toArray($request);
         $data = collect($data)->only(['student', 'total_marks', 'total_earned_marks'])->toArray();
 
+        $data['total_earned_marks']=number_format($data['total_earned_marks']);
         $data['student'] = collect($data['student'])->only(['id', 'name', 'username', 'email', 'photo'])->toArray();
 
         if (isset($data['student']['id']))
