@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UpdateCouponRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Admin\Coupon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 class CouponController extends AppBaseController
@@ -40,6 +41,20 @@ class CouponController extends AppBaseController
 
              $request_data['photo'] = uploadImage('coupons', $request->photo);
 
+        }
+
+        if($request->bulk){
+            for ($i=0; $i < $request->count;$i++){
+                $data=[
+                    'title' =>'Bulk '.$i,
+                    'code' =>Str::random(10),
+                    'value' =>$request->value,
+                ];
+                $coupon = Coupon::create($data);
+            }
+            session()->flash('success',__('messages.saved', ['model' => __('models/coupons.singular')]));
+
+            return redirect(route('admin.coupons.index'));
         }
 
         /** @var Coupon $coupon */

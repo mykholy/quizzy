@@ -64,6 +64,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('questions', App\Http\Controllers\Admin\QuestionController::class);
         Route::resource('answers', App\Http\Controllers\Admin\AnswerController::class);
         Route::resource('ads', App\Http\Controllers\Admin\AdController::class);
+        Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class);
 
         Route::get('settings/general', [App\Http\Controllers\Admin\SettingController::class, 'general'])->name('settings.general');
         Route::post('settings/updateSettings', [App\Http\Controllers\Admin\SettingController::class, 'updateSettings'])->name('settings.updateSettings');
@@ -98,13 +99,3 @@ Route::resource('admin/exams', App\Http\Controllers\Admin\ExamController::class)
         'edit' => 'admin.exams.edit'
     ]);
 
-Route::resource('admin/coupons', App\Http\Controllers\Admin\CouponController::class)
-    ->names([
-        'index' => 'admin.coupons.index',
-        'store' => 'admin.coupons.store',
-        'show' => 'admin.coupons.show',
-        'update' => 'admin.coupons.update',
-        'destroy' => 'admin.coupons.destroy',
-        'create' => 'admin.coupons.create',
-        'edit' => 'admin.coupons.edit'
-    ]);

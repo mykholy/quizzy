@@ -22,4 +22,5 @@ return [
   'import'=>'Import',
   'settings'=>'Settings',
   'question_answered'=>'This question has been answered before.',
+  'bulk'=>'Add Bulk',
 ];
