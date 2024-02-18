@@ -36,7 +36,7 @@
 <div class="col-sm-12">
     {!! Form::label('is_active', __('models/clients.fields.is_active').':') !!}
     <p>
-        <span class="badge badge-{{$client->is_active?'success':'danger'}}">{{__('lang.'.($client->is_active?'active':'not_active'))}}</span>
+        <span class="badge bg-{{$client->is_active?'success':'danger'}}">{{__('lang.'.($client->is_active?'active':'not_active'))}}</span>
 
     </p>
 

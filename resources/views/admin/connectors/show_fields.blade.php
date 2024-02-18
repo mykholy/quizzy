@@ -36,7 +36,7 @@
 <div class="col-sm-12">
     {!! Form::label('is_active', __('models/connectors.fields.is_active').':') !!}
     <p>
-        <span class="badge badge-{{$connector->is_active?'success':'danger'}}">{{__('lang.'.($connector->is_active?'active':'not_active'))}}</span>
+        <span class="badge bg-{{$connector->is_active?'success':'danger'}}">{{__('lang.'.($connector->is_active?'active':'not_active'))}}</span>
 
     </p>
 </div>

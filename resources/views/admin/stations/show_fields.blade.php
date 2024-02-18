@@ -51,7 +51,7 @@
     {!! Form::label('qr_enabled', __('models/stations.fields.qr_enabled').':') !!}
     <p>
         <span
-            class="badge badge-{{$station->qr_enabled?'success':'danger'}}">{{__('lang.'.($station->qr_enabled?'active':'not_active'))}}</span>
+            class="badge bg-{{$station->qr_enabled?'success':'danger'}}">{{__('lang.'.($station->qr_enabled?'active':'not_active'))}}</span>
 
     </p>
 </div>

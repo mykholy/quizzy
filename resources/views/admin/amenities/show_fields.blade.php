@@ -15,7 +15,7 @@
 <div class="col-sm-12">
     {!! Form::label('is_active', __('models/amenities.fields.is_active').':') !!}
    <p>
-        <span class="badge badge-{{$amenity->is_active?'success':'danger'}}">{{__('lang.'.($amenity->is_active?'active':'not_active'))}}</span>
+        <span class="badge bg-{{$amenity->is_active?'success':'danger'}}">{{__('lang.'.($amenity->is_active?'active':'not_active'))}}</span>
 
     </p>
 </div>

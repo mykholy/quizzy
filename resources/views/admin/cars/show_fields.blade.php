@@ -10,7 +10,7 @@
     <p>
         @foreach(explode(',',$car->tags) as $car_model)
             <span
-                class="badge badge-success">{{$car_model}}</span>
+                class="badge bg-success">{{$car_model}}</span>
 
 
         @endforeach
@@ -29,7 +29,7 @@
     {!! Form::label('is_active', __('models/cars.fields.is_active').':') !!}
 
     <p>
-        <span class="badge badge-{{$car->is_active?'success':'danger'}}">{{__('lang.'.($car->is_active?'active':'not_active'))}}</span>
+        <span class="badge bg-{{$car->is_active?'success':'danger'}}">{{__('lang.'.($car->is_active?'active':'not_active'))}}</span>
 
     </p>
 </div>

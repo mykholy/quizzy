@@ -46,7 +46,7 @@
 
     <p>
         <span
-            class="badge badge-{{$location->cost?'success':'danger'}}">{{__('lang.'.($location->cost?'active':'not_active'))}}</span>
+            class="badge bg-{{$location->cost?'success':'danger'}}">{{__('lang.'.($location->cost?'active':'not_active'))}}</span>
 
     </p>
 </div>
@@ -102,7 +102,7 @@
 
     <p>
         <span
-            class="badge badge-{{$location->qr_enabled?'success':'danger'}}">{{__('lang.'.($location->qr_enabled?'active':'not_active'))}}</span>
+            class="badge bg-{{$location->qr_enabled?'success':'danger'}}">{{__('lang.'.($location->qr_enabled?'active':'not_active'))}}</span>
 
     </p>
 </div>
@@ -144,7 +144,7 @@
     <p>
         @foreach($location->amenities as $amenity)
             <span
-                class="badge badge-success">{{$amenity->name}}</span>
+                class="badge bg-success">{{$amenity->name}}</span>
 
 
         @endforeach
@@ -156,7 +156,7 @@
     {!! Form::label('open247', __('models/locations.fields.open247').':') !!}
     <p>
         <span
-            class="badge badge-{{$location->open247?'success':'danger'}}">{{__('lang.'.($location->open247?'active':'not_active'))}}</span>
+            class="badge bg-{{$location->open247?'success':'danger'}}">{{__('lang.'.($location->open247?'active':'not_active'))}}</span>
 
     </p>
 </div>
@@ -167,7 +167,7 @@
 
     <p>
         <span
-            class="badge badge-{{$location->coming_soon?'success':'danger'}}">{{__('lang.'.($location->coming_soon?'active':'not_active'))}}</span>
+            class="badge bg-{{$location->coming_soon?'success':'danger'}}">{{__('lang.'.($location->coming_soon?'active':'not_active'))}}</span>
 
     </p>
 </div>
@@ -178,7 +178,7 @@
 
     <p>
         <span
-            class="badge badge-{{$location->under_repair?'success':'danger'}}">{{__('lang.'.($location->under_repair?'active':'not_active'))}}</span>
+            class="badge bg-{{$location->under_repair?'success':'danger'}}">{{__('lang.'.($location->under_repair?'active':'not_active'))}}</span>
 
     </p>
 </div>
@@ -212,7 +212,7 @@
     {!! Form::label('is_active', __('models/clients.fields.is_active').':') !!}
     <p>
         <span
-            class="badge badge-{{$location->is_active?'success':'danger'}}">{{__('lang.'.($location->is_active?'active':'not_active'))}}</span>
+            class="badge bg-{{$location->is_active?'success':'danger'}}">{{__('lang.'.($location->is_active?'active':'not_active'))}}</span>
 
     </p>
 

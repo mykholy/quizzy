@@ -21,7 +21,7 @@
 <div class="col-sm-12">
     {!! Form::label('is_active', __('models/coupons.fields.is_active').':') !!}
     <p>
-        <span class="badge badge-{{$coupon->is_active?'success':'danger'}}">{{__('lang.'.($coupon->is_active?'active':'not_active'))}}</span>
+        <span class="badge bg-{{$coupon->is_active?'success':'danger'}}">{{__('lang.'.($coupon->is_active?'active':'not_active'))}}</span>
 
     </p>
 </div>
