@@ -111,7 +111,7 @@
     <a class="side-menu__item {{ Request::is('admin.ads*') ? 'active' : '' }}"
        href="{{ route('admin.ads.index') }}"
     >
-        <i class=" ion-md-images-outline  side-menu__icon"></i>
+        <i class=" ion-md-images  side-menu__icon"></i>
         <span class="side-menu__label">{{__('models/ads.plural')}}</span>
 
     </a>
@@ -121,7 +121,7 @@
     <a class="side-menu__item {{ Request::is('admin.coupons*') ? 'active' : '' }}"
        href="{{ route('admin.coupons.index') }}"
     >
-        <i class=" ion-md-gift-outline side-menu__icon"></i>
+        <i class=" ion-md-gift side-menu__icon"></i>
         <span class="side-menu__label">{{__('models/coupons.plural')}}</span>
 
     </a>
