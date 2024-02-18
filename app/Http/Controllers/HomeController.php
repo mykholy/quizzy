@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin\AcademicYear;
+use App\Models\Admin\Ad;
 use App\Models\Admin\Book;
+use App\Models\Admin\Coupon;
+use App\Models\Admin\Exam;
 use App\Models\Admin\Group;
 use App\Models\Admin\Lesson;
 use App\Models\Admin\Question;
@@ -42,6 +45,9 @@ class HomeController extends Controller
             ['title' => __('models/units.plural'), 'color' => 'success', 'count' => Unit::count()],
             ['title' => __('models/lessons.plural'), 'color' => 'warning', 'count' => Lesson::count()],
             ['title' => __('models/questions.plural'), 'color' => 'primary', 'count' => Question::count()],
+            ['title' => __('models/exams.plural'), 'color' => 'info', 'count' => Exam::count()],
+            ['title' => __('models/ads.plural'), 'color' => 'warning', 'count' => Ad::count()],
+            ['title' => __('models/coupons.plural'), 'color' => 'success', 'count' => Coupon::count()],
         ];
         return view('home', compact('cards'));
     }

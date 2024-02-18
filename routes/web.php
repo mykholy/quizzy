@@ -97,3 +97,14 @@ Route::resource('admin/exams', App\Http\Controllers\Admin\ExamController::class)
         'create' => 'admin.exams.create',
         'edit' => 'admin.exams.edit'
     ]);
+
+Route::resource('admin/coupons', App\Http\Controllers\Admin\CouponController::class)
+    ->names([
+        'index' => 'admin.coupons.index',
+        'store' => 'admin.coupons.store',
+        'show' => 'admin.coupons.show',
+        'update' => 'admin.coupons.update',
+        'destroy' => 'admin.coupons.destroy',
+        'create' => 'admin.coupons.create',
+        'edit' => 'admin.coupons.edit'
+    ]);

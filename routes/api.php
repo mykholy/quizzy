@@ -243,3 +243,14 @@ Route::resource('ads', App\Http\Controllers\API\Admin\AdAPIController::class)
         'update' => 'admin.ads.update',
         'destroy' => 'admin.ads.destroy'
     ]);
+
+
+Route::resource('admin/coupons', App\Http\Controllers\API\Admin\CouponAPIController::class)
+    ->except(['create', 'edit'])
+    ->names([
+        'index' => 'admin.coupons.index',
+        'store' => 'admin.coupons.store',
+        'show' => 'admin.coupons.show',
+        'update' => 'admin.coupons.update',
+        'destroy' => 'admin.coupons.destroy'
+    ]);
