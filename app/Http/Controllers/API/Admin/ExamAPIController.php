@@ -141,7 +141,7 @@ class ExamAPIController extends AppBaseController
                     ->pluck('id')->toArray();
                 $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
 
-                $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds)->dd(), $numberOfQuestions, $timeLimit);
+                $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
             }
         } else {
             $unit_ids = Unit::where('book_id', $request->book_id)
@@ -240,7 +240,7 @@ class ExamAPIController extends AppBaseController
     {
         $questionIds = [];
         $uniqueQuestionIds = collect(); // Using a collection as a set for uniqueness
-
+Log::info("questions_id",['questions_ids'=>$query->inRandomOrder()->pluck('id')->toArray()]);
         if ($time) {
             $timeLimit = (int) $time;
             $cumulativeTime = 0;
