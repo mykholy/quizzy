@@ -115,8 +115,15 @@ class ExamAPIController extends AppBaseController
                 }
             });
         if ($request_data['type'] == Exam::$EXAM_TYPE_RANDOMLY) {
+            $unit_ids = Unit::where('book_id', $request->book_id)
+                ->when(request('semester'),function($q){
+                    $q->where('semester',request('semester'));
+                })
+                ->pluck('id')->toArray();
+            $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
 
-            $questionIds = $this->getQuestionsIdsByTotalTime($query, $numberOfQuestions, $timeLimit);
+
+            $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
 
         } else if ($request_data['type'] == Exam::$EXAM_TYPE_CHOICE) {
             if ($request->unit_id && !($request->lesson_id)) {
@@ -137,7 +144,14 @@ class ExamAPIController extends AppBaseController
                 $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
             }
         } else {
-            $questionIds = $this->getQuestionsIdsByTotalTime($query, $numberOfQuestions, $timeLimit);
+            $unit_ids = Unit::where('book_id', $request->book_id)
+                ->when(request('semester'),function($q){
+                    $q->where('semester',request('semester'));
+                })
+                ->pluck('id')->toArray();
+            $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
+
+            $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
         }
 
 
