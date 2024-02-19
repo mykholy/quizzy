@@ -263,10 +263,17 @@ class ExamAttemptsController extends AppBaseController
             ->sum('earned_marks');
 
         // 2. Calculate total questions attempted for a specific subject
-        $totalQuestions = ExamAttempt::when(\request('subject_id'), function ($q) {
-            $q->where('subject_id', \request('subject_id'));
-        })->where('student_id', auth('api-student')->id())
-            ->value('total_answered_questions');
+//        $totalQuestions = ExamAttempt::when(\request('subject_id'), function ($q) {
+//            $q->where('subject_id', \request('subject_id'));
+//        })->where('student_id', auth('api-student')->id())
+//            ->value('total_answered_questions');
+        $totalQuestions =  AttemptAnswer::whereHas('examAttempt', function ($query) {
+            $query->when(\request('subject_id'), function ($q) {
+                $q->where('subject_id', \request('subject_id'));
+            });
+        })
+            ->where('student_id', auth('api-student')->id())
+            ->count();
 
         // 3. Calculate your ranking for a specific subject
         // Replace 'your_score' with the actual score of the current student
