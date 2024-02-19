@@ -142,7 +142,7 @@ class ExamAPIController extends AppBaseController
                 $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
 
                 $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
-                Log::info("$questionIds",['questions_ids'=>$questionIds,'request'=>\request()->all()]);
+                Log::info("questionIds",['questions_ids'=>$questionIds,'request'=>\request()->all()]);
 
             }
         } else {
