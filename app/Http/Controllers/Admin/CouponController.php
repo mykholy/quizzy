@@ -44,17 +44,19 @@ class CouponController extends AppBaseController
         }
 
         if($request->bulk){
+            $codes=[];
             for ($i=0; $i < $request->count;$i++){
+                $code=Str::random(10);
                 $data=[
                     'title' =>'Bulk '.$i,
-                    'code' =>Str::random(10),
+                    'code' =>$code,
                     'value' =>$request->value,
                 ];
                 $coupon = Coupon::create($data);
             }
             session()->flash('success',__('messages.saved', ['model' => __('models/coupons.singular')]));
 
-            return redirect(route('admin.coupons.index'));
+            return redirect(route('admin.coupons.index',compact('codes')));
         }
 
         /** @var Coupon $coupon */

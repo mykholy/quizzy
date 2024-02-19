@@ -22,11 +22,7 @@
                         {!! __('lang.add_new') !!}
                     </a>
 
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary float-right" data-toggle="modal"
-                            data-target="#BulkModal">
-                        {!! __('lang.bulk') !!}
-                    </button>
+
 
 
                 </div>
@@ -36,45 +32,13 @@
             </div>
         </div>
     </div>
+
+    @if($codes)
+
+        <textarea name="my_textarea" rows="15">{{ implode("\n", $codes) }}</textarea>
+
+    @endif
     <!-- Modal -->
-    <div class="modal fade" id="BulkModal" tabindex="-1" role="dialog" aria-labelledby=BulkModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                {!! Form::open(['route' => 'admin.coupons.store','files'=>true]) !!}
-                <input type="hidden" name="bulk" value="1">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="BulkModalLabel">{{ __('models/coupons.bulk')}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <!-- Count Field -->
-                    <div class="form-group col-sm-6">
-                        {!! Form::label('count', __('models/coupons.fields.count').':') !!}
-                        {!! Form::number('count', null, ['class' => 'form-control']) !!}
-                    </div>
-
-                    <!-- Value Field -->
-                    <div class="form-group col-sm-6">
-                        {!! Form::label('value', __('models/coupons.fields.value').':') !!}
-                        {!! Form::number('value', null, ['class' => 'form-control']) !!}
-                    </div>
-
-
-
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
 @endsection
 @push('page_scripts')
     @include('includes.notify.success')

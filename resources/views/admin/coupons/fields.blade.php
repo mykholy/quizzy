@@ -1,13 +1,8 @@
-<!-- Title Field -->
+<input value="1" name="bulk" hidden="">
+<!-- Count Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('title', __('models/coupons.fields.title').':') !!}
-    {!! Form::text('title', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Code Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('code', __('models/coupons.fields.code').':') !!}
-    {!! Form::text('code', null, ['class' => 'form-control']) !!}
+    {!! Form::label('count', __('models/coupons.fields.count').':') !!}
+    {!! Form::number('count', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Value Field -->
