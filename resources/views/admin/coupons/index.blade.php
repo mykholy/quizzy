@@ -29,11 +29,11 @@
             </div>
             <div class="card-body">
                 @include('admin.coupons.table')
-                @if(isset($codes))
 
-                    <textarea name="my_textarea" rows="15">{{ implode("\n", $codes) }}</textarea>
 
-                @endif
+                    <textarea name="my_textarea" rows="15">{{ implode("\n", \App\Models\Admin\Coupon::pluck('code')->toArray()) }}</textarea>
+
+
             </div>
         </div>
     </div>
