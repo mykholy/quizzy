@@ -141,7 +141,7 @@ class ExamAPIController extends AppBaseController
                     ->pluck('id')->toArray();
                 $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
 
-                $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
+                $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds)->dd(), $numberOfQuestions, $timeLimit);
             }
         } else {
             $unit_ids = Unit::where('book_id', $request->book_id)
