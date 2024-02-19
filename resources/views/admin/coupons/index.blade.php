@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    @if($codes)
+    @if(isset($codes))
 
         <textarea name="my_textarea" rows="15">{{ implode("\n", $codes) }}</textarea>
 
