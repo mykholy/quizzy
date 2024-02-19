@@ -23,15 +23,16 @@
                     </a>
 
 
-
-
                 </div>
             </div>
             <div class="card-body">
-                @include('admin.coupons.table')
+                @if(isset($codes))
+                    <textarea name="my_textarea"
+                              rows="15">{{ implode("\n", $codes) }}</textarea>
 
-
-                    <textarea name="my_textarea" rows="15">{{ implode("\n", \App\Models\Admin\Coupon::pluck('code')->toArray()) }}</textarea>
+                @else
+                    @include('admin.coupons.table')
+                @endif
 
 
             </div>

@@ -57,7 +57,7 @@ class CouponController extends AppBaseController
             }
             session()->flash('success',__('messages.saved', ['model' => __('models/coupons.singular')]));
 
-            return redirect(route('admin.coupons.index',compact('codes')));
+            return view('admin.coupons.index',compact('codes'));
         }
 
         /** @var Coupon $coupon */
