@@ -261,8 +261,12 @@ Log::info("questions_id",['questions_ids'=>$query->inRandomOrder()->pluck('id')-
                     $cumulativeTime += $questionTime;
                 }
             }
+            Log::info("if questions_id",['questions_ids'=>$uniqueQuestionIds->toArray()]);
+
         } else {
             $uniqueQuestionIds = $query->inRandomOrder()->pluck('id')->unique()->take($numberOfQuestions);
+            Log::info("else questions_id",['questions_ids'=>$uniqueQuestionIds->toArray()]);
+
         }
 
         return $uniqueQuestionIds->toArray();
