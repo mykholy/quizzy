@@ -29,15 +29,16 @@
             </div>
             <div class="card-body">
                 @include('admin.coupons.table')
+                @if(isset($codes))
+
+                    <textarea name="my_textarea" rows="15">{{ implode("\n", $codes) }}</textarea>
+
+                @endif
             </div>
         </div>
     </div>
 
-    @if(isset($codes))
 
-        <textarea name="my_textarea" rows="15">{{ implode("\n", $codes) }}</textarea>
-
-    @endif
     <!-- Modal -->
 @endsection
 @push('page_scripts')

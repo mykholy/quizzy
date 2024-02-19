@@ -47,6 +47,7 @@ class CouponController extends AppBaseController
             $codes=[];
             for ($i=0; $i < $request->count;$i++){
                 $code=Str::random(10);
+                $codes[]=$code;
                 $data=[
                     'title' =>'Bulk '.$i,
                     'code' =>$code,
