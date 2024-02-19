@@ -88,14 +88,14 @@ class ExamAPIController extends AppBaseController
      */
     public function store(CreateExamAPIRequest $request): JsonResponse
     {
-        $request_data = $request->except(['_token', 'photo','question_types']);
+        $request_data = $request->except(['_token', 'photo', 'question_types']);
         if ($request->hasFile('photo')) {
 
             $request_data['photo'] = uploadImage('exams', $request->photo);
 
         }
-        if (\request('question_types')){
-            $request_data['question_types'] =json_encode(\request('question_types'));
+        if (\request('question_types')) {
+            $request_data['question_types'] = json_encode(\request('question_types'));
         }
 
         /** @var Exam $exam */
@@ -107,7 +107,7 @@ class ExamAPIController extends AppBaseController
 
         $query = Question::query()
             ->when(\request('question_types'), function ($q) {
-                Log::info('question_types',['question_types'=>\request('question_types')]);
+                Log::info('question_types', ['question_types' => \request('question_types')]);
                 if (is_array(\request('question_types'))) {
                     $q->whereIn('type', \request('question_types'));
                 } else {
@@ -116,8 +116,8 @@ class ExamAPIController extends AppBaseController
             });
         if ($request_data['type'] == Exam::$EXAM_TYPE_RANDOMLY) {
             $unit_ids = Unit::where('book_id', $request->book_id)
-                ->when(request('semester'),function($q){
-                    $q->where('semester',request('semester'));
+                ->when(request('semester'), function ($q) {
+                    $q->where('semester', request('semester'));
                 })
                 ->pluck('id')->toArray();
             $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
@@ -135,18 +135,20 @@ class ExamAPIController extends AppBaseController
 
             } else {
                 $unit_ids = Unit::where('book_id', $request->book_id)
-                    ->when(request('semester'),function($q){
-                        $q->where('semester',request('semester'));
+                    ->when(request('semester'), function ($q) {
+                        $q->where('semester', request('semester'));
                     })
                     ->pluck('id')->toArray();
                 $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
 
                 $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
+                Log::info("$questionIds",['questions_ids'=>$questionIds,'request'=>\request()->all()]);
+
             }
         } else {
             $unit_ids = Unit::where('book_id', $request->book_id)
-                ->when(request('semester'),function($q){
-                    $q->where('semester',request('semester'));
+                ->when(request('semester'), function ($q) {
+                    $q->where('semester', request('semester'));
                 })
                 ->pluck('id')->toArray();
             $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
@@ -236,19 +238,20 @@ class ExamAPIController extends AppBaseController
             __('messages.deleted', ['model' => __('models/exams.singular')])
         );
     }
+
     public function getQuestionsIdsByTotalTime($query, $numberOfQuestions = 10, $time = null)
     {
         $questionIds = [];
         $uniqueQuestionIds = collect(); // Using a collection as a set for uniqueness
-Log::info("questions_id",['questions_ids'=>$query->inRandomOrder()->pluck('id')->toArray()]);
+        Log::info("questions_id", ['questions_ids' => $query->inRandomOrder()->pluck('id')->toArray()]);
         if ($time) {
-            $timeLimit = (int) $time;
+            $timeLimit = (int)$time;
             $cumulativeTime = 0;
 
             $questions = $query->inRandomOrder()->get();
 
             foreach ($questions as $randomQuestion) {
-                $questionTime = (int) $randomQuestion->time;
+                $questionTime = (int)$randomQuestion->time;
 
                 // Check if adding the current question exceeds the time limit
                 if ($cumulativeTime + $questionTime > $timeLimit) {
@@ -261,11 +264,11 @@ Log::info("questions_id",['questions_ids'=>$query->inRandomOrder()->pluck('id')-
                     $cumulativeTime += $questionTime;
                 }
             }
-            Log::info("if questions_id",['questions_ids'=>$uniqueQuestionIds->toArray()]);
+            Log::info("if questions_id", ['questions_ids' => $uniqueQuestionIds->toArray(), 'request' => \request()->all()]);
 
         } else {
             $uniqueQuestionIds = $query->inRandomOrder()->pluck('id')->unique()->take($numberOfQuestions);
-            Log::info("else questions_id",['questions_ids'=>$uniqueQuestionIds->toArray()]);
+            Log::info("else questions_id", ['questions_ids' => $uniqueQuestionIds->toArray(), 'request' => \request()->all()]);
 
         }
 
