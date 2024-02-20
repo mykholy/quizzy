@@ -25,7 +25,7 @@ class AuthStudentAPIController extends AppBaseController
     public function __construct()
     {
 
-        $this->middleware('auth:api-student', ['except' => ['socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode','sendVerifyEmail', 'VerifyEmailCode','VerifyCode', 'settings']]);
+        $this->middleware('auth:api-student', ['except' => ['socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode', 'sendVerifyEmail', 'VerifyEmailCode', 'VerifyCode', 'settings']]);
     }
 
 
@@ -74,18 +74,18 @@ class AuthStudentAPIController extends AppBaseController
         try {
 
 
-        $user = auth('api-student')->user();
-        $request_data = $request->all();
-        if ($request->has('photo') && $request->photo != null) {
-            $request_data['photo'] = uploadImage('students', $request->photo);
-        }
-        if ($request->has('password') && $request->password != null) {
-            $request_data['password'] = bcrypt($request->password);
-        }
-        $user->fill($request_data);
-        $user->save();
-        }catch (\Exception $e){
-            return  $this->sendError($e->getMessage());
+            $user = auth('api-student')->user();
+            $request_data = $request->all();
+            if ($request->has('photo') && $request->photo != null) {
+                $request_data['photo'] = uploadImage('students', $request->photo);
+            }
+            if ($request->has('password') && $request->password != null) {
+                $request_data['password'] = bcrypt($request->password);
+            }
+            $user->fill($request_data);
+            $user->save();
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
 
         return $this->sendResponse(new StudentResource($user), 'User successfully retrieved');
@@ -221,7 +221,12 @@ class AuthStudentAPIController extends AppBaseController
 //            'mobile' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:15e',
             'email' => 'required',
         ]);
-        $user = Student::where('email', $request->email)->first();
+        $type = "phone";
+        if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            $type = "email";
+        }
+        $user = Student::where('email', $request->email)
+            ->orWhere('phone', $request->email)->first();
 
         if (!$user)
             return $this->sendError('User not found', 200);
@@ -233,7 +238,11 @@ class AuthStudentAPIController extends AppBaseController
                 'token' => Str::random(6)
             ]
         );
-        send_mail(['name' => $user->name, 'code' => $passwordReset->token, 'subject' => 'Forget Password'], $user->email,"reset");
+        if ($type == "email")
+            send_mail(['name' => $user->name, 'code' => $passwordReset->token, 'subject' => 'Forget Password'], $user->email, "reset");
+        else
+            sendSMS($user->phone, 'This is code:  ' . $passwordReset->token);
+
         return $this->sendResponse([
             'email' => $passwordReset->email,
 //            'code' => $passwordReset->token,
@@ -266,6 +275,7 @@ class AuthStudentAPIController extends AppBaseController
 //            'code' => $passwordReset->token,
         ], 'Done');
     }
+
     public function VerifyEmailCode(Request $request)
     {
         $request->validate([
@@ -300,7 +310,7 @@ class AuthStudentAPIController extends AppBaseController
         if (!$user) {
             $request = request();
             $request->validate([
-            'phone' => 'required|string',
+                'phone' => 'required|string',
 //                'email' => 'required',
             ]);
             $user = Student::where('phone', $request->phone)->first();
@@ -315,12 +325,13 @@ class AuthStudentAPIController extends AppBaseController
                 'token' => Str::random(6)
             ]
         );
-        sendSMS( $user->phone,'This is code:  '.$passwordReset->token);
+        sendSMS($user->phone, 'This is code:  ' . $passwordReset->token);
         return $this->sendResponse([
             'phone' => $passwordReset->email,
 //            'code' => $passwordReset->token,
         ], 'Done');
     }
+
     public function VerifyPhoneCode(Request $request)
     {
         $request->validate([
@@ -344,9 +355,8 @@ class AuthStudentAPIController extends AppBaseController
         }
 
 
-        $user->phone_verified=1;
+        $user->phone_verified = 1;
         $user->save();
-
 
 
         return $this->sendResponse(null, 'Phone Verified Successfully');
@@ -361,7 +371,7 @@ class AuthStudentAPIController extends AppBaseController
             'password' => 'required|string|confirmed',
             'code' => 'required|string'
         ]);
-        $user = Student::where('email', $request->email)->first();
+        $user = Student::where('email', $request->email)->orWhere('phone', $request->email)->first();
         if (!$user)
             return $this->sendError('We can\'t find a user with that email.', 200);
 
@@ -386,14 +396,13 @@ class AuthStudentAPIController extends AppBaseController
     }
 
 
-
     public function VerifyCode(Request $request)
     {
         $request->validate([
             'email' => 'required',
             'code' => 'required|string'
         ]);
-        $user = Student::where('email', $request->email)->first();
+        $user = Student::where('email', $request->email)->orWhere('phone', $request->email)->first();
         if (!$user)
             return $this->sendError('We can\'t find a user with that email.', 200);
 
