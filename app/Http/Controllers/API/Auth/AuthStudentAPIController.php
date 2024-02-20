@@ -235,7 +235,7 @@ class AuthStudentAPIController extends AppBaseController
         $passwordReset = PasswordReset::updateOrCreate(
             [
                 'email' => $user->email,
-                'token' => Str::random(6)
+                'token' => mt_rand(100000, 999999)
             ]
         );
         if ($type == "email")
@@ -266,7 +266,7 @@ class AuthStudentAPIController extends AppBaseController
         $passwordReset = PasswordReset::updateOrCreate(
             [
                 'email' => $user->email,
-                'token' => Str::random(6)
+                'token' => mt_rand(100000, 999999)
             ]
         );
         send_mail(['name' => $user->name, 'code' => $passwordReset->token, 'subject' => 'Verify Email'], $user->email);
@@ -322,7 +322,7 @@ class AuthStudentAPIController extends AppBaseController
         $passwordReset = PasswordReset::updateOrCreate(
             [
                 'email' => $user->phone,
-                'token' => Str::random(6)
+                'token' => mt_rand(100000, 999999)
             ]
         );
         sendSMS($user->phone, 'This is code:  ' . $passwordReset->token);
