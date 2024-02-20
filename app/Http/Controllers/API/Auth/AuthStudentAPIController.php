@@ -234,7 +234,7 @@ class AuthStudentAPIController extends AppBaseController
 
         $passwordReset = PasswordReset::updateOrCreate(
             [
-                'email' => $user->email,
+                'email' => $request->email,
                 'token' => mt_rand(100000, 999999)
             ]
         );
@@ -377,7 +377,7 @@ class AuthStudentAPIController extends AppBaseController
 
         $passwordReset = PasswordReset::where([
             ['token', $request->code],
-            ['email', $user->email]
+            ['email', $request->email]
         ])->first();
 
         if (!$passwordReset)
@@ -408,7 +408,7 @@ class AuthStudentAPIController extends AppBaseController
 
         $passwordReset = PasswordReset::where([
             ['token', $request->code],
-            ['email', $user->email]
+            ['email', $request->email]
         ])->first();
 
         if (!$passwordReset)
