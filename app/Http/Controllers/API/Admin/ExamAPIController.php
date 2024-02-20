@@ -113,6 +113,12 @@ class ExamAPIController extends AppBaseController
                 } else {
                     $q->where('type', \request('question_types'));
                 }
+            })->when(\request('level'), function ($q) {
+                if (is_array(\request('level'))) {
+                    $q->whereIn('level', \request('level'));
+                } else {
+                    $q->where('level', \request('level'));
+                }
             });
         if ($request_data['type'] == Exam::$EXAM_TYPE_RANDOMLY) {
             $unit_ids = Unit::where('book_id', $request->book_id)
