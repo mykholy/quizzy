@@ -606,7 +606,7 @@ class ExamAttemptsController extends AppBaseController
             })
             ->groupBy('student_id')
             ->orderByDesc('total_earned_marks')
-            ->paginate(request('limit', 10));
+            ->paginate(request('limit', 100));
 
 // Get the ranking of the current student among the top students
         $yourRankAmongTop = $topStudents->pluck('student_id')->search(auth('api-student')->id()) ;
