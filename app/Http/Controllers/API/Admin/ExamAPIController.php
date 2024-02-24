@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use App\Models\Admin\Exam;
 use App\Models\Admin\Unit;
 use App\Models\Admin\Lesson;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Models\Admin\Subject;
 use App\Models\Admin\Question;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\Admin\ExamResource;
 use App\Http\Resources\Admin\UnitResource;
@@ -148,7 +150,7 @@ class ExamAPIController extends AppBaseController
                 $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
 
                 $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
-                Log::info("questionIds",['questions_ids'=>$questionIds,'request'=>\request()->all()]);
+                Log::info("questionIds", ['questions_ids' => $questionIds, 'request' => \request()->all()]);
 
             }
         } else {
@@ -158,6 +160,14 @@ class ExamAPIController extends AppBaseController
                 })
                 ->pluck('id')->toArray();
             $lessonIds = Lesson::whereIn('unit_id', $unit_ids)->pluck('id')->toArray();
+
+            $query = $query->whereHas('attemptAnswers', function (Builder $query) {
+                $query->where('is_correct', false)
+                    ->orWhere(function ($subQuery) {
+                        $subQuery->where('is_correct', true)
+                            ->whereColumn('time_spent', '>', DB::raw('1.5 * time'));
+                    });
+            });
 
             $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
         }

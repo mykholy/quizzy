@@ -145,6 +145,7 @@ class ExamAttemptsController extends AppBaseController
         $request_data['minus_mark'] = 0;
         $request_data['is_correct'] = $is_answer_was_correct ? 1 : 0;
         $request_data['exam_id'] = $exam_attempt->exam_id;
+        $request_data['time_spent'] = $request->time_spent;
         $request_data['student_id'] = auth('api-student')->id();
 
         /* check if question_type open ended or short ans the set is_correct default value null before saving
