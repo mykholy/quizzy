@@ -268,7 +268,7 @@ class ExamAttemptsController extends AppBaseController
 //            $q->where('subject_id', \request('subject_id'));
 //        })->where('student_id', auth('api-student')->id())
 //            ->value('total_answered_questions');
-        $totalQuestions =  AttemptAnswer::whereHas('examAttempt', function ($query) {
+        $totalQuestions = AttemptAnswer::whereHas('examAttempt', function ($query) {
             $query->when(\request('subject_id'), function ($q) {
                 $q->where('subject_id', \request('subject_id'));
             });
@@ -277,8 +277,6 @@ class ExamAttemptsController extends AppBaseController
             ->count();
 
         // 3. Calculate your ranking for a specific subject
-        // Replace 'your_score' with the actual score of the current student
-        // Replace 'your_score' with the actual score of the current student
         $yourScore = ExamAttempt::when(\request('subject_id'), function ($q) {
             $q->where('subject_id', \request('subject_id'));
         })->where('student_id', auth('api-student')->id())
@@ -310,7 +308,7 @@ class ExamAttemptsController extends AppBaseController
         $data = [
             'totalEarnedMarks' => number_format($totalEarnedMarks),
             'totalQuestions' => number_format($totalQuestions),
-            'yourRanking' => number_format($yourRanking),
+            'yourRanking' => number_format($this->getRanking()),
             'numberCorrectAnswer' => number_format($numberCorrectAnswer),
             'chart' => $this->chart_achievements(\request('subject_id')),
         ];
@@ -573,6 +571,49 @@ class ExamAttemptsController extends AppBaseController
         $similarity = count($arr_2) - count(array_diff($arr_2, $arr_1));
         $percent = ($similarity * 200) / (strlen($str1) + strlen($str2));
         return $similarity;
+    }
+
+    public function getRanking()
+    {
+        // Calculate your ranking for a specific subject and exam
+        $yourRanking = ExamAttempt::whereHas('exam', function ($query) {
+            $query->when(request('selected_subject_id'), function ($q) {
+                $q->where('subject_id', request('selected_subject_id'));
+            });
+        })
+            ->when(request('selected_exam_id'), function ($query) {
+                $query->where('exam_id', request('selected_exam_id'));
+            })
+            ->when(request('selected_from') && request('selected_to'), function ($query) {
+                $query->whereBetween('created_at', [request('selected_from'), request('selected_to')]);
+            })
+            ->where('student_id', auth('api-student')->id())
+            ->sum('earned_marks');
+
+// Get the top students
+        $topStudents = ExamAttempt::with(['exam', 'subject', 'student'])
+            ->select('student_id', DB::raw('SUM(earned_marks) as total_earned_marks'))
+            ->whereHas('exam', function ($query) {
+                $query->when(request('selected_subject_id'), function ($q) {
+                    $q->where('subject_id', request('selected_subject_id'));
+                });
+            })
+            ->when(request('selected_exam_id'), function ($query) {
+                $query->where('exam_id', request('selected_exam_id'));
+            })
+            ->when(request('selected_from') && request('selected_to'), function ($query) {
+                $query->whereBetween('created_at', [request('selected_from'), request('selected_to')]);
+            })
+            ->groupBy('student_id')
+            ->orderByDesc('total_earned_marks')
+            ->paginate(request('limit', 10));
+
+// Get the ranking of the current student among the top students
+        $yourRankAmongTop = $topStudents->pluck('student_id')->search(auth('api-student')->id()) + 1;
+
+// Ensure yourRanking is consistent with yourRankAmongTop
+        $yourRanking = $yourRanking ?? 0;
+        return $yourRankAmongTop;
     }
 
 
