@@ -609,7 +609,7 @@ class ExamAttemptsController extends AppBaseController
             ->paginate(request('limit', 10));
 
 // Get the ranking of the current student among the top students
-        $yourRankAmongTop = $topStudents->pluck('student_id')->search(auth('api-student')->id()) + 1;
+        $yourRankAmongTop = $topStudents->pluck('student_id')->search(auth('api-student')->id()) ;
 
 // Ensure yourRanking is consistent with yourRankAmongTop
         $yourRanking = $yourRanking ?? 0;
