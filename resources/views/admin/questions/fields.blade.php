@@ -82,7 +82,7 @@
 <!-- lesson id Field -->
 <div class="form-group col-sm-6" hidden>
     {!! Form::label('lesson_id', __('models/questions.fields.lesson_id').':') !!}
-    {{--    {!! Form::select('lesson_id',\App\Models\Admin\Lesson::pluck('name','id')->toArray(),request('lesson_id'), array('id'=>'lesson_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('lesson_id')?' is-invalid ':''), 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}--}}
+    {!! Form::select('lesson_id',\App\Models\Admin\Lesson::pluck('name','id')->toArray(),request('lesson_id'), array('id'=>'lesson_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('lesson_id')?' is-invalid ':''), 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
     <input type="hidden" name="lesson_id" value="{{request('lesson_id')}}">
     @if ($errors->has('lesson_id'))
         <span class="invalid-feedback">
