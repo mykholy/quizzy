@@ -87,7 +87,7 @@ class AuthStudentAPIController extends AppBaseController
         $coupon->is_active=0;
         $coupon->save();
 
-        return $this->sendResponse(new StudentResource($user->refresh()), 'User successfully retrieved');
+        return $this->sendResponse(new StudentResource($user->refresh()), "تم اضافة {$coupon->value} نقطه الي رصيدك");
 
     }
 
