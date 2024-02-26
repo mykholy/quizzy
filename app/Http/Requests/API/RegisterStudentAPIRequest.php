@@ -30,7 +30,7 @@ class RegisterStudentAPIRequest extends APIRequest
             'photo' => 'nullable|file',
             'phone' => 'nullable|unique:students',
             'academic_year_id' => 'nullable|exists:academic_years,id',
-            'date_of_birth' => 'nullable|data_format:Y-m-d',
+            'date_of_birth' => 'nullable|date_format:Y-m-d',
             'username' => 'nullable|unique:students',
             'governorate' => 'nullable',
             'area' => 'nullable',
