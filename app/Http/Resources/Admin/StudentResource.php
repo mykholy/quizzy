@@ -38,6 +38,7 @@ class StudentResource extends JsonResource
             'hasVerifiedEmail' => $this->hasVerifiedEmail(),
             'phone_verified' => $this->phone_verified,
             'location_area' => $this->location_area,
+            'balance' => $this->balance,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

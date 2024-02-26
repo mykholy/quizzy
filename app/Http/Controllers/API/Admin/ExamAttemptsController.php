@@ -612,7 +612,7 @@ class ExamAttemptsController extends AppBaseController
         $yourRankAmongTop = $topStudents->pluck('student_id')->search(auth('api-student')->id()) ;
 
 // Ensure yourRanking is consistent with yourRankAmongTop
-        $yourRanking = $yourRanking ?? 0;
+        $yourRanking = $yourRanking ?? 1;
         return $yourRankAmongTop;
     }
 

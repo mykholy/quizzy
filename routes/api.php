@@ -26,6 +26,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthStudentAPIController::class, 'login']);
     Route::post('social-login', [AuthStudentAPIController::class, 'socialLogin']);
     Route::post('logout', [AuthStudentAPIController::class, 'logout']);
+    Route::post('recharge-account', [AuthStudentAPIController::class, 'recharge_account']);
     Route::post('register', [AuthStudentAPIController::class, 'register']);
     Route::get('profile', [AuthStudentAPIController::class, 'profile']);
     Route::post('update-profile', [AuthStudentAPIController::class, 'updateProfile']);

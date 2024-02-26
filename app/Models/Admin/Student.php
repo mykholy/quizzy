@@ -34,8 +34,10 @@ class Student extends  Authenticatable  implements JWTSubject , MustVerifyEmail
         'date_of_birth',
         'device_token',
         'phone_verified',
+        'balance',
         'is_active'
     ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -54,6 +56,7 @@ class Student extends  Authenticatable  implements JWTSubject , MustVerifyEmail
         'provider_id' => 'string',
         'provider_type' => 'string',
         'device_token' => 'string',
+        'balance' => 'integer',
         'is_active' => 'boolean',
         'phone_verified' => 'boolean'
     ];

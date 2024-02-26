@@ -10,6 +10,7 @@ return [
         'password' => 'Password',
         'photo' => 'Photo',
         'phone' => 'phone',
+        'balance' => 'Balance',
         'car_id' => 'Car',
         'car_model' => 'Car Model',
         'device_token' => 'Device Token',

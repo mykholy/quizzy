@@ -11,6 +11,7 @@ use App\Http\Requests\API\LoginStudentAPIRequest;
 use App\Http\Requests\API\RegisterStudentAPIRequest;
 use App\Http\Requests\API\SocailRegisterStudentAPIRequest;
 use App\Http\Resources\Admin\StudentResource;
+use App\Models\Admin\Coupon;
 use App\Models\Admin\PasswordReset;
 use App\Models\Admin\Student;
 
@@ -66,6 +67,24 @@ class AuthStudentAPIController extends AppBaseController
         $user = auth('api-student')->user();
 
         return $this->sendResponse(new StudentResource($user), 'User successfully retrieved');
+
+    }
+
+    public function recharge_account(Request $request)
+    {
+        $user = auth('api-student')->user();
+
+        $coupon = Coupon::where('code', $request->code)->first();
+
+        if (empty($coupon)) {
+            return $this->sendError(
+                __('messages.not_found', ['model' => __('models/coupons.singular')])
+            );
+        }
+        $user->balance += $coupon->value;
+        $user->save();
+
+        return $this->sendResponse(new StudentResource($user->refresh()), 'User successfully retrieved');
 
     }
 
@@ -147,6 +166,9 @@ class AuthStudentAPIController extends AppBaseController
         }
         if ($client->email)
             $this->sendVerifyEmail($client);
+
+        $client->balance = 50;
+        $client->save();
 
         return $this->sendResponse($this->createNewToken($token), 'Account Created.');
 
