@@ -1,9 +1,13 @@
 @extends('layouts.app')
 @section('breadcrumb')
+    <?php
+    $unit=\App\Models\Admin\Unit::find(request('unit_id'));
+    ?>
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <h4 class="page-title">{{ __('models/lessons.singular')}}</h4>
             <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.units.index',['book_id'=>$unit?$unit->book_id:'#'])}}">{{$unit->name}}</a></li>
                 <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('models/lessons.singular')}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page"> {{ __('lang.list') }}</li>
             </ol>
