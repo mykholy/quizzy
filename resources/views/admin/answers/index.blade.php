@@ -4,7 +4,7 @@
         <div class="my-auto">
             <h4 class="page-title">{{ __('models/answers.singular')}} ({{$question->name}} ) ( {{\App\Models\Admin\Question::getQuestionType($question->type)}})</h4>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('admin.questions.index',['lesson_id' => $question->lesson_id]}}">{{$question->name}}</a></li>
+                <li class="breadcrumb-item"><a href="{{route('admin.questions.index',['lesson_id' => $question->lesson_id])}}">{{$question->name}}</a></li>
                 <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('models/answers.singular')}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page"> {{ __('lang.list') }}</li>
             </ol>
