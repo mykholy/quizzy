@@ -84,6 +84,9 @@ class AuthStudentAPIController extends AppBaseController
         $user->balance += $coupon->value;
         $user->save();
 
+        $coupon->is_active=0;
+        $coupon->save();
+
         return $this->sendResponse(new StudentResource($user->refresh()), 'User successfully retrieved');
 
     }
