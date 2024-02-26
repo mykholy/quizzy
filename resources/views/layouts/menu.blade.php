@@ -57,7 +57,7 @@
     </a>
 </li>
 
-<li class="slide {{ Request::is('admin.books*') ? 'active' : '' }}">
+<li hidden class="slide {{ Request::is('admin.books*') ? 'active' : '' }}">
     <a class="side-menu__item {{ Request::is('admin.books*') ? 'active' : '' }}"
        href="{{ route('admin.books.index') }}"
     >
@@ -67,7 +67,7 @@
     </a>
 </li>
 
-<li class="slide {{ Request::is('admin.units*') ? 'active' : '' }}">
+<li hidden class="slide {{ Request::is('admin.units*') ? 'active' : '' }}">
     <a class="side-menu__item {{ Request::is('admin.units*') ? 'active' : '' }}"
        href="{{ route('admin.units.index') }}"
     >
@@ -77,7 +77,7 @@
     </a>
 </li>
 
-<li class="slide {{ Request::is('admin.lessons*') ? 'active' : '' }}">
+<li hidden class="slide {{ Request::is('admin.lessons*') ? 'active' : '' }}">
     <a class="side-menu__item {{ Request::is('admin.lessons*') ? 'active' : '' }}"
        href="{{ route('admin.lessons.index') }}"
     >
