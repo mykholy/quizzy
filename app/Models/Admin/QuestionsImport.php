@@ -65,14 +65,15 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
                 $filename = uniqid() . '.' . pathinfo($url, PATHINFO_EXTENSION);
 
                 // Save the image to the 'products' directory in the storage disk
-                $filePath = 'images/' . $filename;
-                \Illuminate\Support\Facades\Storage::disk('questions')->put($filePath, $imageContent);
+                $filePath = 'images/questions/'. $filename;
+                \Illuminate\Support\Facades\Storage::disk('questions')->put($filename, $imageContent);
 
 
             } else {
                 // Handle error if image content couldn't be fetched
                 Log::info('Failed to fetch the remote image.');
             }
+            Log::info('$filePath: ' . $filePath);
 
             return $filePath;
         } catch (\Exception $e) {
