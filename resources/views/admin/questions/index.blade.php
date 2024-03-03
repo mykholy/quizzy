@@ -26,6 +26,11 @@
                         {!! __('lang.add_new') !!}
                     </a>
 
+                    <a class="btn btn-primary float-right"
+                       href="{{ route('admin.questions.create',['lesson_id'=>request('lesson_id'),'bulkImport'=>1]) }}">
+                        {!! __('lang.bulk') !!}
+                    </a>
+
                 </div>
             </div>
             <div class="card-body">

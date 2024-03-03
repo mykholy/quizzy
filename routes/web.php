@@ -61,6 +61,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('questions/{id}/books', [App\Http\Controllers\Admin\QuestionController::class,'ajax_get_books_by_subject'])->name('questions.ajax_get_units_by_subject');
         Route::get('questions/{id}/units', [App\Http\Controllers\Admin\QuestionController::class,'ajax_get_units_by_book'])->name('questions.ajax_get_units_by_book');
         Route::get('questions/{id}/lessons', [App\Http\Controllers\Admin\QuestionController::class,'ajax_get_lessons_by_unit']);
+        Route::post('questions/bulk-import', [App\Http\Controllers\Admin\QuestionController::class,'bulkStore'])->name('questions.bulkImport');
         Route::resource('questions', App\Http\Controllers\Admin\QuestionController::class);
         Route::resource('answers', App\Http\Controllers\Admin\AnswerController::class);
         Route::resource('ads', App\Http\Controllers\Admin\AdController::class);

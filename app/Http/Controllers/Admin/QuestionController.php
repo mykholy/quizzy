@@ -10,8 +10,10 @@ use App\Models\Admin\Answer;
 use App\Models\Admin\Book;
 use App\Models\Admin\Lesson;
 use App\Models\Admin\Question;
+use App\Models\Admin\QuestionsImport;
 use App\Models\Admin\Unit;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class QuestionController extends AppBaseController
@@ -21,7 +23,7 @@ class QuestionController extends AppBaseController
      */
     public function index(QuestionDataTable $questionDataTable)
     {
-    return $questionDataTable->render('admin.questions.index',['lesson_id' => request('lesson_id')]);
+        return $questionDataTable->render('admin.questions.index', ['lesson_id' => request('lesson_id')]);
     }
 
 
@@ -30,6 +32,9 @@ class QuestionController extends AppBaseController
      */
     public function create()
     {
+        if (\request('bulkImport')) {
+            return view('admin.questions.bulkImport');
+        }
         return view('admin.questions.create');
     }
 
@@ -39,15 +44,15 @@ class QuestionController extends AppBaseController
     public function store(CreateQuestionRequest $request)
     {
 
-        $request_data = $request->except(['_token', 'photo','file']);
+        $request_data = $request->except(['_token', 'photo', 'file']);
         if ($request->hasFile('photo')) {
 
-             $request_data['photo'] = uploadImage('questions', $request->photo);
+            $request_data['photo'] = uploadImage('questions', $request->photo);
 
         }
         if ($request->hasFile('file')) {
 
-             $request_data['file'] = uploadImage('questions', $request->file);
+            $request_data['file'] = uploadImage('questions', $request->file);
 
         }
 
@@ -55,9 +60,22 @@ class QuestionController extends AppBaseController
         $question = Question::create($request_data);
 
         $this->generate_answer_question_helper($question);
-        session()->flash('success',__('messages.saved', ['model' => __('models/questions.singular')]));
+        session()->flash('success', __('messages.saved', ['model' => __('models/questions.singular')]));
 
-        return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
+        return redirect(route('admin.questions.index', ['lesson_id' => request('lesson_id')]));
+    }
+
+    public function bulkStore(Request $request)
+    {
+
+        if ($request->hasFile('bulk_file')) {
+            $import = new QuestionsImport;
+            Excel::import($import, request()->file('bulk_file'));
+            session()->flash('success', __('messages.saved', ['model' => __('models/questions.singular')]));
+
+        }
+
+        return back();
     }
 
     /**
@@ -69,10 +87,10 @@ class QuestionController extends AppBaseController
         $question = Question::find($id);
 
         if (empty($question)) {
-            session()->flash('error',__('models/questions.singular').' '.__('messages.not_found'));
+            session()->flash('error', __('models/questions.singular') . ' ' . __('messages.not_found'));
 
 
-            return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
+            return redirect(route('admin.questions.index', ['lesson_id' => request('lesson_id')]));
         }
 
         return view('admin.questions.show')->with('question', $question);
@@ -87,10 +105,10 @@ class QuestionController extends AppBaseController
         $question = Question::find($id);
 
         if (empty($question)) {
-            session()->flash('error',__('models/questions.singular').' '.__('messages.not_found'));
+            session()->flash('error', __('models/questions.singular') . ' ' . __('messages.not_found'));
 
 
-            return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
+            return redirect(route('admin.questions.index', ['lesson_id' => request('lesson_id')]));
         }
 
         return view('admin.questions.edit')->with('question', $question);
@@ -105,13 +123,13 @@ class QuestionController extends AppBaseController
         $question = Question::find($id);
 
         if (empty($question)) {
-            session()->flash('error',__('models/questions.singular').' '.__('messages.not_found'));
+            session()->flash('error', __('models/questions.singular') . ' ' . __('messages.not_found'));
 
 
-            return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
+            return redirect(route('admin.questions.index', ['lesson_id' => request('lesson_id')]));
         }
 
-        $request_data = $request->except(['_token', 'photo','file']);
+        $request_data = $request->except(['_token', 'photo', 'file']);
 
         if ($request->hasFile('photo')) {
             $request_data['photo'] = uploadImage('questions', $request->photo);
@@ -125,9 +143,9 @@ class QuestionController extends AppBaseController
         $question->fill($request_data);
         $question->save();
 
-        session()->flash('success',__('messages.updated', ['model' => __('models/questions.singular')]));
+        session()->flash('success', __('messages.updated', ['model' => __('models/questions.singular')]));
 
-        return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
+        return redirect(route('admin.questions.index', ['lesson_id' => request('lesson_id')]));
     }
 
     /**
@@ -141,19 +159,20 @@ class QuestionController extends AppBaseController
         $question = Question::find($id);
 
         if (empty($question)) {
-            session()->flash('error',__('models/questions.singular').' '.__('messages.not_found'));
+            session()->flash('error', __('models/questions.singular') . ' ' . __('messages.not_found'));
 
 
-            return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
+            return redirect(route('admin.questions.index', ['lesson_id' => request('lesson_id')]));
         }
 
         $question->delete();
 
-        session()->flash('success',__('messages.deleted', ['model' => __('models/questions.singular')]));
+        session()->flash('success', __('messages.deleted', ['model' => __('models/questions.singular')]));
 
 
-        return redirect(route('admin.questions.index',['lesson_id' => request('lesson_id')]));
+        return redirect(route('admin.questions.index', ['lesson_id' => request('lesson_id')]));
     }
+
     public function generate_answer_question_helper($question)
     {
         switch ($question->type) {
@@ -193,6 +212,7 @@ class QuestionController extends AppBaseController
 
         return view('includes.ajax_options', ['data' => $books, 'name' => 'book_id', 'placeholder' => __('models/books.singular')]);
     }
+
     public function ajax_get_units_by_book($id)
     {
 
@@ -200,6 +220,7 @@ class QuestionController extends AppBaseController
 
         return view('includes.ajax_options', ['data' => $unites, 'name' => 'unit_id', 'placeholder' => __('models/units.singular')]);
     }
+
     public function ajax_get_lessons_by_unit($id)
     {
 
