@@ -30,7 +30,7 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
                 'lesson_id' => $row['lesson_id'],
                 'points' => $row['points'],
                 'time' => $row['time'],
-                'photo' => $this->downloadThumbnail($row['photo']),
+                'photo' => empty($row['photo']) ? null : $this->downloadThumbnail($row['photo']),
             ]);
 
         }
@@ -56,7 +56,7 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
     public function downloadThumbnail($url)
     {
         try {
-            $filePath=null;
+            $filePath = null;
             // Fetch the image content from the remote URL
             $imageContent = file_get_contents($url);
             // Check if the content was fetched successfully
