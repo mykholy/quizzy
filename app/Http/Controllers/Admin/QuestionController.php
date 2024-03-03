@@ -73,9 +73,10 @@ class QuestionController extends AppBaseController
             Excel::import($import, request()->file('bulk_file'));
             session()->flash('success', __('messages.saved', ['model' => __('models/questions.singular')]));
 
+            return redirect(route('admin.questions.index', ['lesson_id' => request('lesson_id')]));
         }
-
         return back();
+
     }
 
     /**
