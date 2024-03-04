@@ -80,9 +80,13 @@ class QuestionController extends AppBaseController
 //            dd($request->files,$request->all());
             if ($request->files) {
                 $files_url_data = [];
-                $files_url = json_decode(saveArrayImage('uploads', $request->files), true);
-                foreach ($files_url as $file)
-                    $files_url_data[] = asset($file);
+                foreach ($request->files as $file) {
+                    $url_file = uploadImage('uploads', $file);
+                    $files_url_data[] = asset($url_file);
+                }
+//                $files_url = json_decode(saveArrayImage('uploads', $request->files), true);
+//                foreach ($files_url as $file)
+//                    $files_url_data[] = asset($file);
 
                 return view('admin.questions.bulkImport', compact('files_url_data'));
 
