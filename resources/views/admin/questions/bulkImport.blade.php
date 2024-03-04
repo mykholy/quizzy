@@ -85,7 +85,6 @@
 
             {!! Form::open(['route' => 'admin.questions.bulkImport','files'=>true]) !!}
             <input type="hidden" name="lesson_id" value="{{request('lesson_id')}}">
-            <input type="hidden" name="upload_files" value="1">
             <div class="card-body">
 
                 <div class="row">
@@ -100,7 +99,7 @@
                     <div class="form-group col-sm-12">
                         {!! Form::label('files', __('models/questions.fields.files').':') !!}
                         <div class="mb-3">
-                            {!! Form::file('files[]', ['class' => 'form-control','multiple'=>'multiple']) !!}
+                            {!! Form::file('upload_files[]', ['class' => 'form-control','multiple'=>'multiple']) !!}
                         </div>
                     </div>
                     <div class="clearfix"></div>
