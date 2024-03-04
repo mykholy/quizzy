@@ -22,7 +22,9 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
     {
 
         foreach ($rows as $row) {
-            dd($rows,$row);
+            if (empty($row['type']))
+                continue;
+
             $question = Question::create([
                 'name' => $row['name'],
                 'type' => $row['type'],
