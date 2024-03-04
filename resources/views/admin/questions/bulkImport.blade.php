@@ -43,6 +43,7 @@
                                 : {{implode(' | ',collect(\App\Models\Admin\Question::getAllTypes())->keys()->toArray())}} </p>
                             <p> level
                                 : {{implode(' | ',collect(\App\Models\Admin\Question::getAllLevel())->keys()->toArray())}} </p>
+                             <p> answer_view_format : {{implode(' | ',collect(\App\Models\Admin\Answer::getAllAnswerViewFormat())->keys()->toArray())}} </p>
                         </div>
                         <br>
                         <div class="my-2">

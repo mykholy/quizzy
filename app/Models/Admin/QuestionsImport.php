@@ -30,8 +30,24 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
                 'lesson_id' => $row['lesson_id'],
                 'points' => $row['points'],
                 'time' => $row['time'],
-                'photo' => empty($row['photo']) ? null : $this->downloadThumbnail($row['photo']),
+                'photo' => empty($row['photo']) ? null : $this->downloadThumbnail($row['photo'], 'questions'),
             ]);
+
+            $answes = ['answer_1', 'answer_2', 'answer_3', 'answer_4'];
+            $correct_answers = explode(',', $row['correct_answers']);
+            foreach ($answes as $index => $answer) {
+                if ($question->type == Question::$QUESTION_TYPE_TRUE_FALSE && $index > 2)
+                    break;
+
+                $data = [
+                    'title' => $row[$answer],
+                    'answer_view_format' => $row["answer_view_format_$index"],
+                    'photo' => empty($row["answer_photo_$index"]) ? null : $this->downloadThumbnail($row["answer_photo_$index"], 'answers'),
+                    'is_correct' => in_array($index, $correct_answers),
+                ];
+                $this->addAnswer($question, $data);
+
+            }
 
         }
     }
@@ -53,7 +69,7 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
         ];
     }
 
-    public function downloadThumbnail($url)
+    public function downloadThumbnail($url, $folder)
     {
         try {
             $filePath = null;
@@ -65,8 +81,8 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
                 $filename = uniqid() . '.' . pathinfo($url, PATHINFO_EXTENSION);
 
                 // Save the image to the 'products' directory in the storage disk
-                $filePath = 'images/questions/'. $filename;
-                \Illuminate\Support\Facades\Storage::disk('questions')->put($filename, $imageContent);
+                $filePath = "images/$folder/" . $filename;
+                \Illuminate\Support\Facades\Storage::disk("$folder")->put($filename, $imageContent);
 
 
             } else {
@@ -91,5 +107,27 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
             $data[] = $this->downloadThumbnail($url);
         }
         return implode(',', $data);
+    }
+
+    public function addAnswer($question, $request_data)
+    {
+        $request_data['question_type'] = $question->type;
+        $request_data['question_id'] = $question->id;
+
+        //update other answer
+        if ((($question->type == Question::$QUESTION_TYPE_SINGLE_CHOICE || $question->type == Question::$QUESTION_TYPE_TRUE_FALSE) && $request_data['is_correct'])) {
+            if ($question->answers && !empty($request_data['is_correct']))
+                $question->answers()->update([
+                    'is_correct' => false,
+                ]);
+        } elseif ($question->type == Question::$QUESTION_TYPE_MULTIPLE_CHOICE || $question->question_type == Question::$QUESTION_TYPE_TRUE_FALSE) {
+            if (!$request_data['is_correct'])
+                $request_data['is_correct'] = false;
+        }
+
+
+        /** @var Answer $answer */
+        $answer = Answer::create($request_data);
+
     }
 }
