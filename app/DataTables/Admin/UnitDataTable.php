@@ -94,6 +94,8 @@ class UnitDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'name' => new Column(['title' => __('models/units.fields.name'), 'data' => 'name']),
             'photo' => new Column(['title' => __('models/units.fields.photo'), 'data' => 'photo']),
             'book_id' => new Column(['title' => __('models/units.fields.book_id'), 'data' => 'book_id']),

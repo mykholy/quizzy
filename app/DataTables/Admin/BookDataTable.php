@@ -92,6 +92,8 @@ class BookDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'name' => new Column(['title' => __('models/books.fields.name'), 'data' => 'name']),
             'photo' => new Column(['title' => __('models/books.fields.photo'), 'data' => 'photo']),
             'subject_id' => new Column(['title' => __('models/books.fields.subject_id'), 'data' => 'subject_id']),

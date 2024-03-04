@@ -85,6 +85,8 @@ class AdDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'title' => new Column(['title' => __('models/ads.fields.title'), 'data' => 'title']),
             'photo' => new Column(['title' => __('models/ads.fields.photo'), 'data' => 'photo']),
             'is_active' => new Column(['title' => __('models/ads.fields.is_active'), 'data' => 'is_active'])

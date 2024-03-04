@@ -95,6 +95,8 @@ class GroupDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'name' => new Column(['title' => __('models/groups.fields.name'), 'data' => 'name']),
             'teacher_id' => new Column(['title' => __('models/groups.fields.teacher_id'), 'data' => 'teacher_id']),
             'subject_id' => new Column(['title' => __('models/groups.fields.subject_id'), 'data' => 'subject_id']),

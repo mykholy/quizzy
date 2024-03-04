@@ -91,6 +91,8 @@ class SubjectDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'name' => new Column(['title' => __('models/subjects.fields.name'), 'data' => 'name']),
             'photo' => new Column(['title' => __('models/subjects.fields.photo'), 'data' => 'photo']),
             'academic_year_id' => new Column(['title' => __('models/subjects.fields.academic_year_id'), 'data' => 'academic_year_id']),

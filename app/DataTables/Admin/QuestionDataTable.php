@@ -116,6 +116,8 @@ class QuestionDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'name' => new Column(['title' => __('models/questions.fields.name'), 'data' => 'name']),
             'type' => new Column(['title' => __('models/questions.fields.type'), 'data' => 'type']),
             'level' => new Column(['title' => __('models/questions.fields.level'), 'data' => 'level']),

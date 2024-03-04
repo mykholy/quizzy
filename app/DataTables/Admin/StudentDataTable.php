@@ -85,6 +85,8 @@ class StudentDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'name' => new Column(['title' => __('models/students.fields.name'), 'data' => 'name']),
             'email' => new Column(['title' => __('models/students.fields.email'), 'data' => 'email']),
             'phone' => new Column(['title' => __('models/students.fields.phone'), 'data' => 'phone']),

@@ -87,6 +87,8 @@ class ExamDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'name' => new Column(['title' => __('models/exams.fields.name'), 'data' => 'name']),
             'type' => new Column(['title' => __('models/exams.fields.type'), 'data' => 'type']),
             'question_types' => new Column(['title' => __('models/exams.fields.question_types'), 'data' => 'question_types']),

@@ -94,6 +94,8 @@ class LessonDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'name' => new Column(['title' => __('models/lessons.fields.name'), 'data' => 'name']),
             'photo' => new Column(['title' => __('models/lessons.fields.photo'), 'data' => 'photo']),
             'unit_id' => new Column(['title' => __('models/lessons.fields.unit_id'), 'data' => 'unit_id']),

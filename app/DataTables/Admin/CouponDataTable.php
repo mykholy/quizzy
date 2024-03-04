@@ -81,6 +81,8 @@ class CouponDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
+
             'title' => new Column(['title' => __('models/coupons.fields.title'), 'data' => 'title']),
             'code' => new Column(['title' => __('models/coupons.fields.code'), 'data' => 'code']),
             'value' => new Column(['title' => __('models/coupons.fields.value'), 'data' => 'value']),
