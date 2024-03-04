@@ -27,10 +27,10 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
 
             $question = Question::create([
                 'name' => $row['name'],
-                'type' => $row['type'],
-                'level' => $row['level'],
+                'type' => trim($row['type']),
+                'level' => trim($row['level']),
                 'description' => $row['description'],
-                'lesson_id' => $row['lesson_id'],
+                'lesson_id' => trim($row['lesson_id']),
                 'points' => $row['points'],
                 'reference' => $row['reference'],
                 'time' => $row['time'],
