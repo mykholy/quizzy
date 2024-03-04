@@ -83,7 +83,6 @@ class QuestionController extends AppBaseController
                 foreach ($request->upload_files as $file) {
                     $url_file = uploadImage('uploads', $file);
                     $files_url_data[] = asset($url_file);
-                    dd($request->upload_files,$file,$request->all(),$files_url_data);
 
                 }
                 dd($request->upload_files,$request->all(),$files_url_data);
