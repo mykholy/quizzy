@@ -109,7 +109,10 @@ function send_mail($data, $to, $view = "mail")
 
 function uploadImage($folder, $image)
 {
-
+// Ensure $image is an instance of UploadedFile
+    if (!($image instanceof \Illuminate\Http\UploadedFile)) {
+        return null; // or throw an exception, depending on your use case
+    }
     $image->store('/', $folder);
     $fileName = $image->hashName();
     $path = 'images/' . $folder . '/' . $fileName;

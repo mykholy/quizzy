@@ -77,7 +77,7 @@ class QuestionController extends AppBaseController
         }
 
         if ($request->hasFile('files')) {
-            dd($request->files,$request->all());
+//            dd($request->files,$request->all());
             if ($request->files) {
                 $files_url_data = [];
                 $files_url = json_decode(saveArrayImage('uploads', $request->files), true);
