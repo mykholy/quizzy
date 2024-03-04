@@ -89,8 +89,8 @@
 
                 <div class="row">
                     @if(isset($files_url_data))
-                        <div class="form-group col-sm-12 mb-3">
-                        <textarea name="my_textarea"
+                        <div class="form-group col-12 mb-3">
+                        <textarea class="form-control" name="my_textarea"
                                   rows="15">{{ implode("\n", $files_url_data) }}</textarea>
                         </div>
                     @endif
