@@ -47,7 +47,7 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
 
                 $data = [
                     'title' => $row[$answer],
-                    'answer_view_format' => $row["answer_view_format_$index"],
+                    'answer_view_format' => empty($row["answer_view_format_$index"])?"text":$row["answer_view_format_$index"],
                     'photo' => empty($row["answer_photo_$index"]) ? null : $this->downloadThumbnail($row["answer_photo_$index"], 'answers'),
                     'is_correct' => in_array($index, $correct_answers),
                 ];
