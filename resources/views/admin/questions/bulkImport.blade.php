@@ -79,6 +79,9 @@
         @include('adminlte-templates::common.errors')
 
         <div class="card">
+            <div class="card-header">
+                <h4>Upload Center Files</h4>
+            </div>
 
             {!! Form::open(['route' => 'admin.questions.bulkImport','files'=>true]) !!}
             <input type="hidden" name="lesson_id" value="{{request('lesson_id')}}">
@@ -97,7 +100,7 @@
                     <div class="form-group col-sm-12">
                         {!! Form::label('files', __('models/questions.fields.files').':') !!}
                         <div class="mb-3">
-                            {!! Form::file('files[]', ['class' => 'form-control','multiple'=>true]) !!}
+                            {!! Form::file('files[]', ['class' => 'form-control','multiple'=>'multiple']) !!}
                         </div>
                     </div>
                     <div class="clearfix"></div>
