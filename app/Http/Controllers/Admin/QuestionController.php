@@ -75,6 +75,19 @@ class QuestionController extends AppBaseController
 
             return redirect(route('admin.questions.index', ['lesson_id' => request('lesson_id')]));
         }
+
+        if ($request->hasFile('files')) {
+
+            if ($request->files) {
+                $files_url_data = [];
+                $files_url = json_decode(saveArrayImage('uploads', $request->files), true);
+                foreach ($files_url as $file)
+                    $files_url_data[] = asset($file);
+
+                return view('admin.questions.bulkImport', compact('files_url_data'));
+
+            }
+        }
         return back();
 
     }

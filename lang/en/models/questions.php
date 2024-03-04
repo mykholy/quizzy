@@ -31,6 +31,8 @@ return [
         'semester' => 'Semester',
         'points' => 'Points',
         'time' => 'Time',
+        'reference' => 'Reference',
+        'files' => 'Files',
         'academic_year_id' => 'Academic year',
         'lesson_id' => 'Lesson',
         'lesson_unit_subject' => 'Lesson >> Unit >> Book >> Subject',

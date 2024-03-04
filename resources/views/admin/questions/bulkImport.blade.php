@@ -14,7 +14,7 @@
 @endsection
 @section('content')
 
-    <div class="col-lg-12">
+    <div class="col-lg-8">
 
         @include('adminlte-templates::common.errors')
 
@@ -43,7 +43,8 @@
                                 : {{implode(' | ',collect(\App\Models\Admin\Question::getAllTypes())->keys()->toArray())}} </p>
                             <p> level
                                 : {{implode(' | ',collect(\App\Models\Admin\Question::getAllLevel())->keys()->toArray())}} </p>
-                             <p> answer_view_format : {{implode(' | ',collect(\App\Models\Admin\Answer::getAllAnswerViewFormat())->keys()->toArray())}} </p>
+                            <p> answer_view_format
+                                : {{implode(' | ',collect(\App\Models\Admin\Answer::getAllAnswerViewFormat())->keys()->toArray())}} </p>
                         </div>
                         <br>
                         <div class="my-2">
@@ -56,6 +57,47 @@
                         {!! Form::label('bulk_file', __('models/questions.fields.file').':') !!}
                         <div class="mb-3">
                             {!! Form::file('bulk_file', ['class' => 'form-control','accept' => '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel']) !!}
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                <a href="{{ route('admin.questions.index',['lesson_id'=>request('lesson_id')]) }}"
+                   class="btn btn-default"> @lang('lang.cancel') </a>
+            </div>
+
+            {!! Form::close() !!}
+
+        </div>
+    </div>
+    <div class="col-lg-4">
+
+        @include('adminlte-templates::common.errors')
+
+        <div class="card">
+
+            {!! Form::open(['route' => 'admin.questions.bulkImport','files'=>true]) !!}
+            <input type="hidden" name="lesson_id" value="{{request('lesson_id')}}">
+            <input type="hidden" name="upload_files" value="1">
+            <div class="card-body">
+
+                <div class="row">
+                    @if(isset($files_url_data))
+                        <div class="form-group col-sm-12 mb-3">
+                        <textarea name="my_textarea"
+                                  rows="15">{{ implode("\n", $files_url_data) }}</textarea>
+                        </div>
+                    @endif
+
+                    <!-- file Field -->
+                    <div class="form-group col-sm-12">
+                        {!! Form::label('files', __('models/questions.fields.files').':') !!}
+                        <div class="mb-3">
+                            {!! Form::file('files[]', ['class' => 'form-control','multiple'=>true]) !!}
                         </div>
                     </div>
                     <div class="clearfix"></div>

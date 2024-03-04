@@ -29,8 +29,10 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
                 'description' => $row['description'],
                 'lesson_id' => $row['lesson_id'],
                 'points' => $row['points'],
+                'reference' => $row['reference'],
                 'time' => $row['time'],
                 'photo' => empty($row['photo']) ? null : $this->downloadThumbnail($row['photo'], 'questions'),
+                'file' => empty($row['file']) ? null : $this->downloadThumbnail($row['file'], 'questions'),
             ]);
 
             $answes = ['answer_1', 'answer_2', 'answer_3', 'answer_4'];
