@@ -85,7 +85,6 @@ class QuestionController extends AppBaseController
                     $files_url_data[] = asset($url_file);
 
                 }
-                dd($request->upload_files,$request->all(),$files_url_data);
 //                $files_url = json_decode(saveArrayImage('uploads', $request->files), true);
 //                foreach ($files_url as $file)
 //                    $files_url_data[] = asset($file);
