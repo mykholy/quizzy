@@ -171,10 +171,14 @@ class ExamAPIController extends AppBaseController
             $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
         }
 
-        if(count($questionIds)>$student->balance)
+
+
+        if(count($questionIds)>$student->balance) {
+            $numCountQuestionIds=count($questionIds);
             return $this->sendError(
-                count($questionIds).'لايوجد لديك رصيد كافي الرصيد المطلوب يجب ان يكون: '
+                "لايوجد لديك رصيد كافي الرصيد المطلوب يجب ان يكون:   $numCountQuestionIds "
             );
+        }
 
 
 
