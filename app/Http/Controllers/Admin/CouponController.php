@@ -46,10 +46,10 @@ class CouponController extends AppBaseController
         if($request->bulk){
             $codes=[];
             for ($i=0; $i < $request->count;$i++){
-                $code=Str::random(10);
+                $code=$this->generateUniqueCouponCode();
                 $codes[]=$code;
                 $data=[
-                    'title' =>'Bulk '.$i,
+                    'title' =>$request->title.' '.$i,
                     'code' =>$code,
                     'value' =>$request->value,
                 ];
@@ -156,5 +156,14 @@ class CouponController extends AppBaseController
 
 
         return redirect(route('admin.coupons.index'));
+    }
+
+    public function generateUniqueCouponCode()
+    {
+        do {
+            $code = Str::random(10);
+        } while (Coupon::where('code', $code)->exists());
+
+        return $code;
     }
 }

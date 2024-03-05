@@ -48,7 +48,7 @@
                         </div>
                         <br>
                         <div class="my-2">
-                            <a class="btn btn-info" href="{{ asset('download/question_bulk_demo2025.xlsx') }}" download>Download
+                            <a class="btn btn-info" href="{{ asset('download/question_bulk_demo.xlsx') }}" download>Download
                                 CSV</a>
                         </div>
                     </div>

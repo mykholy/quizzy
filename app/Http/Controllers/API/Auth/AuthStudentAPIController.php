@@ -74,13 +74,15 @@ class AuthStudentAPIController extends AppBaseController
     {
         $user = auth('api-student')->user();
 
-        $coupon = Coupon::where('code', $request->code)->first();
+        $coupon = Coupon::where('code', $request->code)
+            ->first();
 
         if (empty($coupon)) {
-            return $this->sendError(
-                __('messages.not_found', ['model' => __('models/coupons.singular')])
-            );
+            return $this->sendError('الكوبون خطأ');
         }
+        if (!$coupon->is_active)
+            return $this->sendError('لقد تم استخدام هذا الكوبون من قبل');
+
         $user->balance += $coupon->value;
         $user->save();
 

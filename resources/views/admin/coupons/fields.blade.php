@@ -10,3 +10,15 @@
     {!! Form::label('value', __('models/coupons.fields.value').':') !!}
     {!! Form::number('value', null, ['class' => 'form-control']) !!}
 </div>
+
+<!-- Price Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('price', __('models/coupons.fields.price').':') !!}
+    {!! Form::number('price', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- name Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('title', __('models/coupons.fields.title').':') !!}
+    {!! Form::text('title', null, ['class' => 'form-control']) !!}
+</div>

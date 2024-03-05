@@ -13,6 +13,7 @@ class Coupon extends Model
         'title',
         'code',
         'value',
+        'price',
         'student_id',
         'is_active'
     ];
@@ -20,6 +21,7 @@ class Coupon extends Model
     protected $casts = [
         'title' => 'string',
         'code' => 'string',
+        'price' => 'string',
         'value' => 'string',
         'is_active' => 'boolean'
     ];
@@ -34,4 +36,5 @@ class Coupon extends Model
     {
         return $this->belongsTo(\App\Models\Admin\Student::class, 'student_id', 'id');
     }
+
 }
