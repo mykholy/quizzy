@@ -100,8 +100,7 @@ class ExamAPIController extends AppBaseController
             $request_data['question_types'] = json_encode(\request('question_types'));
         }
 
-        /** @var Exam $exam */
-        $exam = Exam::create($request_data);
+
         $student = auth('api-student')->user();
         $numberOfQuestions = 10; // Adjust the number as needed
 
@@ -172,10 +171,22 @@ class ExamAPIController extends AppBaseController
             $questionIds = $this->getQuestionsIdsByTotalTime($query->whereIn('lesson_id', $lessonIds), $numberOfQuestions, $timeLimit);
         }
 
+        if(count($questionIds)>$student->balance)
+            return $this->sendError(
+                count($questionIds).'لايوجد لديك رصيد كافي الرصيد المطلوب يجب ان يكون: '
+            );
+
+
+
+        /** @var Exam $exam */
+        $exam = Exam::create($request_data);
 
         $exam->questions()->attach($questionIds);
 
         $student->exams()->attach([$exam->id]);
+
+        $student->balance-=count($questionIds);
+        $student->save();
 
         return $this->sendResponse(
             new ExamResource(Exam::with('questions')->find($exam->id)),
