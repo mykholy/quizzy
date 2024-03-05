@@ -10,7 +10,7 @@ return [
         'count' => 'Count',
         'code' => 'Code',
         'name' => 'Name',
-        'cost' => 'Price',
+        'price' => 'Price',
         'value' => 'Point',
         'is_active' => 'Is Active',
         'created_at' => 'Created At',

@@ -85,6 +85,7 @@ class CouponDataTable extends DataTable
 
             'title' => new Column(['title' => __('models/coupons.fields.title'), 'data' => 'title']),
             'code' => new Column(['title' => __('models/coupons.fields.code'), 'data' => 'code']),
+            'price' => new Column(['title' => __('models/coupons.fields.price'), 'data' => 'price']),
             'value' => new Column(['title' => __('models/coupons.fields.value'), 'data' => 'value']),
             'is_active' => new Column(['title' => __('models/coupons.fields.is_active'), 'data' => 'is_active'])
         ];
