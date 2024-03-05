@@ -50,6 +50,8 @@
                         <div class="my-2">
                             <a class="btn btn-info" href="{{ asset('download/question_bulk_demo.xlsx') }}" download>Download
                                 CSV</a>
+                            <a class="btn btn-info mx-2" href="{{ asset('download/question_bulk_demo_short_long.xlsx') }}" download>Download For Short And Long Questions
+                                CSV</a>
                         </div>
                     </div>
                     <!-- file Field -->
