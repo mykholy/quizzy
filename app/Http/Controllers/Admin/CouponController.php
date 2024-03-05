@@ -51,6 +51,7 @@ class CouponController extends AppBaseController
                 $data=[
                     'title' =>$request->title.' '.$i,
                     'code' =>$code,
+                    'price' =>$request->price,
                     'value' =>$request->value,
                 ];
                 $coupon = Coupon::create($data);
