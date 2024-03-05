@@ -148,7 +148,7 @@ class ExamAttemptsController extends AppBaseController
         $request_data['time_spent'] = $request->time_spent;
         $request_data['student_id'] = auth('api-student')->id();
 
-        /* check if question_type open ended or short ans the set is_correct default value null before saving
+        /* check if question_type openended or short ans the set is_correct default value null before saving
                     */
         if (in_array($question_type, array(Question::$QUESTION_TYPE_LONG_ANSWER, Question::$QUESTION_TYPE_SHORT_ANSWER, 'image_answering'))) {
             $get_original_answer = $question->answers->first();
