@@ -39,7 +39,7 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
             ]);
 
             $answes = ['answer_1', 'answer_2', 'answer_3', 'answer_4'];
-            $correct_answers = explode(',', $row['correct_answers']);
+            $correct_answers = explode(',', $row['correct_answers']??[]);
             foreach ($answes as $index => $answer) {
                 $index++;
                 if ($question->type == Question::$QUESTION_TYPE_TRUE_FALSE && $index > 2)
