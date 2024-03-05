@@ -44,6 +44,8 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
                 $index++;
                 if ($question->type == Question::$QUESTION_TYPE_TRUE_FALSE && $index > 2)
                     break;
+                if (($question->type == Question::$QUESTION_TYPE_SHORT_ANSWER|| $question->type == Question::$QUESTION_TYPE_LONG_ANSWER) && $index > 1)
+                    break;
 
                 $data = [
                     'title' => $row[$answer],
