@@ -44,7 +44,7 @@ class Group extends Model
 
     public function students(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(\App\Models\Admin\Student::class);
+        return $this->belongsToMany(\App\Models\Admin\Student::class,"student_group");
     }
 
     public function getPhotoAttribute($value)
