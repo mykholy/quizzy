@@ -36,7 +36,7 @@ class GroupController extends AppBaseController
     public function store(CreateGroupRequest $request)
     {
 
-        $request_data = $request->except(['_token', 'photo','student_ids']);
+        $request_data = $request->except(['_token', 'photo', 'student_ids']);
         if ($request->hasFile('photo')) {
 
             $request_data['photo'] = uploadImage('groups', $request->photo);
@@ -55,7 +55,7 @@ class GroupController extends AppBaseController
 
         /* add multiple participants */
         if ($group->students) {
-            Chat::conversation($conversation)->addParticipants( $group->students->all());
+            Chat::conversation($conversation)->addParticipants($group->students->all());
         }
 
         session()->flash('success', __('messages.saved', ['model' => __('models/groups.singular')]));
@@ -114,7 +114,7 @@ class GroupController extends AppBaseController
             return redirect(route('admin.groups.index'));
         }
 
-        $request_data = $request->except(['_token', 'photo','student_ids']);
+        $request_data = $request->except(['_token', 'photo', 'student_ids']);
 
         if ($request->hasFile('photo')) {
             $request_data['photo'] = uploadImage('groups', $request->photo);
@@ -122,6 +122,7 @@ class GroupController extends AppBaseController
 
         $group->fill($request_data);
         $group->save();
+        $current_students = $group->students->pluck('id')->toArray();
 
         if ($request->student_ids)
             $group->students()->sync($request->student_ids);
@@ -129,10 +130,9 @@ class GroupController extends AppBaseController
         /* add multiple participants */
         if ($group->students) {
             $conversation = Chat::conversations()->getById($group->conversation_id);
-            $participants = $conversation->getParticipants()->all();
-            $unexistingParticipants = collect($group->students->all())->diff($participants)->values()->all();
+            $newParticipants = collect($group->students->pluck('id')->toArray())->diff($current_students)->values()->all();
 
-            dd($participants,$group->students->all(),$unexistingParticipants);
+            dd( $group->students->all(), $newParticipants);
             Chat::conversation($conversation)->addParticipants($group->students->all());
         }
 
