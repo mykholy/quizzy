@@ -55,7 +55,7 @@ class GroupController extends AppBaseController
 
         /* add multiple participants */
         if ($group->students) {
-            dd(group->students()->get(),$group->students,$group->students());
+            dd($group->students()->get(),$group->students,$group->students());
             Chat::conversation($conversation)->addParticipants( $group->students()->get());
         }
 
