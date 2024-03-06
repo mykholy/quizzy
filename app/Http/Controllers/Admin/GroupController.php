@@ -130,7 +130,9 @@ class GroupController extends AppBaseController
         if ($group->students) {
             $conversation = Chat::conversations()->getById($group->conversation_id);
             $participants = $conversation->getParticipants()->all();
-            dd($participants,$group->students->all());
+            $unexistingParticipants = collect($participants)->diff($group->students->all())->values()->all();
+
+            dd($participants,$group->students->all(),$unexistingParticipants);
             Chat::conversation($conversation)->addParticipants($group->students->all());
         }
 
