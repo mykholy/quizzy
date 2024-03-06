@@ -39,6 +39,19 @@
     @endif
 </div>
 
+<div class="form-group col-sm-12 col-lg-12 mb-3">
+    {!! Form::label('student_ids', __('models/groups.fields.student_ids').':') !!}
+    {!! Form::select('student_ids[]', \App\Models\Admin\Student::pluck('name','id')->toArray(), isset($group)?$group->students->pluck('id')->toArray():null, ['multiple'=>'multiple','class' => 'form-control form-select '. ($errors->has('student_ids')?' is-invalid ':'')]) !!}
+
+    @if ($errors->has('student_ids'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('student_ids') }}</small>
+
+             </span>
+    @endif
+</div>
+
 
 
 <!-- Photo Field -->

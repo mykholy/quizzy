@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Musonza\Chat\Traits\Messageable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Student extends  Authenticatable  implements JWTSubject , MustVerifyEmail
 {
     use HasFactory;
+    use Messageable;
     use Notifiable;
 
     public $table = 'students';

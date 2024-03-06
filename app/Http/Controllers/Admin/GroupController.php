@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UpdateGroupRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Admin\Group;
 use Illuminate\Http\Request;
+use Chat;
 
 
 class GroupController extends AppBaseController
@@ -17,7 +18,7 @@ class GroupController extends AppBaseController
      */
     public function index(GroupDataTable $groupDataTable)
     {
-    return $groupDataTable->render('admin.groups.index');
+        return $groupDataTable->render('admin.groups.index');
     }
 
 
@@ -35,17 +36,29 @@ class GroupController extends AppBaseController
     public function store(CreateGroupRequest $request)
     {
 
-        $request_data = $request->except(['_token', 'photo']);
+        $request_data = $request->except(['_token', 'photo','student_ids']);
         if ($request->hasFile('photo')) {
 
-             $request_data['photo'] = uploadImage('groups', $request->photo);
+            $request_data['photo'] = uploadImage('groups', $request->photo);
 
         }
 
         /** @var Group $group */
         $group = Group::create($request_data);
 
-        session()->flash('success',__('messages.saved', ['model' => __('models/groups.singular')]));
+        if ($request->student_ids)
+            $group->students()->sync($request_data->student_ids);
+
+        $conversation = Chat::createConversation([$group, $group->teacher]);
+        $group->conversation_id = $conversation->id;
+        $group->save();
+
+        /* add multiple participants */
+        if ($group->students) {
+            Chat::conversation($conversation)->addParticipants($group->students);
+        }
+
+        session()->flash('success', __('messages.saved', ['model' => __('models/groups.singular')]));
 
         return redirect(route('admin.groups.index'));
     }
@@ -56,10 +69,10 @@ class GroupController extends AppBaseController
     public function show($id)
     {
         /** @var Group $group */
-        $group = Group::with(['subject','teacher'])->find($id);
+        $group = Group::with(['subject', 'teacher'])->find($id);
 
         if (empty($group)) {
-            session()->flash('error',__('models/groups.singular').' '.__('messages.not_found'));
+            session()->flash('error', __('models/groups.singular') . ' ' . __('messages.not_found'));
 
 
             return redirect(route('admin.groups.index'));
@@ -77,7 +90,7 @@ class GroupController extends AppBaseController
         $group = Group::find($id);
 
         if (empty($group)) {
-            session()->flash('error',__('models/groups.singular').' '.__('messages.not_found'));
+            session()->flash('error', __('models/groups.singular') . ' ' . __('messages.not_found'));
 
 
             return redirect(route('admin.groups.index'));
@@ -95,13 +108,13 @@ class GroupController extends AppBaseController
         $group = Group::find($id);
 
         if (empty($group)) {
-            session()->flash('error',__('models/groups.singular').' '.__('messages.not_found'));
+            session()->flash('error', __('models/groups.singular') . ' ' . __('messages.not_found'));
 
 
             return redirect(route('admin.groups.index'));
         }
 
-        $request_data = $request->except(['_token', 'photo']);
+        $request_data = $request->except(['_token', 'photo','student_ids']);
 
         if ($request->hasFile('photo')) {
             $request_data['photo'] = uploadImage('groups', $request->photo);
@@ -110,7 +123,16 @@ class GroupController extends AppBaseController
         $group->fill($request_data);
         $group->save();
 
-        session()->flash('success',__('messages.updated', ['model' => __('models/groups.singular')]));
+        if ($request->student_ids)
+            $group->students()->sync($request->student_ids);
+
+        /* add multiple participants */
+        if ($group->students) {
+            $conversation = Chat::conversations()->getById($group->conversation_id);
+            Chat::conversation($conversation)->addParticipants($group->students);
+        }
+
+        session()->flash('success', __('messages.updated', ['model' => __('models/groups.singular')]));
 
         return redirect(route('admin.groups.index'));
     }
@@ -126,7 +148,7 @@ class GroupController extends AppBaseController
         $group = Group::find($id);
 
         if (empty($group)) {
-            session()->flash('error',__('models/groups.singular').' '.__('messages.not_found'));
+            session()->flash('error', __('models/groups.singular') . ' ' . __('messages.not_found'));
 
 
             return redirect(route('admin.groups.index'));
@@ -134,7 +156,7 @@ class GroupController extends AppBaseController
 
         $group->delete();
 
-        session()->flash('success',__('messages.deleted', ['model' => __('models/groups.singular')]));
+        session()->flash('success', __('messages.deleted', ['model' => __('models/groups.singular')]));
 
 
         return redirect(route('admin.groups.index'));

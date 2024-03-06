@@ -4,9 +4,15 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Musonza\Chat\Traits\Messageable;
+
 class Teacher extends Model
 {
-    use HasFactory;    public $table = 'teachers';
+    use HasFactory;
+    use Messageable;
+    use Notifiable;
+    public $table = 'teachers';
 
     public $fillable = [
         'name',

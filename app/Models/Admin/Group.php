@@ -4,15 +4,20 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Musonza\Chat\Traits\Messageable;
+
 class Group extends Model
 {
-    use HasFactory;    public $table = 'groups';
+    use HasFactory;
+    use Messageable;
+    public $table = 'groups';
 
     public $fillable = [
         'name',
         'description',
         'subject_id',
         'teacher_id',
+        'conversation_id',
         'photo'
     ];
 
@@ -35,6 +40,11 @@ class Group extends Model
     public function teacher(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Admin\Teacher::class, 'teacher_id', 'id');
+    }
+
+    public function students(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(\App\Models\Admin\Student::class);
     }
 
     public function getPhotoAttribute($value)
