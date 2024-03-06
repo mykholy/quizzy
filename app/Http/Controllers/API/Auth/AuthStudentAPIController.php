@@ -10,6 +10,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\LoginStudentAPIRequest;
 use App\Http\Requests\API\RegisterStudentAPIRequest;
 use App\Http\Requests\API\SocailRegisterStudentAPIRequest;
+use App\Http\Requests\API\UpdateStudentAPIRequest;
 use App\Http\Resources\Admin\StudentResource;
 use App\Models\Admin\Coupon;
 use App\Models\Admin\PasswordReset;
@@ -89,17 +90,17 @@ class AuthStudentAPIController extends AppBaseController
         $coupon->is_active=0;
         $coupon->save();
 
-        return $this->sendResponse(new StudentResource($user->refresh()), "تم اضافة {$coupon->value} نقطه الي رصيدك");
+        return $this->sendResponse(new StudentResource($user->refresh()), "تم اضافة {$coupon->value} سؤال الي رصيدك");
 
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(UpdateStudentAPIRequest $request)
     {
         try {
 
 
             $user = auth('api-student')->user();
-            $request_data = $request->all();
+            $request_data = $request->except(['password','photo']);
             if ($request->has('photo') && $request->photo != null) {
                 $request_data['photo'] = uploadImage('students', $request->photo);
             }
