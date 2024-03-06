@@ -47,7 +47,7 @@ class GroupController extends AppBaseController
         $group = Group::create($request_data);
 
         if ($request->student_ids)
-            $group->students()->sync($request_data->student_ids);
+            $group->students()->sync($request->student_ids);
 
         $conversation = Chat::createConversation([$group, $group->teacher]);
         $group->conversation_id = $conversation->id;
