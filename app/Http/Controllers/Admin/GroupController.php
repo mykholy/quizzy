@@ -133,8 +133,9 @@ class GroupController extends AppBaseController
             $conversation = Chat::conversations()->getById($group->conversation_id);
             $newParticipants = array_diff($group->students()->get()->pluck('id')->toArray(), $current_students);
 //            dd( $group->students()->get()->pluck('id')->toArray(),$current_students, $newParticipants);
+            dd(Student::whereIn('id', $newParticipants)->get(),collect(Student::whereIn('id', $newParticipants)->get())->all());
             if (!empty($newParticipants))
-                Chat::conversation($conversation)->addParticipants(Student::find($newParticipants));
+                Chat::conversation($conversation)->addParticipants(Student::whereIn('id', $newParticipants)->get());
         }
 
         session()->flash('success', __('messages.updated', ['model' => __('models/groups.singular')]));
