@@ -55,8 +55,7 @@ class GroupController extends AppBaseController
 
         /* add multiple participants */
         if ($group->students) {
-            dd($group->students()->get(),$group->students,$group->students->all(),$group->students->toArray(),$group->students());
-            Chat::conversation($conversation)->addParticipants( $group->students()->get());
+            Chat::conversation($conversation)->addParticipants( $group->students->all());
         }
 
         session()->flash('success', __('messages.saved', ['model' => __('models/groups.singular')]));
@@ -130,7 +129,7 @@ class GroupController extends AppBaseController
         /* add multiple participants */
         if ($group->students) {
             $conversation = Chat::conversations()->getById($group->conversation_id);
-            Chat::conversation($conversation)->addParticipants( $group->students()->get());
+            Chat::conversation($conversation)->addParticipants($group->students->all());
         }
 
         session()->flash('success', __('messages.updated', ['model' => __('models/groups.singular')]));
