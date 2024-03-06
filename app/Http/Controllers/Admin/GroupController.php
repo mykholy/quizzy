@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\CreateGroupRequest;
 use App\Http\Requests\Admin\UpdateGroupRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Admin\Group;
+use App\Models\Admin\Student;
 use Illuminate\Http\Request;
 use Chat;
 
@@ -130,9 +131,10 @@ class GroupController extends AppBaseController
         /* add multiple participants */
         if ($group->students) {
             $conversation = Chat::conversations()->getById($group->conversation_id);
-            $newParticipants= array_diff( $group->students()->get()->pluck('id')->toArray(),$current_students);
-            dd( $group->students()->get()->pluck('id')->toArray(),$current_students, $newParticipants);
-            Chat::conversation($conversation)->addParticipants($group->students->all());
+            $newParticipants = array_diff($group->students()->get()->pluck('id')->toArray(), $current_students);
+//            dd( $group->students()->get()->pluck('id')->toArray(),$current_students, $newParticipants);
+            if (!empty($newParticipants))
+                Chat::conversation($conversation)->addParticipants(Student::find($newParticipants));
         }
 
         session()->flash('success', __('messages.updated', ['model' => __('models/groups.singular')]));
