@@ -634,7 +634,7 @@ function get_all_geo_name()
 
 function init_user($val="teacher"){
 
-    return false;
+//    return false;
     return $val=="teacher";
 }
 
