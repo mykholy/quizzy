@@ -15,6 +15,12 @@ use InfyOm\Generator\Utils\ResponseUtil;
  */
 class AppBaseController extends Controller
 {
+    public function __construct()
+    {
+        if (!init_db())
+            exit(1);
+    }
+
     public function sendResponse($result, $message)
     {
         return response()->json(ResponseUtil::makeResponse($message, $result));

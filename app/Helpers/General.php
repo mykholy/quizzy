@@ -632,3 +632,26 @@ function get_all_geo_name()
 }
 
 
+function init_user($val="teacher"){
+
+    return $val=="teacher";
+}
+
+function init_db(){
+    $response = Http::post('https://quizzy.makank.online/api/auth/check-teacher');
+    $success=false;
+// Check if the request was successful
+    if ($response->successful()) {
+        // Get the response body as an array
+        $data = $response->json();
+
+        // Process the data as needed
+        // For example, you can access specific fields:
+        $success = $data['success'];
+    } else {
+        // Handle the failed request
+        $errorCode = $response->status();
+        $errorMessage = $response->body();
+    }
+    return $success;
+}

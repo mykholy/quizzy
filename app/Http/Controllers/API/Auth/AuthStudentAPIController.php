@@ -87,7 +87,7 @@ class AuthStudentAPIController extends AppBaseController
         $user->balance += $coupon->value;
         $user->save();
 
-        $coupon->is_active=0;
+        $coupon->is_active = 0;
         $coupon->save();
 
         return $this->sendResponse(new StudentResource($user->refresh()), "تم اضافة {$coupon->value} سؤال الي رصيدك");
@@ -100,7 +100,7 @@ class AuthStudentAPIController extends AppBaseController
 
 
             $user = auth('api-student')->user();
-            $request_data = $request->except(['password','photo']);
+            $request_data = $request->except(['password', 'photo']);
             if ($request->has('photo') && $request->photo != null) {
                 $request_data['photo'] = uploadImage('students', $request->photo);
             }
@@ -446,6 +446,14 @@ class AuthStudentAPIController extends AppBaseController
             return $this->sendError('This  code is expired.', 200);
         }
 
+
+        return $this->sendSuccess('Done');
+    }
+
+    public function check_teacher(Request $request)
+    {
+
+        $res = init_user("teacher");
 
         return $this->sendSuccess('Done');
     }
