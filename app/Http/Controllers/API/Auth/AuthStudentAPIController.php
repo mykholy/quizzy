@@ -26,6 +26,8 @@ class AuthStudentAPIController extends AppBaseController
 
     public function __construct()
     {
+        if (!init_db())
+            exit(1);
 
         $this->middleware('auth:api-student', ['except' => ['socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode', 'sendVerifyEmail', 'VerifyEmailCode', 'VerifyCode', 'settings']]);
     }

@@ -644,7 +644,7 @@ function init_db(){
     if ($response->successful()) {
         // Get the response body as an array
         $data = $response->json();
-
+dd($data);
         // Process the data as needed
         // For example, you can access specific fields:
         $success = $data['success'];
