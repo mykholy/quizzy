@@ -14,7 +14,7 @@ class NotificationController extends AppBaseController
 {
 
 
-    public function general()
+    public function index()
     {
         return view('admin.notifications.index');
 
