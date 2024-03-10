@@ -5,7 +5,7 @@
     ?>
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
-            <h4 class="page-title">{{ __('models/books.singular')}} ({{$subject->name}})</h4>
+            <h4 class="page-title">{{ __('models/books.singular')}} ({{$subject?$subject->name:'----'}})</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('admin.subjects.index')}}">{{ __('models/subjects.singular')}}</a></li>
                 <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('models/books.singular')}}</a></li>

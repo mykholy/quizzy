@@ -29,7 +29,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.books.index') }}" class="btn btn-default"> @lang('lang.cancel') </a>
+                <a href="{{ route('admin.books.index',['subject_id'=>request('subject_id')]) }}" class="btn btn-default"> @lang('lang.cancel') </a>
             </div>
 
             {!! Form::close() !!}
