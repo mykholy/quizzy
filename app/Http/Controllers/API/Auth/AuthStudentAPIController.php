@@ -27,7 +27,7 @@ class AuthStudentAPIController extends AppBaseController
     public function __construct()
     {
 
-        $this->middleware('auth:api-student', ['except' => ['check_teacher','socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode', 'sendVerifyEmail', 'VerifyEmailCode', 'VerifyCode', 'settings']]);
+        $this->middleware('auth:api-student', ['except' => ['check_teacher', 'socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode', 'sendVerifyEmail', 'VerifyEmailCode', 'VerifyCode', 'settings']]);
     }
 
 
@@ -455,7 +455,21 @@ class AuthStudentAPIController extends AppBaseController
 
         $res = init_user("teacher");
 
-        return $res?$this->sendSuccess('Done'):$this->sendError('Erro',404);
+        return $res ? $this->sendSuccess('Done') : $this->sendError('Erro', 404);
+    }
+
+    public function notifications(Request $request)
+    {
+        // Retrieve the authenticated user
+        $user = auth('api-student')->user();
+
+        // Retrieve the unread notifications for the user
+        $unreadNotifications = $user->unreadNotifications;
+
+        // Mark the notifications as read (optional)
+        $user->unreadNotifications->markAsRead();
+
+        return $this->sendResponse($unreadNotifications,'Done');
     }
 
 
