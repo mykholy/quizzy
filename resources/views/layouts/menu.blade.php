@@ -127,6 +127,13 @@
     </a>
 </li>
 
+<li class="slide {{ Request::is('admin/notifications*') ? 'active' : '' }}">
+    <a class="side-menu__item {{ Request::is('admin/notifications*') ? 'active' : '' }}" href="{{ route('admin.notifications.index') }}">
+        <i class=" ion-md-notifications side-menu__icon"></i>
+        <span class="side-menu__label">{{__('models/notifications.plural')}}</span>
+    </a>
+</li>
+
 
 <li class="slide {{ Request::is('admin/settings*') ? 'active' : '' }}">
     <a class="side-menu__item {{ Request::is('admin/settings*') ? 'active' : '' }}" href="{{ route('admin.settings.general') }}">

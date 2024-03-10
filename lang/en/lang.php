@@ -23,4 +23,5 @@ return [
   'settings'=>'Settings',
   'question_answered'=>'This question has been answered before.',
   'bulk'=>'Add Bulk',
+  'send_successfully'=>'Send Successfully',
 ];
