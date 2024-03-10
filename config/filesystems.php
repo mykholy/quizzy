@@ -137,7 +137,8 @@ return [
             'root' => base_path() . '/public/images/books',
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
-        ], 'exams' => [
+        ],
+        'exams' => [
             'driver' => 'local',
             'root' => base_path() . '/public/images/exams',
             'url' => env('APP_URL') . '/public',
