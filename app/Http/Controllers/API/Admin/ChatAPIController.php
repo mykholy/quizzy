@@ -64,7 +64,7 @@ class ChatAPIController extends AppBaseController
     {
         if(!$this->teacher)
             return $this->sendError('Teacher not found');
-        
+
         $type_messages = $request->input('type', 'text');
         $body = $request->body;
 
@@ -82,7 +82,7 @@ class ChatAPIController extends AppBaseController
         $message = Chat::message($body)
             ->type($type_messages)
             ->data(['notification_image' => $this->student->photo, 'title' => $this->student->name, 'type' => 'student'])
-            ->from($this->driver)
+            ->from($this->student)
             ->to($conversation)
             ->send();
 
