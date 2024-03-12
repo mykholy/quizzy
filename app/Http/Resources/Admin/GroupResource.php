@@ -19,6 +19,7 @@ class GroupResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'photo' => $this->photo,
+            'conversation_id' => $this->conversation_id,
             'image_dimensions' => getImageDimensions($this->photo),
 
             'created_at' => $this->created_at,
