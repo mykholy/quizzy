@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+Broadcast::channel('mc-chat-conversation.{id}', function ($user, $id) {
+//    \Illuminate\Support\Facades\Log::info(json_encode($user));
+//    \Illuminate\Support\Facades\Log::info(json_encode($id));
+    return true;
+});

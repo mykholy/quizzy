@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id('id');
-            $table->text('title')->nullable();
+            $table->longText('title')->nullable();
             $table->string('question_type')->nullable();
-            $table->string('answer_two_gap_match')->nullable();
+            $table->longText('answer_two_gap_match')->nullable();
             $table->string('answer_view_format')->nullable();
             $table->integer('answer_order')->nullable();
             $table->text('answer_settings')->nullable();

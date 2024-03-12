@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Admin\ExamAttemptsController;
 use App\Http\Controllers\API\Admin\LocationAPIController;
+use App\Http\Controllers\API\Admin\ChatAPIController;
 use App\Http\Controllers\API\Auth\AuthStudentAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,11 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('verify-phone-code', [AuthStudentAPIController::class, 'VerifyPhoneCode']);
 
 
+});
+
+Route::group(['prefix' => 'chats'], function () {
+    Route::get('/', [ChatAPIController::class, 'chat']);
+    Route::post('/send', [ChatAPIController::class, 'send']);
 });
 
 Route::get('settings', [AuthStudentAPIController::class, 'settings']);
