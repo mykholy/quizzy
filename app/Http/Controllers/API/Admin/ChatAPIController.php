@@ -29,13 +29,15 @@ class ChatAPIController extends AppBaseController
             $this->student = Student::find($student_id);
         }
 
-        if(!$this->teacher)
-            return $this->sendError('Teacher not found');
+
     }
 
 
     public function chat(Request $request)
     {
+        if(!$this->teacher)
+            return $this->sendError('Teacher not found');
+
         $sorting = $request->input('sorting', 'desc');
 
         $conversation = Chat::conversations()->between($this->student, $this->teacher);
@@ -60,7 +62,9 @@ class ChatAPIController extends AppBaseController
 
     public function send(Request $request)
     {
-
+        if(!$this->teacher)
+            return $this->sendError('Teacher not found');
+        
         $type_messages = $request->input('type', 'text');
         $body = $request->body;
 
