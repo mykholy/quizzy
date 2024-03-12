@@ -150,6 +150,11 @@ return [
             'root' => base_path() . '/public/images/connectors',
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
+        ], 'chats' => [
+            'driver' => 'local',
+            'root' => base_path() . '/public/images/chats',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
         ],
         'logo' => [
             'driver' => 'local',

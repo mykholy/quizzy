@@ -28,6 +28,9 @@ class ChatAPIController extends AppBaseController
             $student_id = auth('api-student')->id();
             $this->student = Student::find($student_id);
         }
+
+        if(!$this->teacher)
+            return $this->sendError('Teacher not found');
     }
 
 
