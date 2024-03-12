@@ -141,8 +141,8 @@ Route::resource('subjects', App\Http\Controllers\API\Admin\SubjectAPIController:
         'destroy' => 'admin.subjects.destroy'
     ]);
 
-Route::resource('admin/groups', App\Http\Controllers\API\Admin\GroupAPIController::class)
-    ->except(['create', 'edit'])
+Route::resource('groups', App\Http\Controllers\API\Admin\GroupAPIController::class)
+    ->except(['create', 'edit','store','destroy'])
     ->names([
         'index' => 'admin.groups.index',
         'store' => 'admin.groups.store',

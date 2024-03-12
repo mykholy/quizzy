@@ -15,6 +15,13 @@ use App\Http\Resources\Admin\GroupResource;
  */
 class GroupAPIController extends AppBaseController
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api-student');
+
+    }
+
     /**
      * Display a listing of the Groups.
      * GET|HEAD /groups
@@ -22,6 +29,11 @@ class GroupAPIController extends AppBaseController
     public function index(Request $request): JsonResponse
     {
         $query = Group::query();
+        $studentId = auth('api-student')->id();
+        // Filter groups based on the specific student ID
+        $query->whereHas('students', function ($q) use ($studentId) {
+            $q->where('students.id', $studentId);
+        });
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
@@ -86,9 +98,9 @@ class GroupAPIController extends AppBaseController
         $group = Group::find($id);
 
         if (empty($group)) {
-        return $this->sendError(
-            __('messages.not_found', ['model' => __('models/groups.singular')])
-        );
+            return $this->sendError(
+                __('messages.not_found', ['model' => __('models/groups.singular')])
+            );
         }
 
         $group->fill($request->all());
