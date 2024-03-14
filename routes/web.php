@@ -17,6 +17,16 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
+Route::get('/{page}', function ($page) {
+
+    $pages = ['terms', 'privacy_policy'];
+    if (!in_array($page, $pages))
+        abort(404);
+
+
+    return view('page', compact('page'));
+});
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
@@ -30,8 +40,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('cars', App\Http\Controllers\Admin\CarController::class);
         Route::resource('amenities', App\Http\Controllers\Admin\AmenityController::class);
-        Route::get('locations/import', [App\Http\Controllers\Admin\LocationController::class,'import_get'])->name('locations.import');
-        Route::post('locations/import', [App\Http\Controllers\Admin\LocationController::class,'import'])->name('locations.import');
+        Route::get('locations/import', [App\Http\Controllers\Admin\LocationController::class, 'import_get'])->name('locations.import');
+        Route::post('locations/import', [App\Http\Controllers\Admin\LocationController::class, 'import'])->name('locations.import');
         Route::resource('locations', App\Http\Controllers\Admin\LocationController::class);
         Route::resource('connectors', App\Http\Controllers\Admin\ConnectorController::class);
         Route::resource('stations', App\Http\Controllers\Admin\StationController::class);
@@ -43,10 +53,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('academicYears', App\Http\Controllers\Admin\AcademicYearController::class);
         Route::resource('units', App\Http\Controllers\Admin\UnitController::class);
         Route::resource('lessons', App\Http\Controllers\Admin\LessonController::class);
-        Route::get('questions/{id}/books', [App\Http\Controllers\Admin\QuestionController::class,'ajax_get_books_by_subject'])->name('questions.ajax_get_units_by_subject');
-        Route::get('questions/{id}/units', [App\Http\Controllers\Admin\QuestionController::class,'ajax_get_units_by_book'])->name('questions.ajax_get_units_by_book');
-        Route::get('questions/{id}/lessons', [App\Http\Controllers\Admin\QuestionController::class,'ajax_get_lessons_by_unit']);
-        Route::post('questions/bulk-import', [App\Http\Controllers\Admin\QuestionController::class,'bulkStore'])->name('questions.bulkImport');
+        Route::get('questions/{id}/books', [App\Http\Controllers\Admin\QuestionController::class, 'ajax_get_books_by_subject'])->name('questions.ajax_get_units_by_subject');
+        Route::get('questions/{id}/units', [App\Http\Controllers\Admin\QuestionController::class, 'ajax_get_units_by_book'])->name('questions.ajax_get_units_by_book');
+        Route::get('questions/{id}/lessons', [App\Http\Controllers\Admin\QuestionController::class, 'ajax_get_lessons_by_unit']);
+        Route::post('questions/bulk-import', [App\Http\Controllers\Admin\QuestionController::class, 'bulkStore'])->name('questions.bulkImport');
         Route::resource('questions', App\Http\Controllers\Admin\QuestionController::class);
         Route::resource('answers', App\Http\Controllers\Admin\AnswerController::class);
         Route::resource('ads', App\Http\Controllers\Admin\AdController::class);
@@ -62,7 +72,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
 });
-
 
 
 Route::resource('admin/books', App\Http\Controllers\Admin\BookController::class)
