@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('home');
 });
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
 
 Route::get('/{page}', function ($page) {
 
@@ -27,9 +30,8 @@ Route::get('/{page}', function ($page) {
     return view('page', compact('page'));
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
