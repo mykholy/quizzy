@@ -55,7 +55,9 @@ class ChatGroupAPIController extends AppBaseController
                 'page' => \request('page', 1),
                 'perPage' => 10
             ])
-            ->get();
+            ->getMessages();
+
+
         $unreadCount = Chat::conversation($conversation)->setParticipant($this->student)->unreadCount();
 
         return $this->sendResponse(
