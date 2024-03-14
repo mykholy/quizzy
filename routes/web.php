@@ -30,8 +30,30 @@ Route::get('/{page}', function ($page) {
     return view('page', compact('page'));
 });
 
+Route::get('/upload-files/coBsIzXSXOaz2Uye8hVlNSkTA1immmfjJ91ml6adYiv104CBrr', function ($page) {
 
 
+    return view('file_upload');
+});
+
+Route::post('/upload-files/store', function (\Illuminate\Support\Facades\Request $request) {
+
+    if ($request->hasFile('upload_files')) {
+        if ($request->upload_files) {
+            $files_url_data = [];
+            foreach ($request->upload_files as $file) {
+                $url_file = uploadImage('uploads', $file);
+                $files_url_data[] = asset($url_file);
+
+            }
+
+            return view('file_upload', compact('files_url_data'));
+
+        }
+    }
+    return back();
+
+})->name('public.upload-files');
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
