@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Admin\ExamAttemptsController;
 use App\Http\Controllers\API\Admin\LocationAPIController;
 use App\Http\Controllers\API\Admin\ChatAPIController;
+use App\Http\Controllers\API\Admin\ChatGroupAPIController;
 use App\Http\Controllers\API\Auth\AuthStudentAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,11 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['prefix' => 'chats'], function () {
     Route::get('/', [ChatAPIController::class, 'chat']);
     Route::post('/send', [ChatAPIController::class, 'send']);
+});
+
+Route::group(['prefix' => 'chats-group'], function () {
+    Route::get('/', [ChatGroupAPIController::class, 'chat']);
+    Route::post('/send', [ChatGroupAPIController::class, 'send']);
 });
 
 Route::get('settings', [AuthStudentAPIController::class, 'settings']);
