@@ -110,7 +110,7 @@ class ChatGroupAPIController extends AppBaseController
 
         ];
         event(new NewNotifyMessage($messageData));
-        $other_revices=$group->students->whereNot('id',$this->student->id)->pluck('device_token')->toArray();
+        $other_revices=$group->students()->whereNot('id',$this->student->id)->pluck('device_token')->toArray();
 
         send_notification_FCM($other_revices,$this->student->name,$body,$group->id,'group_chat');
 

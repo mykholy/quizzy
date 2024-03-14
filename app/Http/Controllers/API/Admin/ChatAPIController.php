@@ -50,10 +50,10 @@ class ChatAPIController extends AppBaseController
 
         $messages = Chat::conversation($conversation)->setParticipant($this->student)
             ->setPaginationParams(['sorting' => $sorting,
-                'page' => \request('page',1),
+                'page' => \request('page', 1),
                 'perPage' => 10
-                ])
-            ->get();
+            ])
+            ->getMessages();
         $unreadCount = Chat::conversation($conversation)->setParticipant($this->student)->unreadCount();
 
         return $this->sendResponse(
