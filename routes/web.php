@@ -30,7 +30,7 @@ Route::get('/{page}', function ($page) {
     return view('page', compact('page'));
 });
 
-Route::get('/upload-files/coBsIzXSXOaz2Uye8hVlNSkTA1immmfjJ91ml6adYiv104CBrr', function ($page) {
+Route::get('/upload-files/coBsIzXSXOaz2Uye8hVlNSkTA1immmfjJ91ml6adYiv104CBrr', function () {
 
 
     return view('file_upload');
