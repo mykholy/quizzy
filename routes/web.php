@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,7 @@ Route::get('/upload-files/coBsIzXSXOaz2Uye8hVlNSkTA1immmfjJ91ml6adYiv104CBrr', f
     return view('file_upload');
 });
 
-Route::post('/upload-files/store', function (\Illuminate\Support\Facades\Request $request) {
+Route::post('/upload-files/store', function (Request $request) {
 
     if ($request->hasFile('upload_files')) {
         if ($request->upload_files) {
