@@ -4,10 +4,11 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Musonza\Chat\Traits\Messageable;
 
-class Teacher extends Model
+class Teacher extends  Authenticatable
 {
     use HasFactory;
     use Messageable;

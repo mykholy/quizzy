@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Teacher\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -98,6 +99,28 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 });
 
+Route::prefix('teacher')->name('teacher.')->group(function () {
+    // Teacher routes here
+    Route::group(['prefix' => 'auth'], function () {
+
+        Route::get('login', [LoginController::class,'getLogin'])->name('get.login');
+
+
+        Route::post('login', [LoginController::class,'login'])->name('login');
+
+        Route::post('logout', [LoginController::class,'logout'])->name('logout');
+
+
+    });
+    Route::middleware(['auth:teacher'])->group(function () {
+        Route::get('/', [\App\Http\Controllers\Teacher\HomeController::class,'index'])->name('dashboard');
+
+
+    });
+
+
+
+});
 
 Route::resource('admin/books', App\Http\Controllers\Admin\BookController::class)
     ->names([

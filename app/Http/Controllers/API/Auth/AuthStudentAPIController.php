@@ -40,17 +40,17 @@ class AuthStudentAPIController extends AppBaseController
             $credentials = $request->only(['email', 'password']);
 
         if (!$token = auth('api-student')->attempt($credentials)) {
-            return $this->sendError('Unauthorized');
+            return $this->sendError('البريد الالكتروني او كلمة المرور غير صحيحة');
         }
 
 
         //check user is IsActive
         if (!auth('api-student')->user()->is_active) {
-            return $this->sendError('Student has been blocked.');
+            return $this->sendError('حسابك محظور');
         }
 
 
-        return $this->sendResponse($this->createNewToken($token), 'Login successfully.');
+        return $this->sendResponse($this->createNewToken($token), 'تسجيل الدخول بنجاح.');
 
 
     }
@@ -59,7 +59,7 @@ class AuthStudentAPIController extends AppBaseController
     public function logout()
     {
         auth('api-student')->logout();
-        return $this->sendSuccess('User successfully signed out');
+        return $this->sendSuccess('تم تسجيل خروج المستخدم بنجاح');
 
     }
 
@@ -67,7 +67,7 @@ class AuthStudentAPIController extends AppBaseController
     {
         $user = auth('api-student')->user();
 
-        return $this->sendResponse(new StudentResource($user), 'User successfully retrieved');
+        return $this->sendResponse(new StudentResource($user), 'تم استرداد المستخدم بنجاح');
 
     }
 
@@ -113,7 +113,7 @@ class AuthStudentAPIController extends AppBaseController
             return $this->sendError($e->getMessage());
         }
 
-        return $this->sendResponse(new StudentResource($user), 'User successfully retrieved');
+        return $this->sendResponse(new StudentResource($user), 'تم تحديث البيانات بنجاح');
 
     }
 
@@ -168,7 +168,7 @@ class AuthStudentAPIController extends AppBaseController
         }
 
         if (!$token = auth('api-student')->login($client)) {
-            return $this->sendError('Unauthorized');
+            return $this->sendError('البريد الالكتروني او كلمة المرور غير صحيحة');
         }
         if ($client->email)
             $this->sendVerifyEmail($client);
@@ -199,10 +199,10 @@ class AuthStudentAPIController extends AppBaseController
             }
 
             if (!$token = auth('api-student')->login($client)) {
-                return $this->sendError('Unauthorized');
+                return $this->sendError('البريد الالكتروني او كلمة المرور غير صحيحة');
             }
 
-            return $this->sendResponse($this->createNewToken($token), 'Login successfully.');
+            return $this->sendResponse($this->createNewToken($token), 'تم تسجيل الدخول بنجاح.');
         }
 
 
@@ -215,10 +215,10 @@ class AuthStudentAPIController extends AppBaseController
         }
 
         if (!$token = auth('api-student')->login($client)) {
-            return $this->sendError('Unauthorized');
+            return $this->sendError('البريد الالكتروني او كلمة المرور غير صحيحة');
         }
 
-        return $this->sendResponse($this->createNewToken($token), 'Account Created.');
+        return $this->sendResponse($this->createNewToken($token), 'تم انشاء الحساب بنجاح.');
 
 
     }
@@ -228,7 +228,7 @@ class AuthStudentAPIController extends AppBaseController
     {
         $user = Student::find(auth('api-student')->id());
         if (!$user)
-            return $this->sendError('Unauthorized');
+            return $this->sendError('البريد الالكتروني او كلمة المرور غير صحيحة');
 
 
         $data = [
@@ -257,7 +257,7 @@ class AuthStudentAPIController extends AppBaseController
             ->orWhere('phone', $request->email)->first();
 
         if (!$user)
-            return $this->sendError('User not found', 200);
+            return $this->sendError('الطالب غير موجود', 200);
 
 
         $passwordReset = PasswordReset::updateOrCreate(
@@ -288,7 +288,7 @@ class AuthStudentAPIController extends AppBaseController
             $user = Student::where('email', $request->email)->first();
 
             if (!$user)
-                return $this->sendError('User not found', 200);
+                return $this->sendError('الطالب غير موجود', 200);
         }
 
         $passwordReset = PasswordReset::updateOrCreate(
@@ -312,7 +312,7 @@ class AuthStudentAPIController extends AppBaseController
         ]);
         $user = Student::where('email', $request->email)->first();
         if (!$user)
-            return $this->sendError('We can\'t find a user with that email.', 200);
+            return $this->sendError('لا يمكننا العثور على مستخدم لديه هذا البريد الإلكتروني.', 200);
 
         $passwordReset = PasswordReset::where([
             ['token', $request->code],
@@ -320,10 +320,10 @@ class AuthStudentAPIController extends AppBaseController
         ])->first();
 
         if (!$passwordReset)
-            return $this->sendError('This code is invalid.', 200);
+            return $this->sendError('هذا الرمز غير صالح.', 200);
 
         if (Carbon::parse($passwordReset->created_at)->addMinutes(env('EXPIRE_PASSWORD', 30))->isPast()) {
-            return $this->sendError('This  code is expired.', 200);
+            return $this->sendError('انتهت صلاحية هذا الرمز.', 200);
         }
 
 
@@ -344,7 +344,7 @@ class AuthStudentAPIController extends AppBaseController
             $user = Student::where('phone', $request->phone)->first();
 
             if (!$user)
-                return $this->sendError('User not found', 200);
+                return $this->sendError('الطالب غير موجود', 200);
         }
 
         $passwordReset = PasswordReset::updateOrCreate(
@@ -368,7 +368,7 @@ class AuthStudentAPIController extends AppBaseController
         ]);
         $user = Student::where('phone', $request->phone)->first();
         if (!$user)
-            return $this->sendError('We can\'t find a user with that email.', 200);
+            return $this->sendError('لا يمكننا العثور على مستخدم لديه هذا البريد الإلكتروني.', 200);
 
         $passwordReset = PasswordReset::where([
             ['token', $request->code],
@@ -376,10 +376,10 @@ class AuthStudentAPIController extends AppBaseController
         ])->first();
 
         if (!$passwordReset)
-            return $this->sendError('This code is invalid.', 200);
+            return $this->sendError('كود التحقق غير صحيح.', 200);
 
         if (Carbon::parse($passwordReset->created_at)->addMinutes(env('EXPIRE_PASSWORD', 30))->isPast()) {
-            return $this->sendError('This  code is expired.', 200);
+            return $this->sendError('تم انتهاء صلاحية الكود.', 200);
         }
 
 
@@ -387,7 +387,7 @@ class AuthStudentAPIController extends AppBaseController
         $user->save();
 
 
-        return $this->sendResponse(null, 'Phone Verified Successfully');
+        return $this->sendResponse(null, 'تم التحقق من الهاتف بنجاح');
     }
 
 
@@ -401,7 +401,7 @@ class AuthStudentAPIController extends AppBaseController
         ]);
         $user = Student::where('email', $request->email)->orWhere('phone', $request->email)->first();
         if (!$user)
-            return $this->sendError('We can\'t find a user with that email.', 200);
+            return $this->sendError('لا يمكننا العثور على مستخدم لديه هذا البريد الإلكتروني.', 200);
 
         $passwordReset = PasswordReset::where([
             ['token', $request->code],
@@ -409,10 +409,10 @@ class AuthStudentAPIController extends AppBaseController
         ])->first();
 
         if (!$passwordReset)
-            return $this->sendError('This password reset code is invalid.', 200);
+            return $this->sendError('رمز إعادة تعيين كلمة المرور هذا غير صالح.', 200);
 
         if (Carbon::parse($passwordReset->created_at)->addMinutes(env('EXPIRE_PASSWORD', 30))->isPast()) {
-            return $this->sendError('This password reset code is expired.', 200);
+            return $this->sendError('انتهت صلاحية رمز إعادة تعيين كلمة المرور هذا.', 200);
         }
 
 
@@ -420,7 +420,7 @@ class AuthStudentAPIController extends AppBaseController
         $user->save();
 
 
-        return $this->sendResponse(null, 'password reseated Successfully');
+        return $this->sendResponse(null, 'تم إعادة تعيين كلمة المرور بنجاح');
     }
 
 
@@ -432,7 +432,7 @@ class AuthStudentAPIController extends AppBaseController
         ]);
         $user = Student::where('email', $request->email)->orWhere('phone', $request->email)->first();
         if (!$user)
-            return $this->sendError('We can\'t find a user with that email.', 200);
+            return $this->sendError('لا يمكننا العثور على مستخدم لديه هذا البريد الإلكتروني.', 200);
 
         $passwordReset = PasswordReset::where([
             ['token', $request->code],
@@ -440,10 +440,10 @@ class AuthStudentAPIController extends AppBaseController
         ])->first();
 
         if (!$passwordReset)
-            return $this->sendError('This code is invalid.', 200);
+            return $this->sendError('هذا الرمز غير صالح.', 200);
 
         if (Carbon::parse($passwordReset->created_at)->addMinutes(env('EXPIRE_PASSWORD', 30))->isPast()) {
-            return $this->sendError('This  code is expired.', 200);
+            return $this->sendError('انتهت صلاحية هذا الرمز.', 200);
         }
 
 

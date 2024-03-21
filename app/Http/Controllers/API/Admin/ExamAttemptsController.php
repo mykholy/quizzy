@@ -16,6 +16,7 @@ use App\Models\Admin\AttemptAnswer;
 use App\Models\Admin\Exam;
 use App\Models\Admin\ExamAttempt;
 use App\Models\Admin\Question;
+use App\Models\Admin\Subject;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -226,6 +227,9 @@ class ExamAttemptsController extends AppBaseController
             ->whereHas('exam', function ($query) {
                 $query->when(request('selected_subject_id'), function ($q) {
                     $q->where('subject_id', request('selected_subject_id'));
+                }, function ($q) {
+                    $subject_ids=Subject::where('academic_year_id',auth('api-student')->user()->academic_year_id)->pulck('id')->toArray();
+                    return $q->whereIn('subject_id', $subject_ids);
                 });
             })
             ->when(request('selected_exam_id'), function ($q) {
@@ -260,6 +264,9 @@ class ExamAttemptsController extends AppBaseController
         // 1. Calculate total earned marks for a specific subject
         $totalEarnedMarks = ExamAttempt::when(\request('subject_id'), function ($q) {
             $q->where('subject_id', \request('subject_id'));
+        }, function ($q) {
+            $subject_ids=Subject::where('academic_year_id',auth('api-student')->user()->academic_year_id)->pulck('id')->toArray();
+            return $q->whereIn('subject_id', $subject_ids);
         })->where('student_id', auth('api-student')->id())
             ->sum('earned_marks');
 
@@ -271,6 +278,9 @@ class ExamAttemptsController extends AppBaseController
         $totalQuestions = AttemptAnswer::whereHas('examAttempt', function ($query) {
             $query->when(\request('subject_id'), function ($q) {
                 $q->where('subject_id', \request('subject_id'));
+            }, function ($q) {
+                $subject_ids=Subject::where('academic_year_id',auth('api-student')->user()->academic_year_id)->pulck('id')->toArray();
+                return $q->whereIn('subject_id', $subject_ids);
             });
         })
             ->where('student_id', auth('api-student')->id())
@@ -279,6 +289,9 @@ class ExamAttemptsController extends AppBaseController
         // 3. Calculate your ranking for a specific subject
         $yourScore = ExamAttempt::when(\request('subject_id'), function ($q) {
             $q->where('subject_id', \request('subject_id'));
+        }, function ($q) {
+            $subject_ids=Subject::where('academic_year_id',auth('api-student')->user()->academic_year_id)->pulck('id')->toArray();
+            return $q->whereIn('subject_id', $subject_ids);
         })->where('student_id', auth('api-student')->id())
             ->value('earned_marks');
 
@@ -286,6 +299,9 @@ class ExamAttemptsController extends AppBaseController
         if ($yourScore !== null) {
             $yourRanking = ExamAttempt::when(\request('subject_id'), function ($q) {
                     $q->where('subject_id', \request('subject_id'));
+                }, function ($q) {
+                    $subject_ids=Subject::where('academic_year_id',auth('api-student')->user()->academic_year_id)->pulck('id')->toArray();
+                    return $q->whereIn('subject_id', $subject_ids);
                 })
                     ->where('earned_marks', '>', $yourScore)
                     ->count() + 1;
@@ -298,6 +314,9 @@ class ExamAttemptsController extends AppBaseController
         $numberCorrectAnswer = AttemptAnswer::whereHas('examAttempt', function ($query) {
             $query->when(\request('subject_id'), function ($q) {
                 $q->where('subject_id', \request('subject_id'));
+            }, function ($q) {
+                $subject_ids=Subject::where('academic_year_id',auth('api-student')->user()->academic_year_id)->pulck('id')->toArray();
+                return $q->whereIn('subject_id', $subject_ids);
             });
         })
             ->where('is_correct', 1)
@@ -579,6 +598,9 @@ class ExamAttemptsController extends AppBaseController
         $yourRanking = ExamAttempt::whereHas('exam', function ($query) {
             $query->when(request('selected_subject_id'), function ($q) {
                 $q->where('subject_id', request('selected_subject_id'));
+            },function ($q) {
+                $subject_ids=Subject::where('academic_year_id',auth('api-student')->user()->academic_year_id)->pulck('id')->toArray();
+                return $q->whereIn('subject_id', $subject_ids);
             });
         })
             ->when(request('selected_exam_id'), function ($query) {
@@ -596,6 +618,9 @@ class ExamAttemptsController extends AppBaseController
             ->whereHas('exam', function ($query) {
                 $query->when(request('selected_subject_id'), function ($q) {
                     $q->where('subject_id', request('selected_subject_id'));
+                }, function ($q) {
+                    $subject_ids=Subject::where('academic_year_id',auth('api-student')->user()->academic_year_id)->pulck('id')->toArray();
+                    return $q->whereIn('subject_id', $subject_ids);
                 });
             })
             ->when(request('selected_exam_id'), function ($query) {
@@ -606,7 +631,9 @@ class ExamAttemptsController extends AppBaseController
             })
             ->groupBy('student_id')
             ->orderByDesc('total_earned_marks')
-            ->paginate(request('limit', 100));
+            ->limit(request('limit', 1000))
+            ->get();
+//            ->paginate(request('limit', 100));
 
 // Get the ranking of the current student among the top students
         $yourRankAmongTop = $topStudents->pluck('student_id')->search(auth('api-student')->id()) ;

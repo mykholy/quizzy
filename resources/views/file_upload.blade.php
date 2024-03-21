@@ -21,7 +21,7 @@
 
     <div class="max-w-7xl mx-auto p-6 lg:p-8">
         <div class="flex justify-center">
-          
+
             <img src="{{asset(setting('logo'))}}"
                  class="sign-favicon-b ht-40" alt="logo">
         </div>
