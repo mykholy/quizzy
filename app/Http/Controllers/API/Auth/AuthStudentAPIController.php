@@ -123,7 +123,7 @@ class AuthStudentAPIController extends AppBaseController
         if ($settings)
             $settings['logo'] = asset($settings['logo']);
 
-        return $this->sendResponse($settings, 'Settings successfully retrieved');
+        return $this->sendResponse($settings, 'تم جلب البيانات بنجاح');
 
     }
 
@@ -134,12 +134,12 @@ class AuthStudentAPIController extends AppBaseController
             ->orWhere('phone', $request->email)
             ->orWhere('provider_id', $request->email)
             ->first()) {
-            return $this->sendResponse(new StudentResource($user), 'Student already exists.');
+            return $this->sendResponse(new StudentResource($user), 'الطالب بالفعل موجود');
 
         }
 
 
-        return $this->sendError('Student not exists.');
+        return $this->sendError('الطالب غير موجود');
 
 
     }
@@ -164,7 +164,7 @@ class AuthStudentAPIController extends AppBaseController
 
         //check user is IsActive
         if (!$client->is_active) {
-            return $this->sendError(trans('lang.api.user_block'));
+            return $this->sendError('حسابك محظور');
         }
 
         if (!$token = auth('api-student')->login($client)) {
@@ -176,7 +176,7 @@ class AuthStudentAPIController extends AppBaseController
         $client->balance = 50;
         $client->save();
 
-        return $this->sendResponse($this->createNewToken($token), 'Account Created.');
+        return $this->sendResponse($this->createNewToken($token), 'تم انشاء حسابك بنجاح.');
 
 
     }
@@ -195,7 +195,7 @@ class AuthStudentAPIController extends AppBaseController
 
         if ($client = Student::where('provider_id', $request->provider_id)->first()) {
             if (!$client->is_active) {
-                return $this->sendError(trans('lang.api.user_block'));
+                return $this->sendError('حسابك محظور');
             }
 
             if (!$token = auth('api-student')->login($client)) {
@@ -211,7 +211,7 @@ class AuthStudentAPIController extends AppBaseController
 
         //check user is IsActive
         if (!$client->is_active) {
-            return $this->sendError(trans('lang.api.user_block'));
+            return $this->sendError('حسابك محظور');
         }
 
         if (!$token = auth('api-student')->login($client)) {
@@ -274,7 +274,7 @@ class AuthStudentAPIController extends AppBaseController
         return $this->sendResponse([
             'email' => $passwordReset->email,
 //            'code' => $passwordReset->token,
-        ], 'Done');
+        ], 'تم ارسال الكود بنجاح');
     }
 
     public function sendVerifyEmail($user = null)
@@ -301,7 +301,7 @@ class AuthStudentAPIController extends AppBaseController
         return $this->sendResponse([
             'email' => $passwordReset->email,
 //            'code' => $passwordReset->token,
-        ], 'Done');
+        ], 'تم ارسال الكود بنجاح');
     }
 
     public function VerifyEmailCode(Request $request)
@@ -330,7 +330,7 @@ class AuthStudentAPIController extends AppBaseController
         $user->markEmailAsVerified();
 
 
-        return $this->sendResponse(null, 'Email Verified Successfully');
+        return $this->sendResponse(null, 'تم تفعيل البريد الإلكتروني بنجاح');
     }
 
     public function sendVerifyPhone($user = null)
@@ -357,7 +357,7 @@ class AuthStudentAPIController extends AppBaseController
         return $this->sendResponse([
             'phone' => $passwordReset->email,
 //            'code' => $passwordReset->token,
-        ], 'Done');
+        ], 'تم ارسال الكود بنجاح');
     }
 
     public function VerifyPhoneCode(Request $request)
@@ -455,7 +455,7 @@ class AuthStudentAPIController extends AppBaseController
 
         $res = init_user("teacher");
 
-        return $res ? $this->sendSuccess('Done') : $this->sendError('Erro', 404);
+        return $res ? $this->sendSuccess('Done') : $this->sendError('Error', 404);
     }
 
     public function notifications(Request $request)
@@ -469,7 +469,7 @@ class AuthStudentAPIController extends AppBaseController
         // Mark the notifications as read (optional)
         $user->unreadNotifications->markAsRead();
 
-        return $this->sendResponse($unreadNotifications,'Done');
+        return $this->sendResponse($unreadNotifications,'تم جلب الاشعارات بنجاح');
     }
 
 
