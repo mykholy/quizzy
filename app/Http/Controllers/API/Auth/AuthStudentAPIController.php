@@ -173,7 +173,7 @@ class AuthStudentAPIController extends AppBaseController
         if ($client->email)
             $this->sendVerifyEmail($client);
 
-        $client->balance = 50;
+        $client->balance = setting('balance_default',0);
         $client->save();
 
         return $this->sendResponse($this->createNewToken($token), 'تم انشاء حسابك بنجاح.');
@@ -219,7 +219,7 @@ class AuthStudentAPIController extends AppBaseController
         }
 
 
-        $client->balance = 50;
+        $client->balance = setting('balance_default',0);
         $client->save();
 
         return $this->sendResponse($this->createNewToken($token), 'تم انشاء الحساب بنجاح.');

@@ -86,6 +86,17 @@
 <div class="clearfix"></div>
 
 <div class="form-group col-sm-12 col-lg-12 mb-3">
+    {!! Form::label('balance_default','balance_default:') !!}
+    {!! Form::number('balance_default', setting('balance_default'), ['min'=>0,'class' => 'form-control  '. ($errors->has('balance_default')?' is-invalid ':'')]) !!}
+    @if ($errors->has('balance_default'))
+        <span class="invalid-feedback">
+            <small class="text-danger">{{ $errors->first('balance_default') }}</small>
+        </span>
+    @endif
+</div>
+
+
+<div class="form-group col-sm-12 col-lg-12 mb-3">
     {!! Form::label('fcm_key','fcm_key:') !!}
     {!! Form::text('fcm_key', setting('fcm_key'), ['class' => 'form-control  '. ($errors->has('fcm_key')?' is-invalid ':'')]) !!}
     @if ($errors->has('fcm_key'))
