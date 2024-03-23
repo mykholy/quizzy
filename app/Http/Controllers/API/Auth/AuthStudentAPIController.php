@@ -218,6 +218,10 @@ class AuthStudentAPIController extends AppBaseController
             return $this->sendError('البريد الالكتروني او كلمة المرور غير صحيحة');
         }
 
+
+        $client->balance = 50;
+        $client->save();
+
         return $this->sendResponse($this->createNewToken($token), 'تم انشاء الحساب بنجاح.');
 
 

@@ -14,6 +14,9 @@ class QuestionResource extends JsonResource
      */
     public function toArray($request)
     {
+        $answers = $this->whenLoaded('answers', function () {
+            return $this->answers->shuffle();
+        });
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -32,7 +35,7 @@ class QuestionResource extends JsonResource
             'need_review' => $this->need_review,
             'lesson_id' => $this->lesson_id,
             'is_active' => $this->is_active,
-            'answers' => $this->whenLoaded('answers', AnswerResource::collection($this->answers)),
+            'answers' => AnswerResource::collection($answers),
 
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
