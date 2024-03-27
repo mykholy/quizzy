@@ -2,11 +2,14 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\IsActiveScope;
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Lesson extends Model
 {
-    use HasFactory;    public $table = 'lessons';
+    use HasFactory;
+    use IsActiveScope;
+    public $table = 'lessons';
 
     public $fillable = [
         'name',

@@ -2,11 +2,13 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\IsActiveScope;
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Unit extends Model
 {
     use HasFactory;
+    use IsActiveScope;
     public $table = 'units';
 
     public $fillable = [

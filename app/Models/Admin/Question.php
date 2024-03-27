@@ -2,13 +2,14 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\IsActiveScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Question extends Model
 {
     use HasFactory;
-
+    use IsActiveScope;
     public $table = 'questions';
     protected $with=['answers'];
     public static $QUESTION_TYPE_SINGLE_CHOICE = "single_choice";

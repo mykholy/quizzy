@@ -2,11 +2,13 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\IsActiveScope;
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Ad extends Model
 {
     use HasFactory;
+    use IsActiveScope;
     public $table = 'ads';
 
     public $fillable = [

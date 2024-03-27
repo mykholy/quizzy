@@ -2,13 +2,14 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\IsActiveScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
 {
     use HasFactory;
-
+    use IsActiveScope;
     public $table = 'books';
     protected $appends = ['full_name'];
 

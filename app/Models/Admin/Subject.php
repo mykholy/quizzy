@@ -2,13 +2,14 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\IsActiveScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Subject extends Model
 {
     use HasFactory;
-
+    use IsActiveScope;
     public $table = 'subjects';
     protected $appends = ['full_name'];
     public $fillable = [

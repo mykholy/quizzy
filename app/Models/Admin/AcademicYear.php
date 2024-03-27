@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AcademicYear extends Model
 {
-    use HasFactory;   
+    use HasFactory;
     use IsActiveScope;
     public $table = 'academic_years';
 
