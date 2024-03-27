@@ -48,6 +48,7 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'chats'], function () {
+    Route::get('/direct-chats', [ChatAPIController::class, 'directChats']);
     Route::get('/', [ChatAPIController::class, 'chat']);
     Route::post('/send', [ChatAPIController::class, 'send']);
 });

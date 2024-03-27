@@ -33,6 +33,25 @@ class ChatAPIController extends AppBaseController
     }
 
 
+    public function directChats(Request $request)
+    {
+
+        $sorting = $request->input('sorting', 'desc');
+
+
+        $conversations = Chat::conversations()->setParticipant($this->student)
+            ->isDirect()
+            ->setPaginationParams(['sorting' => $sorting,
+                'page' => \request('page', 1),
+                'perPage' => 10
+            ])
+            ->get();
+
+        return $this->sendResponse(
+            $conversations,
+            __('lang.api.updated', ['model' => __('models/conversations.singular')])
+        );
+    }
     public function chat(Request $request)
     {
         if(!$this->teacher)
