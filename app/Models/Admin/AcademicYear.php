@@ -2,11 +2,14 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\IsActiveScope;
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AcademicYear extends Model
 {
-    use HasFactory;    public $table = 'academic_years';
+    use HasFactory;   
+    use IsActiveScope;
+    public $table = 'academic_years';
 
     public $fillable = [
         'name',
