@@ -9,6 +9,8 @@ return [
         'username' => 'Username',
         'date_of_birth' => 'Date of birth',
         'governorate' => 'Governorate',
+        'location_area' => 'Location Area',
+        'balance' => 'Balance',
         'area' => 'Area',
         'residence_area' => 'Residence Area',
         'specialization' => 'Specialization',

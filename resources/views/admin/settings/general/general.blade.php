@@ -95,6 +95,15 @@
     @endif
 </div>
 
+<div class="form-group col-sm-12 col-lg-12 mb-3">
+    {!! Form::label('base_url_api','Base URl API:') !!}
+    {!! Form::text('base_url_api', setting('base_url_api'), ['class' => 'form-control  '. ($errors->has('base_url_api')?' is-invalid ':'')]) !!}
+    @if ($errors->has('base_url_api'))
+        <span class="invalid-feedback">
+            <small class="text-danger">{{ $errors->first('base_url_api') }}</small>
+        </span>
+    @endif
+</div>
 
 <div class="form-group col-sm-12 col-lg-12 mb-3">
     {!! Form::label('fcm_key','fcm_key:') !!}

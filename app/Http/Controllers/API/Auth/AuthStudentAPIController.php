@@ -63,6 +63,15 @@ class AuthStudentAPIController extends AppBaseController
 
     }
 
+    public function deleteAccount()
+    {
+
+        $student = Student::find(auth('api-student')->id());
+        $student->delete();
+        return $this->sendSuccess('تم حذف المستخدم بنجاح');
+
+    }
+
     public function profile()
     {
         $user = auth('api-student')->user();
@@ -173,7 +182,7 @@ class AuthStudentAPIController extends AppBaseController
         if ($client->email)
             $this->sendVerifyEmail($client);
 
-        $client->balance = setting('balance_default',0);
+        $client->balance = setting('balance_default', 0);
         $client->save();
 
         return $this->sendResponse($this->createNewToken($token), 'تم انشاء حسابك بنجاح.');
@@ -219,7 +228,7 @@ class AuthStudentAPIController extends AppBaseController
         }
 
 
-        $client->balance = setting('balance_default',0);
+        $client->balance = setting('balance_default', 0);
         $client->save();
 
         return $this->sendResponse($this->createNewToken($token), 'تم انشاء الحساب بنجاح.');
@@ -473,7 +482,7 @@ class AuthStudentAPIController extends AppBaseController
         // Mark the notifications as read (optional)
         $user->unreadNotifications->markAsRead();
 
-        return $this->sendResponse($unreadNotifications,'تم جلب الاشعارات بنجاح');
+        return $this->sendResponse($unreadNotifications, 'تم جلب الاشعارات بنجاح');
     }
 
 

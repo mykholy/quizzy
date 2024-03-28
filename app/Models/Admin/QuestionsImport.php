@@ -26,16 +26,16 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
                 continue;
 
             $question = Question::create([
-                'name' => $row['name'],
+                'name' => trim($row['name']),
                 'type' => trim($row['type']),
                 'level' => trim($row['level']),
-                'description' => $row['description'],
+                'description' => trim($row['description']),
                 'lesson_id' => trim($row['lesson_id']),
-                'points' => $row['points'],
-                'reference' => $row['reference'],
-                'time' => $row['time'],
-                'photo' => empty($row['photo']) ? null : $this->downloadThumbnail($row['photo'], 'questions'),
-                'file' => empty($row['file']) ? null : $this->downloadThumbnail($row['file'], 'questions'),
+                'points' => trim($row['points']),
+                'reference' => trim($row['reference']),
+                'time' => trim($row['time']),
+                'photo' => empty($row['photo']) ? null : $this->downloadThumbnail(trim($row['photo']), 'questions'),
+                'file' => empty($row['file']) ? null : $this->downloadThumbnail(trim($row['file']), 'questions'),
             ]);
 
             $answes = ['answer_1', 'answer_2', 'answer_3', 'answer_4'];
@@ -48,10 +48,10 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
                     break;
 
                 $data = [
-                    'title' => $row[$answer],
-                    'answer_two_gap_match' => $row['answer_two_gap_match']??null,
-                    'answer_view_format' => empty($row["answer_view_format_$index"])?"text":$row["answer_view_format_$index"],
-                    'photo' => empty($row["answer_photo_$index"]) ? null : $this->downloadThumbnail($row["answer_photo_$index"], 'answers'),
+                    'title' => trim($row[$answer]),
+                    'answer_two_gap_match' => trim($row['answer_two_gap_match'])??null,
+                    'answer_view_format' => empty($row["answer_view_format_$index"])?"text":trim($row["answer_view_format_$index"]),
+                    'photo' => empty($row["answer_photo_$index"]) ? null : $this->downloadThumbnail(trim($row["answer_photo_$index"]), 'answers'),
                     'is_correct' => in_array($index, $correct_answers),
                 ];
                 $this->addAnswer($question, $data);

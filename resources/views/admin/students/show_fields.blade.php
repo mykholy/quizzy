@@ -44,11 +44,22 @@
     {!! Form::label('residence_area', __('models/students.fields.residence_area').':') !!}
     <p>{{ $student->residence_area }}</p>
 </div>
+<!-- location_area Field -->
+<div class="col-sm-12">
+    {!! Form::label('location_area', __('models/students.fields.location_area').':') !!}
+    <p>{{ $student->location_area }}</p>
+</div>
 
 <!-- specialization Field -->
 <div class="col-sm-12">
     {!! Form::label('specialization', __('models/students.fields.specialization').':') !!}
     <p>{{ $student->specialization }}</p>
+</div>
+
+<!-- balance Field -->
+<div class="col-sm-12">
+    {!! Form::label('balance', __('models/students.fields.balance').':') !!}
+    <p>{{ $student->balance }}</p>
 </div>
 
 <!-- academic_year_id Field -->
