@@ -104,6 +104,9 @@
         </span>
     @endif
 </div>
+{!! Form::text('block_app', setting('block_app',0), ['class' => 'form-control  '. ($errors->has('block_app')?' is-invalid ':'')]) !!}
+{!! Form::text('show_balance', setting('show_balance',1), ['class' => 'form-control  '. ($errors->has('show_balance')?' is-invalid ':'')]) !!}
+
 
 <div class="form-group col-sm-12 col-lg-12 mb-3">
     {!! Form::label('fcm_key','fcm_key:') !!}

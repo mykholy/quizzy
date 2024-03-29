@@ -162,7 +162,7 @@ class CouponController extends AppBaseController
     public function generateUniqueCouponCode()
     {
         do {
-            $code = Str::random(10);
+            $code = mt_rand(10000000000000, 99999999999999);
         } while (Coupon::where('code', $code)->exists());
 
         return $code;
