@@ -8,9 +8,6 @@ use App\Http\Controllers\AppBaseController;
 
 
 use App\Http\Requests\API\LoginTeacherAPIRequest;
-use App\Http\Requests\API\LoginTeacherAPIRequest;
-use App\Http\Requests\API\RegisterTeacherAPIRequest;
-use App\Http\Requests\API\SocailRegisterTeacherAPIRequest;
 use App\Http\Requests\API\UpdateTeacherAPIRequest;
 use App\Http\Resources\Admin\TeacherResource;
 use App\Models\Admin\Coupon;
