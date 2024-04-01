@@ -137,8 +137,7 @@ class AuthTeacherAPIController extends AppBaseController
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             $type = "email";
         }
-        $user = Teacher::where('email', $request->email)
-            ->orWhere('phone', $request->email)->first();
+        $user = Teacher::where('email', $request->email)->first();
 
         if (!$user)
             return $this->sendError('الطالب غير موجود', 200);

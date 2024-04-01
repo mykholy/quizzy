@@ -18,7 +18,6 @@ class TeacherResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'password' => $this->password,
             'photo' => $this->photo,
             'image_dimensions' => getImageDimensions($this->photo),
 
