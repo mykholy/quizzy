@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Admin\LocationAPIController;
 use App\Http\Controllers\API\Admin\ChatAPIController;
 use App\Http\Controllers\API\Admin\ChatGroupAPIController;
 use App\Http\Controllers\API\Auth\AuthStudentAPIController;
+use App\Http\Controllers\API\Auth\AuthTeacherAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -271,3 +272,24 @@ Route::resource('admin/coupons', App\Http\Controllers\API\Admin\CouponAPIControl
         'update' => 'admin.coupons.update',
         'destroy' => 'admin.coupons.destroy'
     ]);
+
+
+
+/*start  for teacher*/
+Route::group(['prefix' => 'teachers'], function () {
+
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('login', [AuthTeacherAPIController::class, 'login']);
+        Route::post('logout', [AuthTeacherAPIController::class, 'logout']);
+        Route::post('delete-account', [AuthTeacherAPIController::class, 'deleteAccount']);
+        Route::get('profile', [AuthTeacherAPIController::class, 'profile']);
+        Route::post('update-profile', [AuthTeacherAPIController::class, 'updateProfile']);
+        Route::get('notifications', [AuthTeacherAPIController::class, 'notifications']);
+        Route::post('forget_password', [AuthTeacherAPIController::class, 'forgetPassword']);
+        Route::post('verify-code', [AuthTeacherAPIController::class, 'VerifyCode']);
+        Route::post('reset', [AuthTeacherAPIController::class, 'reset']);
+
+
+    });
+});
+/*end  for teacher*/
