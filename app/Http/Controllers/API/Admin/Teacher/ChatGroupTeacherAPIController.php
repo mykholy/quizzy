@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Admin;
+namespace App\Http\Controllers\API\Admin\Teacher;
 
 
 use App\Events\NewNotifyMessage;
@@ -12,16 +12,16 @@ use App\Http\Controllers\AppBaseController;
 use Chat;
 
 
-class ChatGroupAPIController extends AppBaseController
+class ChatGroupTeacherAPIController extends AppBaseController
 {
-    public $student;
+    public $teacher;
 
     public function __construct()
     {
-        $this->middleware('auth:api-student');
-        if (auth('api-student')->check()) {
-            $student_id = auth('api-student')->id();
-            $this->student = Student::find($student_id);
+        $this->middleware('auth:api-teacher');
+        if (auth('api-teacher')->check()) {
+            $teacher_id = auth('api-teacher')->id();
+            $this->teacher = Student::find($teacher_id);
         }
 
 
@@ -45,9 +45,9 @@ class ChatGroupAPIController extends AppBaseController
 
 
         if ($request->input('mark_as_read'))
-            Chat::conversation($conversation)->setParticipant($this->student)->readAll();
+            Chat::conversation($conversation)->setParticipant($this->teacher)->readAll();
 
-        $messages = Chat::conversation($conversation)->setParticipant($this->student)
+        $messages = Chat::conversation($conversation)->setParticipant($this->teacher)
             ->setPaginationParams(['sorting' => $sorting,
                 'page' => \request('page', 1),
                 'perPage' => 10
@@ -55,14 +55,14 @@ class ChatGroupAPIController extends AppBaseController
             ->getMessages();
 
 
-        $unreadCount = Chat::conversation($conversation)->setParticipant($this->student)->unreadCount();
+        $unreadCount = Chat::conversation($conversation)->setParticipant($this->teacher)->unreadCount();
 
         return $this->sendResponse(
             [
                 'unreadCount' => $unreadCount,
                 'messages' => $messages,
             ],
-            __('lang.api.updated', ['model' => __('models/students.singular')])
+            __('lang.api.updated', ['model' => __('models/teachers.singular')])
         );
     }
 
@@ -91,30 +91,29 @@ class ChatGroupAPIController extends AppBaseController
 
         $message = Chat::message($body)
             ->type($type_messages)
-            ->data(['notification_image' => $this->student->photo, 'title' => $this->student->name, 'type' => 'student'])
-            ->from($this->student)
+            ->data(['notification_image' => $this->teacher->photo, 'title' => $this->teacher->name, 'type' => 'teacher'])
+            ->from($this->teacher)
             ->to($conversation)
             ->send();
 
         $messageData = [
             'id' => $conversation->id,
             'type' => 'chat',
-            'image' => optional($this->student)->photo,
+            'image' => optional($this->teacher)->photo,
 //            'link' => route('chats.show',['student_id'=>$this->student->id,'type'=>'student']),
             'link' => '#',
-            'title' => $this->student->name,
+            'title' => $this->teacher->name,
             'body' => $body,
 
         ];
         event(new NewNotifyMessage($messageData));
-        $other_devices=$group->students()->whereNot('students.id',$this->student->id)->pluck('device_token')->toArray();
-        $other_devices[]= optional($group->teacher)->device_token;
+        $other_revices=$group->students()->pluck('device_token')->toArray();
 
-        send_notification_FCM($other_devices,$this->student->name,$body,$group->id,'group_chat');
+        send_notification_FCM($other_revices,$this->teacher->name,$body,$group->id,'group_chat');
 
         return $this->sendResponse(
             $message,
-            __('lang.api.updated', ['model' => __('models/students.singular')])
+            __('lang.api.updated', ['model' => __('models/teachers.singular')])
         );
     }
 

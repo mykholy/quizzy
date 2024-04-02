@@ -1,29 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\API\Admin;
+namespace App\Http\Controllers\API\Admin\Teacher;
 
 
 use App\Events\NewNotifyMessage;
 use App\Models\Admin\Student;
 use App\Models\Admin\Teacher;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Chat;
 
 
-class ChatAPIController extends AppBaseController
+class ChatTeacherAPIController extends AppBaseController
 {
     public $student;
     public $teacher;
 
     public function __construct()
     {
-        $this->middleware('auth:api-student');
-        $this->teacher = Teacher::find(\request('teacher_id'));
-        if (auth('api-student')->check()) {
-            $student_id = auth('api-student')->id();
-            $this->student = Student::find($student_id);
+        $this->middleware('auth:api-teacher');
+        $this->student = Student::find(\request('student_id'));
+        if (auth('api-teacher')->check()) {
+            $teacher_id = auth('api-teacher')->id();
+            $this->teacher = Teacher::find($teacher_id);
         }
 
 
@@ -36,7 +35,7 @@ class ChatAPIController extends AppBaseController
         $sorting = $request->input('sorting', 'desc');
 
 
-        $conversations = Chat::conversations()->setParticipant($this->student)
+        $conversations = Chat::conversations()->setParticipant($this->teacher)
             ->isDirect()
             ->setPaginationParams(['sorting' => $sorting,
                 'page' => \request('page', 1),
@@ -51,48 +50,48 @@ class ChatAPIController extends AppBaseController
     }
     public function chat(Request $request)
     {
-        if(!$this->teacher)
-            return $this->sendError('Teacher not found');
+        if(!$this->student)
+            return $this->sendError('Student not found');
 
         $sorting = $request->input('sorting', 'desc');
 
-        $conversation = Chat::conversations()->between($this->student, $this->teacher);
+        $conversation = Chat::conversations()->between( $this->teacher,$this->student);
 
         if (!$conversation)
-            $conversation = Chat::makeDirect()->createConversation([$this->student, $this->teacher]);
+            $conversation = Chat::makeDirect()->createConversation([$this->teacher,$this->student]);
 
         if ($request->input('mark_as_read'))
-            Chat::conversation($conversation)->setParticipant($this->student)->readAll();
+            Chat::conversation($conversation)->setParticipant($this->teacher)->readAll();
 
-        $messages = Chat::conversation($conversation)->setParticipant($this->student)
+        $messages = Chat::conversation($conversation)->setParticipant($this->teacher)
             ->setPaginationParams(['sorting' => $sorting,
                 'page' => \request('page', 1),
                 'perPage' => 10
             ])
             ->getMessages();
-        $unreadCount = Chat::conversation($conversation)->setParticipant($this->student)->unreadCount();
+        $unreadCount = Chat::conversation($conversation)->setParticipant($this->teacher)->unreadCount();
 
         return $this->sendResponse(
             [
                 'unreadCount' => $unreadCount,
                 'messages' => $messages,
             ],
-            __('lang.api.updated', ['model' => __('models/students.singular')])
+            __('lang.api.updated', ['model' => __('models/teachers.singular')])
         );
     }
 
     public function send(Request $request)
     {
-        if(!$this->teacher)
-            return $this->sendError('Teacher not found');
+        if(!$this->student)
+            return $this->sendError('Student not found');
 
         $type_messages = $request->input('type', 'text');
         $body = $request->body;
 
-        $conversation = Chat::conversations()->between($this->student, $this->teacher);
+        $conversation = Chat::conversations()->between($this->teacher,$this->student);
 
         if (!$conversation)
-            $conversation = Chat::makeDirect()->createConversation([$this->student, $this->teacher]);
+            $conversation = Chat::makeDirect()->createConversation([$this->teacher,$this->student]);
 
         if ($type_messages == 'image') {
             $this->validate($request, ['body' => 'required|file']);
@@ -102,28 +101,30 @@ class ChatAPIController extends AppBaseController
 
         $message = Chat::message($body)
             ->type($type_messages)
-            ->data(['notification_image' => $this->student->photo, 'title' => $this->student->name, 'type' => 'student'])
-            ->from($this->student)
+            ->data(['notification_image' => $this->teacher->photo, 'title' => $this->teacher->name, 'type' => 'teacher'])
+            ->from($this->teacher)
             ->to($conversation)
             ->send();
 
         $messageData = [
             'id' => $conversation->id,
             'type' => 'chat',
-            'image' => optional($this->student)->photo,
+            'image' => optional($this->teacher)->photo,
 //            'link' => route('chats.show',['student_id'=>$this->student->id,'type'=>'student']),
             'link' => '#',
-            'title' => $this->student->name,
+            'title' => $this->teacher->name,
             'body' => $body,
 
         ];
         event(new NewNotifyMessage($messageData));
-        $other_devices[]= $this->teacher->device_token;
-        send_notification_FCM($other_devices,$this->student->name,$body,$this->student->id,'chat');
+
+        $other_devices[]= $this->student->device_token;
+        send_notification_FCM($other_devices,$this->teacher->name,$body,$this->teacher->id,'chat');
+
 
         return $this->sendResponse(
             $message,
-            __('lang.api.updated', ['model' => __('models/students.singular')])
+            __('lang.api.updated', ['model' => __('models/teachers.singular')])
         );
     }
 

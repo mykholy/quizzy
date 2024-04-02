@@ -4,6 +4,8 @@ use App\Http\Controllers\API\Admin\ExamAttemptsController;
 use App\Http\Controllers\API\Admin\LocationAPIController;
 use App\Http\Controllers\API\Admin\ChatAPIController;
 use App\Http\Controllers\API\Admin\ChatGroupAPIController;
+use App\Http\Controllers\API\Admin\Teacher\ChatGroupTeacherAPIController;
+use App\Http\Controllers\API\Admin\Teacher\ChatTeacherAPIController;
 use App\Http\Controllers\API\Auth\AuthStudentAPIController;
 use App\Http\Controllers\API\Auth\AuthTeacherAPIController;
 use Illuminate\Http\Request;
@@ -290,6 +292,17 @@ Route::group(['prefix' => 'teachers'], function () {
         Route::post('reset', [AuthTeacherAPIController::class, 'reset']);
 
 
+    });
+
+    Route::group(['prefix' => 'chats'], function () {
+        Route::get('/direct-chats', [ChatTeacherAPIController::class, 'directChats']);
+        Route::get('/', [ChatTeacherAPIController::class, 'chat']);
+        Route::post('/send', [ChatTeacherAPIController::class, 'send']);
+    });
+
+    Route::group(['prefix' => 'chats-group'], function () {
+        Route::get('/', [ChatGroupTeacherAPIController::class, 'chat']);
+        Route::post('/send', [ChatGroupTeacherAPIController::class, 'send']);
     });
 });
 /*end  for teacher*/
