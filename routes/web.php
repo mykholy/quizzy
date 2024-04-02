@@ -15,6 +15,13 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/test_text', function () {
+    $result = calculateTextSimilarity(
+        "The quick brown fox jumps over the lazy dog.",
+        "The lazy dog jumps over the quick brown fox."
+    );
+    dd($result,$result['similarity']);
+});
 Route::get('/', function () {
     return redirect()->route('home');
 });
