@@ -5,6 +5,21 @@ use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Http;
 
+
+if (!function_exists('calculateTextSimilarity')) {
+    function calculateTextSimilarity($text1, $text2)
+    {
+        $encodedText1 = urlencode($text1);
+        $encodedText2 = urlencode($text2);
+
+        $response = \Illuminate\Support\Facades\Http::withHeaders([
+            'X-RapidAPI-Host' => 'twinword-text-similarity-v1.p.rapidapi.com',
+            'X-RapidAPI-Key' => 'e89748ff8amsh44ca9e6ae517546p14fd2fjsncf8359047bc0',
+        ])->get("https://twinword-text-similarity-v1.p.rapidapi.com/similarity/?text1=$encodedText1&text2=$encodedText2");
+
+        return $response->json();
+    }
+}
 function sendSMS($number, $msg)
 {
 

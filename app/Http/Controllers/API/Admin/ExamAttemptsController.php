@@ -153,7 +153,13 @@ class ExamAttemptsController extends AppBaseController
                     */
         if (in_array($question_type, array(Question::$QUESTION_TYPE_LONG_ANSWER, Question::$QUESTION_TYPE_SHORT_ANSWER, 'image_answering'))) {
             $get_original_answer = $question->answers->first();
-            similar_text(strtolower($given_answer), strtolower($get_original_answer->answer_two_gap_match), $per);
+            $result_similar=calculateTextSimilarity($given_answer,$get_original_answer->answer_two_gap_match);
+//            similar_text(strtolower($given_answer), strtolower($get_original_answer->answer_two_gap_match), $per);
+
+            $per=0;
+            if(isset($result_similar['similarity']))
+                $per=$result_similar['similarity']*100;
+
             Log::info("similar_text", [
                 'strtolower($given_answer)' => strtolower($given_answer),
                 'strtolower($get_original_answer->answer_two_gap_match)' => strtolower($get_original_answer->answer_two_gap_match),
@@ -161,9 +167,9 @@ class ExamAttemptsController extends AppBaseController
                 '$per' => $per,
             ]);
             if ($question_type == Question::$QUESTION_TYPE_LONG_ANSWER)
-                $request_data['is_correct'] = $per > 60 ? 1 : 0;
+                $request_data['is_correct'] = $per > setting('text_similarity_long_answer',60) ? 1 : 0;
             else
-                $request_data['is_correct'] = $per > 90 ? 1 : 0;
+                $request_data['is_correct'] = $per > setting('text_similarity_short_answer',90) ? 1 : 0;
         }
         $attempt_answer = AttemptAnswer::create($request_data);
 

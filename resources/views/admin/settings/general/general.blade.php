@@ -95,6 +95,25 @@
     @endif
 </div>
 
+<div class="form-group col-sm-12 col-lg-12 mb-3">
+    {!! Form::label('text_similarity_long_answer','Text Similarity Long answer:') !!}
+    {!! Form::number('text_similarity_long_answer', setting('text_similarity_long_answer'), ['min'=>0,'max'=>100,'class' => 'form-control  '. ($errors->has('text_similarity_long_answer')?' is-invalid ':'')]) !!}
+    @if ($errors->has('text_similarity_long_answer'))
+        <span class="invalid-feedback">
+            <small class="text-danger">{{ $errors->first('text_similarity_long_answer') }}</small>
+        </span>
+    @endif
+</div>
+<div class="form-group col-sm-12 col-lg-12 mb-3">
+    {!! Form::label('text_similarity_short_answer','Text Similarity Short answer:') !!}
+    {!! Form::number('text_similarity_short_answer', setting('text_similarity_short_answer'), ['min'=>0,'max'=>100,'class' => 'form-control  '. ($errors->has('text_similarity_short_answer')?' is-invalid ':'')]) !!}
+    @if ($errors->has('text_similarity_short_answer'))
+        <span class="invalid-feedback">
+            <small class="text-danger">{{ $errors->first('text_similarity_short_answer') }}</small>
+        </span>
+    @endif
+</div>
+
 {{--<div class="form-group col-sm-12 col-lg-12 mb-3">--}}
 {{--    {!! Form::label('base_url_api','Base URl API:') !!}--}}
 {{--    {!! Form::text('base_url_api', setting('base_url_api'), ['class' => 'form-control  '. ($errors->has('base_url_api')?' is-invalid ':'')]) !!}--}}
