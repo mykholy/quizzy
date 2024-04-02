@@ -7,6 +7,7 @@ use App\Events\NewNotifyMessage;
 use App\Models\Admin\Group;
 use App\Models\Admin\Student;
 
+use App\Models\Admin\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Chat;
@@ -21,7 +22,7 @@ class ChatGroupTeacherAPIController extends AppBaseController
         $this->middleware('auth:api-teacher');
         if (auth('api-teacher')->check()) {
             $teacher_id = auth('api-teacher')->id();
-            $this->teacher = Student::find($teacher_id);
+            $this->teacher = Teacher::find($teacher_id);
         }
 
 

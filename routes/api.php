@@ -6,6 +6,7 @@ use App\Http\Controllers\API\Admin\ChatAPIController;
 use App\Http\Controllers\API\Admin\ChatGroupAPIController;
 use App\Http\Controllers\API\Admin\Teacher\ChatGroupTeacherAPIController;
 use App\Http\Controllers\API\Admin\Teacher\ChatTeacherAPIController;
+use App\Http\Controllers\API\Admin\Teacher\GroupTeacherAPIController;
 use App\Http\Controllers\API\Auth\AuthStudentAPIController;
 use App\Http\Controllers\API\Auth\AuthTeacherAPIController;
 use Illuminate\Http\Request;
@@ -304,5 +305,8 @@ Route::group(['prefix' => 'teachers'], function () {
         Route::get('/', [ChatGroupTeacherAPIController::class, 'chat']);
         Route::post('/send', [ChatGroupTeacherAPIController::class, 'send']);
     });
+
+    Route::resource('groups', GroupTeacherAPIController::class);
+
 });
 /*end  for teacher*/
