@@ -95,6 +95,32 @@
     @endif
 </div>
 
+<div class="form-group col-sm-12 col-lg-12 mb-3">
+    {!! Form::label('invitation_share_msg','Invitation Share Message:') !!}
+    <label class="form-text text-primary my-2   ">
+        بكل سهولة يمكنك تحقيق الربح عند دعوة  جديدة الينا عن طريق اضافة رقم الدعوة الخاص بك "[[invitation_code]]" في صفحة تسجيل الطالب
+
+    </label>
+    {!! Form::textarea('invitation_share_msg', setting('invitation_share_msg'), ['rows'=>'14','class' => 'form-control  '. ($errors->has('invitation_share_msg')?' is-invalid ':'')]) !!}
+    @if ($errors->has('invitation_share_msg'))
+        <span class="invalid-feedback">
+            <small class="text-danger">{{ $errors->first('invitation_share_msg') }}</small>
+        </span>
+    @endif
+</div>
+<div class="form-group col-sm-12 col-lg-12 mb-3">
+    {!! Form::label('input_invitation_code_msg','Input Invitation Code Message:') !!}
+    <label class="form-text text-primary my-2   ">
+ضع كود الدعوة هنا (اختياري)
+    </label>
+    {!! Form::textarea('input_invitation_code_msg', setting('input_invitation_code_msg'), ['rows'=>'14','class' => 'form-control  '. ($errors->has('input_invitation_code_msg')?' is-invalid ':'')]) !!}
+    @if ($errors->has('input_invitation_code_msg'))
+        <span class="invalid-feedback">
+            <small class="text-danger">{{ $errors->first('input_invitation_code_msg') }}</small>
+        </span>
+    @endif
+</div>
+
 <div class="form-group col-sm-12 col-lg-6 mb-3">
     {!! Form::label('inviter_gift','Inviter Gift:') !!}
     {!! Form::number('inviter_gift', setting('inviter_gift'), ['min'=>0,'class' => 'form-control  '. ($errors->has('inviter_gift')?' is-invalid ':'')]) !!}
