@@ -15,6 +15,8 @@ return [
 
     'login' => [
         'title' => 'Login',
+        'login_as_admin' => 'Login as Admin',
+        'login_as_teacher' => 'Login as Teacher',
         'forgot_password' => 'Forgot Password',
         'register_membership' => 'Register',
     ],

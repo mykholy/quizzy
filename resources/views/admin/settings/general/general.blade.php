@@ -95,6 +95,27 @@
     @endif
 </div>
 
+<div class="form-group col-sm-12 col-lg-6 mb-3">
+    {!! Form::label('inviter_gift','Inviter Gift:') !!}
+    {!! Form::number('inviter_gift', setting('inviter_gift'), ['min'=>0,'class' => 'form-control  '. ($errors->has('inviter_gift')?' is-invalid ':'')]) !!}
+    @if ($errors->has('inviter_gift'))
+        <span class="invalid-feedback">
+            <small class="text-danger">{{ $errors->first('inviter_gift') }}</small>
+        </span>
+    @endif
+</div>
+
+
+<div class="form-group col-sm-12 col-lg-6 mb-3">
+    {!! Form::label('invitee_gift','Invitee Gift:') !!}
+    {!! Form::number('invitee_gift', setting('invitee_gift'), ['min'=>0,'class' => 'form-control  '. ($errors->has('invitee_gift')?' is-invalid ':'')]) !!}
+    @if ($errors->has('invitee_gift'))
+        <span class="invalid-feedback">
+            <small class="text-danger">{{ $errors->first('invitee_gift') }}</small>
+        </span>
+    @endif
+</div>
+
 <div class="form-group col-sm-12 col-lg-12 mb-3">
     {!! Form::label('text_similarity_long_answer','Text Similarity Long answer:') !!}
     {!! Form::number('text_similarity_long_answer', setting('text_similarity_long_answer'), ['min'=>0,'max'=>100,'class' => 'form-control  '. ($errors->has('text_similarity_long_answer')?' is-invalid ':'')]) !!}

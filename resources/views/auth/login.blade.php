@@ -65,7 +65,7 @@
                                 <div class="card-sigin">
                                     <div class="mb-5 d-flex">
                                         <a href="{{url('/')}}"><img src="{{asset(setting('logo'))}}"
-                                                                  class="sign-favicon-a ht-40" alt="logo">
+                                                                    class="sign-favicon-a ht-40" alt="logo">
                                             <img src="{{asset(setting('logo'))}}"
                                                  class="sign-favicon-b ht-40" alt="logo">
                                         </a>
@@ -73,28 +73,37 @@
                                     </div>
                                     <div class="card-sigin">
                                         <div class="main-signup-header">
-                                            <h2>Welcome back!</h2>
+                                            <h2>Welcome back Admin!</h2>
                                             <h5 class="fw-semibold mb-4">Please sign in to continue.</h5>
                                             <form method="post" action="{{ url('/login') }}">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label>Email</label>
-                                                    <input name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"
-                                                                                placeholder="Enter your email" type="email">
+                                                    <input name="email"
+                                                           class="form-control @error('email') is-invalid @enderror"
+                                                           value="{{ old('email') }}"
+                                                           placeholder="Enter your email" type="email">
                                                     @error('email')
                                                     <span class="error invalid-feedback">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Password</label> <input name="password" class="form-control @error('password') is-invalid @enderror"
-                                                                                   placeholder="Enter your password" type="password">
+                                                    <label>Password</label> <input name="password"
+                                                                                   class="form-control @error('password') is-invalid @enderror"
+                                                                                   placeholder="Enter your password"
+                                                                                   type="password">
                                                     @error('password')
                                                     <span class="error invalid-feedback">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-                                                <button type="submit"  class="btn btn-main-primary btn-block">{{ __('auth.sign_in') }}</button>
+                                                <button type="submit"
+                                                        class="btn btn-main-primary btn-block">{{ __('auth.sign_in') }}</button>
 
                                             </form>
+                                            <p class="mb-0">
+                                                <a href="{{ route('teacher.get.login') }}"
+                                                   class="text-center">{{ __('auth.login.login_as_teacher') }}</a>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

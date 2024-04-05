@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\InvitationTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ class Student extends  Authenticatable  implements JWTSubject , MustVerifyEmail
     use HasFactory;
     use Messageable;
     use Notifiable;
+    use InvitationTrait;
 
     public $table = 'students';
 
@@ -37,6 +39,8 @@ class Student extends  Authenticatable  implements JWTSubject , MustVerifyEmail
         'device_token',
         'phone_verified',
         'balance',
+        'invitation_code',
+        'invited_by',
         'is_active'
     ];
 

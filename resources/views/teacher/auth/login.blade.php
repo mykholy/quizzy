@@ -73,9 +73,9 @@
                                     </div>
                                     <div class="card-sigin">
                                         <div class="main-signup-header">
-                                            <h2>Welcome back!</h2>
+                                            <h2>Welcome back Teacher!</h2>
                                             <h5 class="fw-semibold mb-4">Please sign in to continue.</h5>
-                                            <form method="post" action="{{ url('/login') }}">
+                                            <form method="post" action="{{ route('teacher.login') }}">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label>Email</label>
@@ -95,6 +95,10 @@
                                                 <button type="submit"  class="btn btn-main-primary btn-block">{{ __('auth.sign_in') }}</button>
 
                                             </form>
+                                            <p class="mb-0">
+                                                <a href="{{ route('login') }}"
+                                                   class="text-center">{{ __('auth.login.login_as_admin') }}</a>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

@@ -182,7 +182,28 @@ class AuthStudentAPIController extends AppBaseController
         if ($client->email)
             $this->sendVerifyEmail($client);
 
-        $client->balance = setting('balance_default', 0);
+        $invitee_gift=0;
+        if (request()->has('invitation_code')) {
+
+            $inviter = Student::where('invitation_code', \request('invitation_code'))->first(); // Set the actual inviter_id based on your logic
+            if ($inviter) {
+                $inviter_id = $inviter->id;
+                $client->invited_by=$inviter_id;
+
+                //start gift Inviter
+                $inviter_gift=setting('inviter_gift', 0);
+                $inviter->balance+=$inviter_gift;
+                $inviter->save();
+                send_notification_FCM($inviter->device_token,"مكسب الدعوة","مبروك لقد حصلت علي هدية {$inviter_gift} سؤال من الدعوة",$inviter->id,'gift');
+                //end  gift Inviter
+
+                $invitee_gift=setting('invitee_gift', 0);
+
+
+            }
+        }
+
+        $client->balance = setting('balance_default', 0)+$invitee_gift;
         $client->save();
 
         return $this->sendResponse($this->createNewToken($token), 'تم انشاء حسابك بنجاح.');
@@ -227,9 +248,30 @@ class AuthStudentAPIController extends AppBaseController
             return $this->sendError('البريد الالكتروني او كلمة المرور غير صحيحة');
         }
 
+        $invitee_gift=0;
+        if (request()->has('invitation_code')) {
 
-        $client->balance = setting('balance_default', 0);
+            $inviter = Student::where('invitation_code', \request('invitation_code'))->first(); // Set the actual inviter_id based on your logic
+            if ($inviter) {
+                $inviter_id = $inviter->id;
+                $client->invited_by=$inviter_id;
+
+                //start gift Inviter
+                $inviter_gift=setting('inviter_gift', 0);
+                $inviter->balance+=$inviter_gift;
+                $inviter->save();
+                send_notification_FCM($inviter->device_token,"مكسب الدعوة","مبروك لقد حصلت علي هدية {$inviter_gift} سؤال من الدعوة",$inviter->id,'gift');
+                //end  gift Inviter
+
+                $invitee_gift=setting('invitee_gift', 0);
+
+
+            }
+        }
+
+        $client->balance = setting('balance_default', 0)+$invitee_gift;
         $client->save();
+
 
         return $this->sendResponse($this->createNewToken($token), 'تم انشاء الحساب بنجاح.');
 
