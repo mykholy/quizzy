@@ -173,6 +173,9 @@
 {{--{!! Form::text('block_app', setting('block_app',0), ['class' => 'form-control  '. ($errors->has('block_app')?' is-invalid ':'')]) !!}--}}
 {{--{!! Form::text('show_balance', setting('show_balance',1), ['class' => 'form-control  '. ($errors->has('show_balance')?' is-invalid ':'')]) !!}--}}
 
+{!! Form::hidden('show_login_third_party', setting('show_login_third_party',0), ['class' => 'form-control  '. ($errors->has('show_login_third_party')?' is-invalid ':'')]) !!}
+{!! Form::hidden('show_delete_account', setting('show_delete_account',1), ['class' => 'form-control  '. ($errors->has('show_delete_account')?' is-invalid ':'')]) !!}
+
 
 <div class="form-group col-sm-12 col-lg-12 mb-3">
     {!! Form::label('fcm_key','fcm_key:') !!}
