@@ -25,7 +25,7 @@
 <!-- area Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('area', __('models/students.fields.area').':') !!}
-    {!! Form::select('area',['gaza'=>trans('models/students.gaza'),'west'=>trans('models/students.west')],request('area'), array('id'=>'area','onchange'=>'changeArea()','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('area')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::select('area',['قطاع غزة'=>trans('models/students.gaza'),'الضفة الغربية'=>trans('models/students.west')],request('area'), array('id'=>'area','onchange'=>'changeArea()','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('area')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('area'))
         <span class="invalid-feedback">
@@ -139,9 +139,9 @@
             var governorateList = [];
 
             // Select the appropriate governorate list based on the selected area
-            if (area === 'gaza') {
+            if (area === 'قطاع غزة') {
                 governorateList = {!! json_encode(\App\Models\Admin\Student::governoratListGaza) !!};
-            } else if (area === 'west') {
+            } else if (area === 'الضفة الغربية') {
                 governorateList = {!! json_encode(\App\Models\Admin\Student::governorateListWest) !!};
             }
 
