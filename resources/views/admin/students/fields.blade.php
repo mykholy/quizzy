@@ -122,6 +122,9 @@
 </div>
 @push('page_scripts')
     <script>
+        var selectedGovernorate = {!! isset($student) && $student->governorate ? ($student->governorate) : 'null' !!};
+        var selectedLocationArea= {!! isset($student) && $student->location_area ? ($student->location_area) : 'null' !!};
+
         @if(isset($student))
         changeArea();
         changeGovernorate();
@@ -149,6 +152,19 @@
                 option.text = governorate;
                 governorateSelect.appendChild(option);
             });
+
+            var locationAreaSelect = document.getElementById('location_area');
+            // Clear existing options
+            locationAreaSelect.innerHTML = '';
+
+            // Select the governorate if exists
+            if (selectedGovernorate) {
+                document.getElementById('governorate').value = selectedGovernorate;
+                // Trigger change event to populate location_area dropdown
+                changeGovernorate();
+            }
+
+
         }
 
         function changeGovernorate() {
@@ -170,6 +186,14 @@
                 option.text = area;
                 locationAreaSelect.appendChild(option);
             });
+
+
+            // Select the location_area if exists
+            if (selectedLocationArea) {
+                document.getElementById('location_area').value = selectedLocationArea;
+
+            }
+
         }
     </script>
 @endpush
