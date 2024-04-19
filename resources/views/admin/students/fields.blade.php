@@ -122,8 +122,8 @@
 </div>
 @push('page_scripts')
     <script>
-        var selectedGovernorate = {!! isset($student) && $student->governorate ? ($student->governorate) : 'null' !!};
-        var selectedLocationArea= {!! isset($student) && $student->location_area ? ($student->location_area) : 'null' !!};
+        var selectedGovernorate = '{!! isset($student) && $student->governorate ? ($student->governorate) : 'null' !!}';
+        var selectedLocationArea= '{!! isset($student) && $student->location_area ? ($student->location_area) : 'null' !!}';
 
         @if(isset($student))
         changeArea();
