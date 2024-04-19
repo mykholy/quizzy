@@ -39,7 +39,7 @@
 <!-- governorate Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('governorate', __('models/students.fields.governorate').':') !!}
-    {!! Form::select('governorate',null,request('governorate'), array('id'=>'governorate','onchange'=>'changeGovernorate()','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('governorate')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::select('governorate',[],request('governorate'), array('id'=>'governorate','onchange'=>'changeGovernorate()','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('governorate')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('governorate'))
         <span class="invalid-feedback">
@@ -53,7 +53,7 @@
 <!-- location_area Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('location_area', __('models/students.fields.location_area').':') !!}
-    {!! Form::select('location_area',null,request('location_area'), array('id'=>'location_area','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('location_area')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::select('location_area',[],request('location_area'), array('id'=>'location_area','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('location_area')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('location_area'))
         <span class="invalid-feedback">
