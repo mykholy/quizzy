@@ -23,6 +23,10 @@ class StudentDataTable extends DataTable
             $photo = $model->photo ;
             return view('includes.lazy_photo', compact('photo'));
         });
+        $dataTable->editColumn('academic_year_id', function (Student $model) {
+            $academicYear=$model->academicYear?$model->academicYear->name:'---';
+            return $academicYear;
+        });
 
         $dataTable->editColumn('is_active', function (Student $model) {
 
@@ -87,10 +91,17 @@ class StudentDataTable extends DataTable
         return [
             'id' => new Column(['title' => '#', 'data' => 'id', 'visible' => true, 'printable' => false, 'searchable' => false, 'exporting' => false]),
 
+            'username' => new Column(['title' => __('models/students.fields.username'), 'data' => 'username']),
             'name' => new Column(['title' => __('models/students.fields.name'), 'data' => 'name']),
             'email' => new Column(['title' => __('models/students.fields.email'), 'data' => 'email']),
             'phone' => new Column(['title' => __('models/students.fields.phone'), 'data' => 'phone']),
             'photo' => new Column(['title' => __('models/students.fields.photo'), 'data' => 'photo']),
+            'date_of_birth' => new Column(['title' => __('models/students.fields.date_of_birth'), 'data' => 'date_of_birth']),
+            'governorate' => new Column(['title' => __('models/students.fields.governorate'), 'data' => 'governorate']),
+            'area' => new Column(['title' => __('models/students.fields.area'), 'data' => 'area']),
+            'residence_area' => new Column(['title' => __('models/students.fields.residence_area'), 'data' => 'residence_area']),
+            'specialization' => new Column(['title' => __('models/students.fields.specialization'), 'data' => 'specialization']),
+            'academic_year_id' => new Column(['title' => __('models/students.fields.academic_year_id'), 'data' => 'academic_year_id']),
             'is_active' => new Column(['title' => __('models/students.fields.is_active'), 'data' => 'is_active'])
         ];
     }
