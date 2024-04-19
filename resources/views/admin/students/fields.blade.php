@@ -122,7 +122,7 @@
     </div>
 
 </div>
-@push('')
+@push('page_scripts')
     <script >
         function changeArea() {
             var area = document.getElementById('area').value;
