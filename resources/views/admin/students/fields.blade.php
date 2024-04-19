@@ -65,10 +65,9 @@
 </div>
 
 
-
 <!-- residence_area Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('residence_area', __('models/subjects.fields.residence_area').':') !!}
+    {!! Form::label('residence_area', __('models/students.fields.residence_area').':') !!}
     {!! Form::select('residence_area',\App\Models\Admin\Student::stateOfAreaList,request('residence_area'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('residence_area')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('residence_area'))
@@ -101,7 +100,6 @@
 </div>
 
 
-
 <!-- Photo Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('photo', __('models/students.fields.photo').':') !!}
@@ -123,7 +121,11 @@
 
 </div>
 @push('page_scripts')
-    <script >
+    <script>
+        @if(isset($student))
+        changeArea();
+        changeGovernorate();
+        @endif
         function changeArea() {
             var area = document.getElementById('area').value;
             var governorateSelect = document.getElementById('governorate');
@@ -141,13 +143,14 @@
             }
 
             // Populate governorate dropdown with the selected list
-            governorateList.forEach(function(governorate) {
+            governorateList.forEach(function (governorate) {
                 var option = document.createElement('option');
                 option.value = governorate;
                 option.text = governorate;
                 governorateSelect.appendChild(option);
             });
         }
+
         function changeGovernorate() {
             var governorate = document.getElementById('governorate').value;
             var locationAreaSelect = document.getElementById('location_area');
@@ -161,7 +164,7 @@
             var areas = areaList[governorate] || [];
 
             // Populate location_area dropdown with the selected areas
-            areas.forEach(function(area) {
+            areas.forEach(function (area) {
                 var option = document.createElement('option');
                 option.value = area;
                 option.text = area;
@@ -169,4 +172,4 @@
             });
         }
     </script>
-    @endpush
+@endpush

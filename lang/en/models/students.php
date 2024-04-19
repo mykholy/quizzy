@@ -3,6 +3,8 @@
 return [
     'singular' => 'Student',
     'plural' => 'Students',
+    'gaza' => 'Gaza',
+    'west' => 'West Bank',
     'fields' => [
         'id' => 'Id',
         'name' => 'Name',
