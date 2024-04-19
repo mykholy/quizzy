@@ -22,21 +22,62 @@
     {!! Form::text('phone', null, ['class' => 'form-control', 'minlength' => 6, 'maxlength' => 20]) !!}
 </div>
 
-<!-- governorate Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('governorate', __('models/students.fields.governorate').':') !!}
-    {!! Form::text('governorate', null, ['class' => 'form-control']) !!}
-</div>
 <!-- area Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('area', __('models/students.fields.area').':') !!}
-    {!! Form::text('area', null, ['class' => 'form-control']) !!}
+    {!! Form::select('area',['gaza'=>trans('models/students.gaza'),'west'=>trans('models/students.west')],request('area'), array('id'=>'area','onchange'=>'changeArea()','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('area')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+
+    @if ($errors->has('area'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('area') }}</small>
+
+             </span>
+    @endif
 </div>
+
+<!-- governorate Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('governorate', __('models/students.fields.governorate').':') !!}
+    {!! Form::select('governorate',null,request('governorate'), array('id'=>'governorate','onchange'=>'changeGovernorate()','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('governorate')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+
+    @if ($errors->has('governorate'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('governorate') }}</small>
+
+             </span>
+    @endif
+</div>
+
+<!-- location_area Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('location_area', __('models/students.fields.location_area').':') !!}
+    {!! Form::select('location_area',null,request('location_area'), array('id'=>'location_area','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('location_area')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+
+    @if ($errors->has('location_area'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('location_area') }}</small>
+
+             </span>
+    @endif
+</div>
+
+
 
 <!-- residence_area Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('residence_area', __('models/students.fields.residence_area').':') !!}
-    {!! Form::text('residence_area', null, ['class' => 'form-control']) !!}
+    {!! Form::label('residence_area', __('models/subjects.fields.residence_area').':') !!}
+    {!! Form::select('residence_area',\App\Models\Admin\Student::stateOfAreaList,request('residence_area'), array('class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('residence_area')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+
+    @if ($errors->has('residence_area'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('residence_area') }}</small>
+
+             </span>
+    @endif
 </div>
 
 <!-- specialization Field -->
@@ -81,3 +122,51 @@
     </div>
 
 </div>
+@push('')
+    <script >
+        function changeArea() {
+            var area = document.getElementById('area').value;
+            var governorateSelect = document.getElementById('governorate');
+
+            // Clear existing options
+            governorateSelect.innerHTML = '';
+
+            var governorateList = [];
+
+            // Select the appropriate governorate list based on the selected area
+            if (area === 'gaza') {
+                governorateList = {!! json_encode(\App\Models\Admin\Student::governoratListGaza) !!};
+            } else if (area === 'west') {
+                governorateList = {!! json_encode(\App\Models\Admin\Student::governorateListWest) !!};
+            }
+
+            // Populate governorate dropdown with the selected list
+            governorateList.forEach(function(governorate) {
+                var option = document.createElement('option');
+                option.value = governorate;
+                option.text = governorate;
+                governorateSelect.appendChild(option);
+            });
+        }
+        function changeGovernorate() {
+            var governorate = document.getElementById('governorate').value;
+            var locationAreaSelect = document.getElementById('location_area');
+
+            // Clear existing options
+            locationAreaSelect.innerHTML = '';
+
+            var areaList = {!! json_encode(\App\Models\Admin\Student::getAreaName) !!};
+
+            // Fetch areas for the selected governorate
+            var areas = areaList[governorate] || [];
+
+            // Populate location_area dropdown with the selected areas
+            areas.forEach(function(area) {
+                var option = document.createElement('option');
+                option.value = area;
+                option.text = area;
+                locationAreaSelect.appendChild(option);
+            });
+        }
+    </script>
+    @endpush
