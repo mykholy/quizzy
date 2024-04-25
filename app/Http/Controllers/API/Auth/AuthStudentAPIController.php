@@ -156,17 +156,18 @@ class AuthStudentAPIController extends AppBaseController
     public function register(RegisterStudentAPIRequest $request)
     {
 
-        $request_data = [
+        $request_data=$request->except(['password','is_active','photo']);
+        $data = [
             'password' => bcrypt($request->password),
             'is_active' => true
         ];
         if ($request->has('photo') && $request->photo != null) {
-            $request_data['photo'] = uploadImage('clients', $request->photo);
+            $data['photo'] = uploadImage('clients', $request->photo);
         }
 
 
         $client = Student::create(array_merge(
-            $request->validated(),
+            $data,
             $request_data
         ));
 
