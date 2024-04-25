@@ -54,7 +54,9 @@ class Student extends Authenticatable implements JWTSubject, MustVerifyEmail
         'remember_token',
     ];
     protected $casts = [
+
         'name' => 'string',
+        'username' => 'string',
         'email' => 'string',
         'phone' => 'string',
         'password' => 'string',
@@ -64,7 +66,14 @@ class Student extends Authenticatable implements JWTSubject, MustVerifyEmail
         'device_token' => 'string',
         'balance' => 'integer',
         'is_active' => 'boolean',
-        'phone_verified' => 'boolean'
+        'phone_verified' => 'boolean',
+        'location_area'=>'string',
+        'governorate'=>'string',
+        'area'=>'string',
+        'residence_area' =>'string',
+        'specialization'=>'string',
+        'academic_year_id'=>'integer',
+        'date_of_birth'=>'string',
     ];
 
     public static array $rules = [

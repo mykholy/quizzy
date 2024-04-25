@@ -36,6 +36,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        abort(404);
         $cards = [
             ['title' => __('models/teachers.plural'), 'color' => 'primary', 'count' => Teacher::count()],
             ['title' => __('models/subjects.plural'), 'color' => 'warning', 'count' => Subject::count()],

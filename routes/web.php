@@ -121,8 +121,6 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     });
     Route::middleware(['auth:teacher'])->group(function () {
         Route::get('/', [\App\Http\Controllers\Teacher\HomeController::class,'index'])->name('dashboard');
-
-
     });
 
 

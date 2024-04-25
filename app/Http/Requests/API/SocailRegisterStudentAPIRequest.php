@@ -43,4 +43,24 @@ class SocailRegisterStudentAPIRequest extends APIRequest
     }
 
 
+    /**
+     * Customize error messages for specific fields (optional).
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل', // "Email is already in use"
+            'phone.unique' => 'رقم الهاتف مستخدم بالفعل', // "Phone number is already in use"
+            'username.unique' => 'اسم المستخدم مستخدم بالفعل', // "Email is already in use"
+
+            'academic_year_id.exists' => 'معرف السنة الدراسية غير صالح', // "Invalid academic year ID"
+            'date_of_birth.date_format' => 'تنسيق تاريخ الميلاد غير صالح (YYYY-MM-DD)', // "Invalid date format for date_of_birth (YYYY-MM-DD)"
+            'required' => 'الحقل مطلوب', // "The field is required"
+            'file' => 'يجب أن يكون ملفًا (للصورة)', // "Must be a file (for photo)"
+        ];
+    }
+
+
 }

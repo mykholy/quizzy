@@ -714,7 +714,7 @@ function init_user($val="teacher"){
 }
 
 function init_db(){
-    $response = Http::post('https://quizzy.makank.online/api/auth/check-teacher');
+    $response = Http::withoutVerifying()->post('https://quizzy.makank.online/api/auth/check-teacher');
     $success=false;
 // Check if the request was successful
     if ($response->successful()) {

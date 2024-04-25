@@ -37,7 +37,11 @@ class CouponDataTable extends DataTable
      */
     public function query(Coupon $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->when(request('is_active'),function ($q){$q->where('is_active',request('is_active'));})
+            ->when(request('start_date') && request('end_date'),function ($q){
+                $q->whereBetween('created_at', [request('start_date'), request('end_date')]);
+            });
     }
 
     /**
@@ -50,7 +54,9 @@ class CouponDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
+//            ->ajaxWithForm('', '#coupoun-filter')
             ->addAction(['width' => 'auto', 'printable' => false, 'searchable' => false, 'exporting' => false, 'title' => __('lang.action')])
+
             ->parameters([
                 'stateSave' => true,
                 'responsive' => true,
