@@ -31,10 +31,10 @@
                               rows="15">{{ implode("\n", $codes) }}</textarea>
 
                 @else
-                    <form action="{{ route('admin.coupons.index') }}" method="GET" id="coupoun-filter">
+                    <form action="{{ route('admin.coupons.index') }}" method="GET" id="coupon-filter">
                         <div class="card-header row gutters-5">
                             <div class="col-lg-2 ml-auto">
-                                <select class="form-control aiz-selectpicker" name="is_active" id="is_active">
+                                <select class="form-control " name="is_active" id="is_active">
                                     <option value="">{{trans('Filter by Status')}}</option>
                                     <option value="0"
                                             @if(request('is_active') == 0) selected @endif >{{trans('lang.not_active')}}</option>
@@ -67,6 +67,7 @@
                     </form>
 
                     @include('admin.coupons.table')
+
                 @endif
 
 

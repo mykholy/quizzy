@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
  use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Coupon extends Model
@@ -35,6 +36,11 @@ class Coupon extends Model
     public function student(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Admin\Student::class, 'student_id', 'id');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format('Y-m-d'): null;
     }
 
 }

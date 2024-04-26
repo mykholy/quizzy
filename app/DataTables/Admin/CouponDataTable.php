@@ -22,8 +22,8 @@ class CouponDataTable extends DataTable
 
         $dataTable->editColumn('is_active', function (Coupon $model) {
 
-             $value = $model->is_active;
-             return view('includes.datatables_column_bool', compact('value'));
+            $value = $model->is_active;
+            return view('includes.datatables_column_bool', compact('value'));
         });
 
         return $dataTable->addColumn('action', 'admin.coupons.datatables_actions');
@@ -37,10 +37,15 @@ class CouponDataTable extends DataTable
      */
     public function query(Coupon $model)
     {
+        $is_active = $this->request()->header('is_active');
+        $start_date = $this->request()->header('start_date');
+        $end_date = $this->request()->header('end_date');
         return $model->newQuery()
-            ->when(request('is_active'),function ($q){$q->where('is_active',request('is_active'));})
-            ->when(request('start_date') && request('end_date'),function ($q){
-                $q->whereBetween('created_at', [request('start_date'), request('end_date')]);
+            ->when($is_active==0 || $is_active==1 , function ($q) use ($is_active) {
+               return $q->where('is_active', $is_active);
+            })
+            ->when($start_date && $end_date, function ($q) use ($start_date, $end_date) {
+                return $q->whereBetween('created_at', [$start_date, $end_date]);
             });
     }
 
@@ -54,17 +59,16 @@ class CouponDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-//            ->ajaxWithForm('', '#coupoun-filter')
+//            ->ajaxWithForm(url()->current(), '#coupon-filter')
             ->addAction(['width' => 'auto', 'printable' => false, 'searchable' => false, 'exporting' => false, 'title' => __('lang.action')])
-
             ->parameters([
                 'stateSave' => true,
                 'responsive' => true,
                 "autoWidth" => true,
-                'dom'       => 'Bfrltip',
+                'dom' => 'Bfrltip',
                 'orderable' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
+                'order' => [[0, 'desc']],
+                'buttons' => [
                     // Enable Buttons as per your need
 //                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
 //                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
@@ -93,7 +97,8 @@ class CouponDataTable extends DataTable
             'code' => new Column(['title' => __('models/coupons.fields.code'), 'data' => 'code']),
             'price' => new Column(['title' => __('models/coupons.fields.price'), 'data' => 'price']),
             'value' => new Column(['title' => __('models/coupons.fields.value'), 'data' => 'value']),
-            'is_active' => new Column(['title' => __('models/coupons.fields.is_active'), 'data' => 'is_active'])
+            'is_active' => new Column(['title' => __('models/coupons.fields.is_active'), 'data' => 'is_active']),
+            'created_at' => new Column(['title' => __('models/coupons.fields.created_at'), 'data' => 'created_at']),
         ];
     }
 
