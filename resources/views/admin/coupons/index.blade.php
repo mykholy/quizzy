@@ -37,7 +37,7 @@
                                 <select class="form-control " name="is_active" id="is_active">
                                     <option value="">{{trans('Filter by Status')}}</option>
                                     <option value="0"
-                                            @if(request('is_active') == 0) selected @endif >{{trans('lang.not_active')}}</option>
+                                            @if(request('is_active','N/n') == 0) selected @endif >{{trans('lang.not_active')}}</option>
                                     <option value="1"
                                             @if(request('is_active') == 1) selected @endif >{{trans('lang.active')}}</option>
                                 </select>
