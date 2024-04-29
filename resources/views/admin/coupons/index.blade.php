@@ -44,16 +44,16 @@
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group mb-0">
-                                    <input type="date" class="aiz-date-range form-control" value="{{ request('start_date') }}"
+                                    <input type="text" class="form-control fc-datepicker" value="{{ request('start_date') }}"
                                            name="start_date"
-                                           placeholder="{{ trans('Start date') }}" >
+                                           placeholder="{{ trans('Start date') }}"  >
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group mb-0">
-                                    <input type="date" class="aiz-date-range form-control" value="{{ request('end_date') }}"
+                                    <input type="text" class="form-control fc-datepicker" value="{{ request('end_date') }}"
                                            name="end_date"
-                                           placeholder="{{ trans('End date') }}" >
+                                           placeholder="{{ trans('End date') }}"  >
                                 </div>
                             </div>
 
@@ -78,8 +78,37 @@
 
     <!-- Modal -->
 @endsection
+@push('page_css')
+
+@endpush
 @push('page_scripts')
     @include('includes.notify.success')
     @include('includes.notify.errors')
     @include('includes.notify.delete')
+    <!--Internal  Datepicker js -->
+    <script src="{{asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js')}}"></script>
+    <!--Bootstrap-datepicker js-->
+{{--    <script src="{{asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js')}}"></script>--}}
+{{--    <script src=--}}
+{{--                "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js">--}}
+{{--    </script>--}}
+{{--    <script type="text/javascript">--}}
+{{--        $(".date").datepicker({--}}
+{{--            format: "yyyy-mm-dd",--}}
+{{--        });--}}
+{{--    </script>--}}
+    <script>
+        $('.fc-datepicker').datepicker({
+            dateFormat: "yy-mm-dd",
+            showOtherMonths: true,
+            selectOtherMonths: true
+        });
+        //Date picker
+        $('.datepicker-date').bootstrapdatepicker({
+            format: "dd-mm-yyyy",
+            viewMode: "date",
+            multidate: true,
+            multidateSeparator: "-",
+        })
+    </script>
 @endpush

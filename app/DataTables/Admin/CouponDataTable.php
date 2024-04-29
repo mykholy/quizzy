@@ -45,7 +45,7 @@ class CouponDataTable extends DataTable
                return $q->where('is_active', $is_active);
             })
             ->when($start_date && $end_date, function ($q) use ($start_date, $end_date) {
-                return $q->whereBetween('created_at', [$start_date, $end_date]);
+                return $q->whereBetween('updated_at', [$start_date, $end_date]);
             });
     }
 
@@ -99,6 +99,7 @@ class CouponDataTable extends DataTable
             'value' => new Column(['title' => __('models/coupons.fields.value'), 'data' => 'value']),
             'is_active' => new Column(['title' => __('models/coupons.fields.is_active'), 'data' => 'is_active']),
             'created_at' => new Column(['title' => __('models/coupons.fields.created_at'), 'data' => 'created_at']),
+            'updated_at' => new Column(['title' => __('models/coupons.fields.updated_at'), 'data' => 'updated_at']),
         ];
     }
 
