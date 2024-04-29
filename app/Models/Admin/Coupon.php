@@ -42,5 +42,9 @@ class Coupon extends Model
     {
         return $value ? Carbon::parse($value)->format('Y-m-d'): null;
     }
+    public function getUpdatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format('Y-m-d'): null;
+    }
 
 }
