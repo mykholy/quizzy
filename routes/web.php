@@ -123,6 +123,7 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/home', [\App\Http\Controllers\Teacher\HomeController::class,'index'])->name('dashboard');
         Route::resource('groups', App\Http\Controllers\Teacher\GroupController::class);
 
+        Route::get('questions/types/get_questions_by_types', [App\Http\Controllers\Teacher\QuestionController::class, 'ajax_get_questions_by_types'])->name('questions.ajax_get_questions_by_types');
         Route::get('questions/{id}/books', [App\Http\Controllers\Teacher\QuestionController::class, 'ajax_get_books_by_subject'])->name('questions.ajax_get_units_by_subject');
         Route::get('questions/{id}/units', [App\Http\Controllers\Teacher\QuestionController::class, 'ajax_get_units_by_book'])->name('questions.ajax_get_units_by_book');
         Route::get('questions/{id}/lessons', [App\Http\Controllers\Teacher\QuestionController::class, 'ajax_get_lessons_by_unit']);

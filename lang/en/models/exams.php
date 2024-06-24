@@ -14,6 +14,7 @@ return [
     'fields' => [
         'id' => 'Id',
         'name' => 'Name',
+        'questionIds' => 'Questions',
         'type' => 'Type',
         'question_types' => 'Question Types',
         'level' => 'Level',

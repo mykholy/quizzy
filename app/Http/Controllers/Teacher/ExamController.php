@@ -46,11 +46,17 @@ class ExamController extends AppBaseController
         }
 
 
-
         /** @var Exam $exam */
         $request_data['teacher_id'] = auth('teacher')->id();
         $request_data['type'] = Exam::$EXAM_TYPE_CHOICE_SPECIALIST;
         $exam = Exam::create($request_data);
+
+        if ($request->questionIds)
+            $exam->questions()->attach($request->questionIds);
+
+        if ($request->studentIds)
+            $exam->students()->attach($request->studentIds);;
+
 
         session()->flash('success', __('messages.saved', ['model' => __('models/exams.singular')]));
 

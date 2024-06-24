@@ -21,12 +21,36 @@
 <!-- Question Types Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('question_types', __('models/exams.fields.question_types').':') !!}
-    {!! Form::select('question_types',\App\Models\Admin\Question::getAllTypes(),request('question_types'), array('multiple'=>'multiple','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('type')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::select('question_types[]',\App\Models\Admin\Question::getAllTypes(),request('question_types'), array('id'=>'question_types','onchange'=>'change_questions_by_types(this.value);','multiple'=>'multiple','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('type')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('question_types'))
         <span class="invalid-feedback">
 
                 <small class="text-danger">{{ $errors->first('question_types') }}</small>
+
+             </span>
+    @endif
+</div>
+<div class="form-group col-sm-6">
+    {!! Form::label('questionIds', __('models/exams.fields.questionIds').':') !!}
+    {!! Form::select('questionIds',\App\Models\Admin\Question::pluck('name','id')->toArray(),request('questionIds'), array('id'=>'questionIds','multiple'=>'multiple','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('questionIds')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+
+    @if ($errors->has('questionIds'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('questionIds') }}</small>
+
+             </span>
+    @endif
+</div>
+<div class="form-group col-sm-6">
+    {!! Form::label('studentIds', __('models/exams.fields.studentIds').':') !!}
+    {!! Form::select('studentIds',\App\Models\Admin\Student::pluck('name','id')->toArray(),request('studentIds'), array('id'=>'studentIds','multiple'=>'multiple','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('studentIds')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+
+    @if ($errors->has('studentIds'))
+        <span class="invalid-feedback">
+
+                <small class="text-danger">{{ $errors->first('studentIds') }}</small>
 
              </span>
     @endif
@@ -136,7 +160,6 @@
 </div>
 
 
-
 <!-- 'bootstrap / Toggle Switch Is Active Field' -->
 <div class="form-group col-sm-6">
 
@@ -157,6 +180,21 @@
         change_book($('#book_id').val());
         change_unit($('#unit_id').val());
         @endif
+        function change_questions_by_types(types) {
+            var selectedTypes = $('#question_types').val(); // Get the selected values as an array
+            console.log(selectedTypes); // For debugging purposes, to see the selected values in the console
+
+            let url_ajax = "{{url('teacher/questions')}}/types/get_questions_by_types";
+            $.ajax({
+                url: url_ajax,
+                data: {'types': selectedTypes},
+                success: function (response) {
+                    jQuery('#questionIds').html(response);
+                    $('#questionIds').val(null).trigger('change');
+                }
+            });
+        }
+
         function change_subject(subject_id) {
             let url_ajax = "{{url('teacher/questions')}}/" + subject_id + "/books";
             $.ajax({
@@ -167,6 +205,7 @@
                 }
             });
         }
+
         function change_book(book_id) {
             let url_ajax = "{{url('teacher/questions')}}/" + book_id + "/units";
             $.ajax({
@@ -179,9 +218,9 @@
         }
 
         function change_unit(unit_id) {
-            let url_ajax = "{{url('teacher/questions')}}/"+unit_id+"/lessons";
+            let url_ajax = "{{url('teacher/questions')}}/" + unit_id + "/lessons";
             $.ajax({
-                url: url_ajax ,
+                url: url_ajax,
                 success: function (response) {
                     jQuery('#lesson_id').html(response);
                     $('#lesson_id').val(null).trigger('change');

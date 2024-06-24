@@ -225,7 +225,13 @@ class QuestionController extends AppBaseController
 
     }
 
-    public function ajax_get_books_by_subject($id)
+    public function ajax_get_questions_by_types()
+    {
+
+        $books = Question::whereIn('type', \request('types'))->pluck('name', 'id')->toArray();
+
+        return view('includes.ajax_options', ['data' => $books, 'name' => 'book_id', 'placeholder' => __('models/questions.singular')]);
+    } public function ajax_get_books_by_subject($id)
     {
 
         $books = Book::where('subject_id', $id)->pluck('name', 'id')->toArray();
