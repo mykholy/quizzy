@@ -32,7 +32,7 @@ class ExamDataTable extends DataTable
             return $subject_name;
         });
 
-        return $dataTable->addColumn('action', 'admin.exams.datatables_actions');
+        return $dataTable->addColumn('action', 'teacher.exams.datatables_actions');
     }
 
     /**

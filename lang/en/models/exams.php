@@ -15,6 +15,7 @@ return [
         'id' => 'Id',
         'name' => 'Name',
         'questionIds' => 'Questions',
+        'studentIds' => 'Students',
         'type' => 'Type',
         'question_types' => 'Question Types',
         'level' => 'Level',
