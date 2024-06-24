@@ -8,6 +8,7 @@ return [
         'id' => 'Id',
         'name' => 'Name',
         'email' => 'Email',
+        'phone' => 'Phone',
         'password' => 'Password',
         'photo' => 'Photo',
         'device_token' => 'Device Token',

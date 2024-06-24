@@ -36,7 +36,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        abort(404);
+//        abort(404);
         $cards = [
             ['title' => __('models/teachers.plural'), 'color' => 'primary', 'count' => Teacher::count()],
             ['title' => __('models/subjects.plural'), 'color' => 'warning', 'count' => Subject::count()],
@@ -51,6 +51,7 @@ class HomeController extends Controller
             ['title' => __('models/ads.plural'), 'color' => 'warning', 'count' => Ad::count()],
             ['title' => __('models/coupons.plural'), 'color' => 'success', 'count' => Coupon::count()],
         ];
+//        dd($cards);
         return view('teacher.home', compact('cards'));
     }
 }

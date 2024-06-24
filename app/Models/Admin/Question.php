@@ -36,6 +36,7 @@ class Question extends Model
         'reference',
         'notes',
         'need_review',
+        'teacher_id',
         'is_active'
     ];
 

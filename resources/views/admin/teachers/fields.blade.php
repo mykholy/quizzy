@@ -7,7 +7,13 @@
 <!-- Email Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('email', __('models/teachers.fields.email').':') !!}
-    {!! Form::email('email', null, ['class' => 'form-control', 'required', 'minlength' => 3, 'maxlength' => 255]) !!}
+    {!! Form::email('email', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- phone Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('phone', __('models/teachers.fields.phone').':') !!}
+    {!! Form::text('phone', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- password Field -->

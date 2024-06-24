@@ -120,7 +120,18 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
 
     });
     Route::middleware(['auth:teacher'])->group(function () {
-        Route::get('/', [\App\Http\Controllers\Teacher\HomeController::class,'index'])->name('dashboard');
+        Route::get('/home', [\App\Http\Controllers\Teacher\HomeController::class,'index'])->name('dashboard');
+        Route::resource('groups', App\Http\Controllers\Teacher\GroupController::class);
+
+        Route::get('questions/{id}/books', [App\Http\Controllers\Teacher\QuestionController::class, 'ajax_get_books_by_subject'])->name('questions.ajax_get_units_by_subject');
+        Route::get('questions/{id}/units', [App\Http\Controllers\Teacher\QuestionController::class, 'ajax_get_units_by_book'])->name('questions.ajax_get_units_by_book');
+        Route::get('questions/{id}/lessons', [App\Http\Controllers\Teacher\QuestionController::class, 'ajax_get_lessons_by_unit']);
+        Route::post('questions/bulk-import', [App\Http\Controllers\Teacher\QuestionController::class, 'bulkStore'])->name('questions.bulkImport');
+        Route::resource('questions', App\Http\Controllers\Teacher\QuestionController::class);
+        Route::resource('answers', App\Http\Controllers\Teacher\AnswerController::class);
+        Route::resource('exams', App\Http\Controllers\Teacher\ExamController::class);
+
+
     });
 
 

@@ -19,6 +19,7 @@ class Teacher extends  Authenticatable  implements JWTSubject
     public $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'photo',
         'device_token',
@@ -28,6 +29,7 @@ class Teacher extends  Authenticatable  implements JWTSubject
     protected $casts = [
         'name' => 'string',
         'email' => 'string',
+        'phone' => 'string',
         'password' => 'string',
         'photo' => 'string',
         'device_token' => 'string',
@@ -36,13 +38,13 @@ class Teacher extends  Authenticatable  implements JWTSubject
 
     public static array $rules = [
         'name' => 'required|min:3|max:100',
-        'email' => 'required|email|min:3|max:255|unique:teachers',
-        'password' => 'required_without:id|nullable|min:6',
-        'photo' => 'required_without:id'
+        'email' => 'nullable|email|min:3|max:255|unique:teachers',
+        'phone' => 'required|min:6|max:20|unique:teachers',
+        'photo' => 'nullable|image'
     ];
     public function getPhotoAttribute($value)
     {
-        return $value ? asset($value) : null;
+        return $value ? asset($value) : "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=".urlencode($this->name);
     }
 
     /**

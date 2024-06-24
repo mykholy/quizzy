@@ -24,8 +24,12 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
         foreach ($rows as $row) {
             if (empty($row['type']))
                 continue;
+            $teacher_id = null;
+            if (auth('teacher')->check())
+                $teacher_id = auth('teacher')->id();
 
             $question = Question::create([
+                'teacher_id' => $teacher_id,
                 'name' => trim($row['name']),
                 'type' => trim($row['type']),
                 'level' => trim($row['level']),
@@ -39,18 +43,18 @@ class QuestionsImport implements ToCollection, WithHeadingRow, WithValidation, T
             ]);
 
             $answes = ['answer_1', 'answer_2', 'answer_3', 'answer_4'];
-            $correct_answers =isset( $row['correct_answers'])?explode(',', $row['correct_answers']):[];
+            $correct_answers = isset($row['correct_answers']) ? explode(',', $row['correct_answers']) : [];
             foreach ($answes as $index => $answer) {
                 $index++;
                 if ($question->type == Question::$QUESTION_TYPE_TRUE_FALSE && $index > 2)
                     break;
-                if (($question->type == Question::$QUESTION_TYPE_SHORT_ANSWER|| $question->type == Question::$QUESTION_TYPE_LONG_ANSWER) && $index > 1)
+                if (($question->type == Question::$QUESTION_TYPE_SHORT_ANSWER || $question->type == Question::$QUESTION_TYPE_LONG_ANSWER) && $index > 1)
                     break;
 
                 $data = [
                     'title' => trim($row[$answer]),
-                    'answer_two_gap_match' => trim($row['answer_two_gap_match'])??null,
-                    'answer_view_format' => empty($row["answer_view_format_$index"])?"text":trim($row["answer_view_format_$index"]),
+                    'answer_two_gap_match' => trim($row['answer_two_gap_match']) ?? null,
+                    'answer_view_format' => empty($row["answer_view_format_$index"]) ? "text" : trim($row["answer_view_format_$index"]),
                     'photo' => empty($row["answer_photo_$index"]) ? null : $this->downloadThumbnail(trim($row["answer_photo_$index"]), 'answers'),
                     'is_correct' => in_array($index, $correct_answers),
                 ];

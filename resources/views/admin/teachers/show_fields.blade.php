@@ -10,6 +10,12 @@
     <p>{{ $teacher->email }}</p>
 </div>
 
+<!-- phone Field -->
+<div class="col-sm-12">
+    {!! Form::label('phone', __('models/teachers.fields.phone').':') !!}
+    <p>{{ $teacher->phone }}</p>
+</div>
+
 <!-- Photo Field -->
 <div class="col-sm-12">
     {!! Form::label('photo', __('models/teachers.fields.photo').':') !!}

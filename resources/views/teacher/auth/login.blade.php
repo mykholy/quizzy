@@ -78,10 +78,10 @@
                                             <form method="post" action="{{ route('teacher.login') }}">
                                                 @csrf
                                                 <div class="form-group">
-                                                    <label>Email</label>
-                                                    <input name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"
-                                                                                placeholder="Enter your email" type="email">
-                                                    @error('email')
+                                                    <label>Phone</label>
+                                                    <input name="phone" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone') }}"
+                                                                                placeholder="Enter your phone" type="text">
+                                                    @error('phone')
                                                     <span class="error invalid-feedback">{{ $message }}</span>
                                                     @enderror
                                                 </div>

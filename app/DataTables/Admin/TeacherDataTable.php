@@ -89,6 +89,7 @@ class TeacherDataTable extends DataTable
 
             'name' => new Column(['title' => __('models/teachers.fields.name'), 'data' => 'name']),
             'email' => new Column(['title' => __('models/teachers.fields.email'), 'data' => 'email']),
+            'phone' => new Column(['title' => __('models/teachers.fields.phone'), 'data' => 'phone']),
             'photo' => new Column(['title' => __('models/teachers.fields.photo'), 'data' => 'photo']),
             'is_active' => new Column(['title' => __('models/teachers.fields.is_active'), 'data' => 'is_active'])
         ];

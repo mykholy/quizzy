@@ -26,6 +26,7 @@ class UpdateTeacherRequest extends FormRequest
     {
         $rules = Teacher::$rules;
         $rules['email'] = $rules['email']. ",email," .$this->route("teacher");
+        $rules['phone'] = $rules['phone']. ",phone," .$this->route("teacher");
 
         return $rules;
     }

@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id('id');
             $table->string('name', 191);
-            $table->string('email', 191)->unique()->index();
+            $table->string('email', 191)->unique()->index()->nullable();
+            $table->string('phone', 191)->unique()->index()->nullable();
             $table->string('password');
             $table->string('photo')->default('images/teachers/avatar.png');
             $table->text('device_token')->nullable();

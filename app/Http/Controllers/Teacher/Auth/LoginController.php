@@ -26,7 +26,7 @@ class LoginController extends Controller
 
         $remember_me = $request->has('remember_me') ? true : false;
 
-        if (auth()->guard('teacher')->attempt(['email' => $request->input("email"), 'password' => $request->input("password")], $remember_me)) {
+        if (auth()->guard('teacher')->attempt(['phone' => $request->input("phone"), 'password' => $request->input("password")], $remember_me)) {
 
             if (auth()->guard('teacher')->user()->is_active) {
                 return redirect()->route('teacher.dashboard');

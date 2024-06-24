@@ -28,6 +28,7 @@ class Exam extends Model
         'time',
         'subject_id',
         'book_id',
+        'teacher_id',
         'unit_id',
         'lesson_id',
         'is_active'
