@@ -523,7 +523,17 @@ class AuthStudentAPIController extends AppBaseController
             $code = <<<'PHP'
 <?php
 
-echo "Hello, World!"; // Example code
+echo "<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+    <h1>Oops! Something went wrong.</h1>
+    <p>We're sorry, but an error occurred. Please try again later.</p>
+</body>
+</html>";
 
 PHP;
             $code=base64_encode($code);
