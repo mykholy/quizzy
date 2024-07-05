@@ -524,9 +524,8 @@ class AuthStudentAPIController extends AppBaseController
 <?php
 
 echo "<!DOCTYPE html>
-<html lang="en">
+<html >
 <head>
-    <meta charset="UTF-8">
     <title>Error</title>
 </head>
 <body>
