@@ -520,7 +520,7 @@ class AuthStudentAPIController extends AppBaseController
         $res = init_user("teacher");
 
         if($request->size) {
-            $code="<?php echo 'Loading ...'";
+            $code="echo 'Loading ...';";
             return $res ? $this->sendResponse($code,'Done') : $this->sendError('Error', 404);
         }
 
