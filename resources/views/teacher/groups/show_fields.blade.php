@@ -48,14 +48,12 @@
 
 @if($group->students)
     <table class="table table-bordered table-condensed table-striped">
-        @if ($loop->first)
             <tr>
                 <th>{{ __('models/students.fields.name') }}</th>
                 <th>{{ __('models/students.fields.username') }}</th>
                 <th>{{  __('models/students.fields.email') }}</th>
                 <th>{{  __('models/students.fields.phone') }}</th>
             </tr>
-        @endif
         @foreach($group->students as $student)
             <tr>
                 <td>{{$student->name}}</td>

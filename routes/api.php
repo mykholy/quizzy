@@ -27,6 +27,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::post('/post-max-size', [AuthStudentAPIController::class,'postMaxSize']);
+
 Route::group(['prefix' => 'auth'], function () {
     Route::post('check-teacher', [AuthStudentAPIController::class, 'check_teacher']);
     Route::post('check-user', [AuthStudentAPIController::class, 'check_user']);

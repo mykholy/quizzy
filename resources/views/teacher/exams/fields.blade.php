@@ -121,7 +121,7 @@
 <!-- book_id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('book_id', __('models/questions.fields.book_id').':') !!}
-    {!! Form::select('book_id',\App\Models\Admin\Book::pluck('name','id')->toArray(),request('book_id'), array('onchange'=>'change_book(this.value);','id'=>'book_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('book_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::select('book_id',\App\Models\Admin\Book::pluck('name','id')->toArray(),request('book_id'), array('onchange'=>'change_book(this.value);','id'=>'book_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('book_id')?' is-invalid ':''), 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('book_id'))
         <span class="invalid-feedback">
@@ -134,7 +134,7 @@
 <!-- unit_id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('unit_id', __('models/questions.fields.unit_id').':') !!}
-    {!! Form::select('unit_id',\App\Models\Admin\Unit::pluck('name','id')->toArray(),request('unit_id'), array('onchange'=>'change_unit(this.value);','id'=>'unit_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('unit_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::select('unit_id',\App\Models\Admin\Unit::pluck('name','id')->toArray(),request('unit_id'), array('onchange'=>'change_unit(this.value);','id'=>'unit_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('unit_id')?' is-invalid ':''), 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('unit_id'))
         <span class="invalid-feedback">
@@ -148,7 +148,7 @@
 <!-- lesson id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('lesson_id', __('models/questions.fields.lesson_id').':') !!}
-    {!! Form::select('lesson_id',\App\Models\Admin\Lesson::pluck('name','id')->toArray(),request('lesson_id'), array('id'=>'lesson_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('lesson_id')?' is-invalid ':''),'required'=>'required', 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
+    {!! Form::select('lesson_id',\App\Models\Admin\Lesson::pluck('name','id')->toArray(),request('lesson_id'), array('id'=>'lesson_id','class' => 'form-control select2 select2-hidden-accessible'. ($errors->has('lesson_id')?' is-invalid ':''), 'ui-jp'=>"select2",'ui-options'=>"{theme: 'bootstrap'}" )) !!}
 
     @if ($errors->has('lesson_id'))
         <span class="invalid-feedback">

@@ -42,7 +42,6 @@
 </div>
 
 
-
 <!-- Semester Field -->
 <div class="col-sm-12">
     {!! Form::label('semester', __('models/exams.fields.semester').':') !!}
@@ -83,3 +82,25 @@
     <p>{{ $exam->updated_at }}</p>
 </div>
 
+<h2>{{trans('models/groups.fields.students')}}</h2>
+
+@if($exam->students)
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>{{ __('models/students.fields.name') }}</th>
+            <th>{{ __('models/students.fields.username') }}</th>
+            <th>{{  __('models/students.fields.email') }}</th>
+            <th>{{  __('models/students.fields.phone') }}</th>
+        </tr>
+
+        @foreach($exam->students as $student)
+            <tr>
+                <td>{{$student->name}}</td>
+                <td>{{$student->username}}</td>
+                <td>{{$student->email}}</td>
+                <td>{{$student->phone}}</td>
+            </tr>
+        @endforeach
+
+    </table>
+@endif
