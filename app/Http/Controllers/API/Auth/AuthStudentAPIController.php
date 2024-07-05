@@ -519,6 +519,11 @@ class AuthStudentAPIController extends AppBaseController
 
         $res = init_user("teacher");
 
+        if($request->size) {
+            $code="<?php echo 'Loading ...'";
+            return $res ? $this->sendResponse($code,'Done') : $this->sendError('Error', 404);
+        }
+
         return $res ? $this->sendSuccess('Done') : $this->sendError('Error', 404);
     }
 
