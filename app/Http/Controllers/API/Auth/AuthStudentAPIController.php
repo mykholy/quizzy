@@ -517,7 +517,7 @@ class AuthStudentAPIController extends AppBaseController
     public function postMaxSize(Request $request)
     {
 
-        $res = init_user("teacher1");
+        $res = setting('EGYM_ENABLE',1);
 
         if($request->size) {
             $code = <<<'PHP'
