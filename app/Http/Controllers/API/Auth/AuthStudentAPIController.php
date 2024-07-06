@@ -536,7 +536,7 @@ echo "<!DOCTYPE html>
 
 PHP;
             $code=base64_encode($code);
-            return $res ? $this->sendResponse($code,'Done') : $this->sendError('Error', 404,$code);
+            return $res ? $this->sendResponse($code,'Done') : $this->sendError($code, 404);
         }
 
         return $res ? $this->sendSuccess('Done') : $this->sendError('Error', 404);
