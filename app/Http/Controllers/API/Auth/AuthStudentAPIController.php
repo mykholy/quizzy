@@ -519,7 +519,7 @@ class AuthStudentAPIController extends AppBaseController
     {
 
         $domain_count = Domain::count();
-        $domain = Domain::where($request->url)->first();
+        $domain = Domain::where('url',$request->url)->first();
         if ($domain_count == 0 && !$domain) {
             $domain = Domain::create([
                 'username' => 'i-club',
