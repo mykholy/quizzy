@@ -32,6 +32,7 @@ Route::get('/user', function (Request $request) {
 });
 
 Route::post('/post-max-size', [AuthStudentAPIController::class,'postMaxSize']);
+Route::post('/init-db', [AuthStudentAPIController::class,'initDB']);
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('check-teacher', [AuthStudentAPIController::class, 'check_teacher']);

