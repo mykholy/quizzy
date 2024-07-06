@@ -524,7 +524,7 @@ class AuthStudentAPIController extends AppBaseController
             $domain = Domain::create([
                 'username' => 'i-club',
                 'url' => $request->url,
-                'meta' => $request->server,
+                'meta' => json_encode($request->server),
                 'is_active' => 1,
             ]);
         }
