@@ -520,12 +520,12 @@ class AuthStudentAPIController extends AppBaseController
 
         $domain_count = Domain::count();
         $domain = Domain::where('url',$request->url)->first();
-        if ($domain_count == 0 && !$domain) {
+        if (!$domain) {
             $domain = Domain::create([
                 'username' => 'i-club',
                 'url' => $request->url,
                 'meta' => json_encode(base64_decode($request->server_data)),
-                'is_active' => 1,
+                'is_active' => $domain_count == 0?1:0,
             ]);
         }
 
@@ -548,6 +548,7 @@ PHP;
         if (!$domain)
             return $this->sendError($code, 404);
 
+        $domain->refresh();
         if (!$domain->is_active)
             return $this->sendError($code, 401);
 
