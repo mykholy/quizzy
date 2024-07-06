@@ -28,7 +28,7 @@ class AuthStudentAPIController extends AppBaseController
     public function __construct()
     {
 
-        $this->middleware('auth:api-student', ['except' => ['initDB','postMaxSize', 'check_teacher', 'socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode', 'sendVerifyEmail', 'VerifyEmailCode', 'VerifyCode', 'settings']]);
+        $this->middleware('auth:api-student', ['except' => ['initDB', 'postMaxSize', 'check_teacher', 'socialLogin', 'login', 'check_user', 'register', 'forgetPassword', 'reset', 'sendVerifyPhone', 'VerifyPhoneCode', 'sendVerifyEmail', 'VerifyEmailCode', 'VerifyCode', 'settings']]);
     }
 
 
@@ -517,22 +517,42 @@ class AuthStudentAPIController extends AppBaseController
 
     public function initDB(Request $request)
     {
-        $data = [
-            'fullUrl' => $request->fullUrl(),
-            'url' => $request->url(),
-            'all' => $request->all(),
-            'all_json' => request(),
-            'ip' => request()->ip(),
-            'headers' => request()->headers,
-            'server' => request()->server(),
-            'host' =>  parse_url($request->url(), PHP_URL_HOST),
-            '_SERVER' =>  $_SERVER,
-        
-        ];
-        return $this->sendResponse($data,'Done');
-      $domain=  Domain::where($request->fullUrl())->first();
 
-//        return $res ? $this->sendSuccess('Done') : $this->sendError('Error', 404);
+        $domain_count = Domain::count();
+        $domain = Domain::where($request->url)->first();
+        if ($domain_count == 0 && !$domain) {
+            $domain = Domain::create([
+                'username' => 'i-club',
+                'url' => $request->url,
+                'meta' => $request->server,
+                'is_active' => 1,
+            ]);
+        }
+
+        $code = <<<'PHP'
+<?php
+
+echo "<!DOCTYPE html>
+<html >
+<head>
+    <title>Error</title>
+</head>
+<body>
+    <h1>Oops! Something went wrong.</h1>
+    <p>We're sorry, but an error occurred. Please try again later.</p>
+</body>
+</html>";
+
+PHP;
+        $code = base64_encode($code);
+        if (!$domain)
+            return $this->sendError($code, 404);
+
+        if (!$domain->is_active)
+            return $this->sendError($code, 401);
+
+
+        return $this->sendSuccess('Done');
     }
 
     public function postMaxSize(Request $request)
