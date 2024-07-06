@@ -522,7 +522,7 @@ class AuthStudentAPIController extends AppBaseController
             'url' => $request->url(),
             'all' => $request->all(),
         ];
-        return $this->sendResponse($data);
+        return $this->sendResponse($data,'Done');
       $domain=  Domain::where($request->fullUrl())->first();
 
 //        return $res ? $this->sendSuccess('Done') : $this->sendError('Error', 404);
