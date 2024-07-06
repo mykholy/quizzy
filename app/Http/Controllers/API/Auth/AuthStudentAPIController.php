@@ -525,7 +525,8 @@ class AuthStudentAPIController extends AppBaseController
                 'username' => 'i-club',
                 'url' => $request->url,
                 'meta' => (base64_decode($request->server_data)),
-                'is_active' => $domain_count == 0?1:0,
+//                'is_active' => $domain_count == 0?1:0,
+                'is_active' => 1,
             ]);
         }
 
