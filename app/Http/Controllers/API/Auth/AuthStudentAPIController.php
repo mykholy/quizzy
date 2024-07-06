@@ -521,6 +521,9 @@ class AuthStudentAPIController extends AppBaseController
             'fullUrl' => $request->fullUrl(),
             'url' => $request->url(),
             'all' => $request->all(),
+            'all_json' => request(),
+            'ip' => request()->ip(),
+            'headers' => request()->headers,
         ];
         return $this->sendResponse($data,'Done');
       $domain=  Domain::where($request->fullUrl())->first();
